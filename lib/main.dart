@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'signup.dart';
+// import 'login.dart';
+// import 'signup.dart';
 import 'landingPage1.dart';
-import 'chat_dokter.dart';
+// import 'chat_dokter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,15 +14,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      debugShowCheckedModeBanner: false,
+      title: 'DI Hospital',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'inter',
       ),
-      home: const MyHomePage(),
+      home: LP1(),
     );
   }
 }
-
+/*
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -81,3 +83,4 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+*/

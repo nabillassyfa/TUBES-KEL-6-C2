@@ -20,16 +20,16 @@ class LP1 extends StatelessWidget {
               color: Colors.white, // Warna latar belakang
               border: Border.all(width: 0, color: Colors.white),
             ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: 20,
-                color: Colors.black,
-              ),
-            ),
+            // child: IconButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            //   icon: Icon(
+            //     Icons.arrow_back_ios,
+            //     size: 20,
+            //     color: Colors.black,
+            //   ),
+            // ),
           ),
           actions: [
             Container(
