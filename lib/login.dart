@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'signup.dart';
+import 'bottomNavBar.dart';
 
 class LoginMenu extends StatelessWidget {
   @override
@@ -118,7 +119,12 @@ class LoginMenu extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: 300,
                         height: 40,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BottomNavBar(idx: 0,)),
+                          );
+                        },
                         color: Color.fromARGB(255, 1, 101, 252),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
