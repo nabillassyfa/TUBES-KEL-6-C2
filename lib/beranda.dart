@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'bottomNavBar.dart';
 import 'emergency.dart';
 import 'chat_dokter.dart';
+import 'informasi_dokter.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -299,6 +300,12 @@ class _BerandaState extends State<Beranda> {
                                       // Aksi untuk ikon kedua
                                       break;
                                     case 2:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SpecializationPage()),
+                                      );
                                       break;
                                     case 3:
                                       break;

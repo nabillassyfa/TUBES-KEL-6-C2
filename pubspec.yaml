@@ -72,6 +72,7 @@ flutter:
     - assets/images/Berita.png
     - assets/images/perempuan.jpg
     - assets/images/dokter2.png
+    - assets/images/banner.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
