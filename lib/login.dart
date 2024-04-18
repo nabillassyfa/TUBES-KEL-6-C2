@@ -120,9 +120,10 @@ class LoginMenu extends StatelessWidget {
                         minWidth: 300,
                         height: 40,
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => BottomNavBar(idx: 0,)),
+                            MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                            (Route<dynamic> route) => false,
                           );
                         },
                         color: Color.fromARGB(255, 1, 101, 252),
