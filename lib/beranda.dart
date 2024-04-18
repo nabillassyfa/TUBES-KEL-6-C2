@@ -18,7 +18,8 @@ class _BerandaState extends State<Beranda> {
         surfaceTintColor: Colors.white, //warna ketika di scroll
         automaticallyImplyLeading: false, // Menonaktifkan tombol kembali bawaan
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        flexibleSpace: Center(  //agar berada ditengah secara vertikal
+        flexibleSpace: Center(
+          //agar berada ditengah secara vertikal
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             // Logo DIhospital
@@ -42,11 +43,12 @@ class _BerandaState extends State<Beranda> {
             ],
           ),
         ),
-        toolbarHeight: 70,  //Tinggi appbar
+        toolbarHeight: 70, //Tinggi appbar
       ),
-
-      body: SingleChildScrollView(  //body dengan scroll view
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),  //padding kedalam
+      body: SingleChildScrollView(
+        //body dengan scroll view
+        padding: const EdgeInsets.only(
+            left: 20, right: 20, bottom: 20), //padding kedalam
         controller: ScrollController(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,16 +56,20 @@ class _BerandaState extends State<Beranda> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Material( //Profil
+                Material(
+                  //Profil
                   child: InkWell(
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 4)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                        MaterialPageRoute(
+                            builder: (context) => const BottomNavBar(
+                                idx:
+                                    4)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
                         (Route<dynamic> route) => false,
                       );
                     },
-                    child: Row( children: [
+                    child: Row(children: [
                       Container(
                         // poto profil
                         width: 40,
@@ -86,10 +92,12 @@ class _BerandaState extends State<Beranda> {
                         ),
                       ),
                       const SizedBox(width: 8), //jarak image dan tulisan
-                      const Column( //nama dan gender
+                      const Column(
+                        //nama dan gender
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text( //nama
+                          Text(
+                            //nama
                             'Celine Rodriguez',
                             style: TextStyle(
                               color: Colors.black,
@@ -97,7 +105,8 @@ class _BerandaState extends State<Beranda> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Row(  //gender
+                          Row(
+                            //gender
                             children: [
                               Icon(
                                 Icons.female,
@@ -117,9 +126,11 @@ class _BerandaState extends State<Beranda> {
                     ]),
                   ),
                 ),
-                Row( //darurat dan notif
+                Row(
+                  //darurat dan notif
                   children: [
-                    Material( //darurat
+                    Material(
+                      //darurat
                       child: InkWell(
                         onTap: () {
                           // Navigasi ke halaman baru ketika widget ditekan
@@ -142,7 +153,8 @@ class _BerandaState extends State<Beranda> {
                                 const BorderRadius.all(Radius.circular(4)),
                           ),
                           child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center, // Center the icon and text horizontally
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, // Center the icon and text horizontally
                             children: [
                               Text(
                                 'Darurat',
@@ -151,7 +163,9 @@ class _BerandaState extends State<Beranda> {
                                   fontSize: 14,
                                 ),
                               ),
-                              SizedBox( width: 4), // Add spacing between icon and text
+                              SizedBox(
+                                  width:
+                                      4), // Add spacing between icon and text
                               Icon(
                                 Icons.local_hospital,
                                 color: Color.fromARGB(255, 255, 62, 62),
@@ -169,13 +183,15 @@ class _BerandaState extends State<Beranda> {
                           icon: const Icon(
                             Icons.notifications,
                             size: 35,
-                            color: Colors.black, // Atur warna ikon sesuai kebutuhan
+                            color: Colors
+                                .black, // Atur warna ikon sesuai kebutuhan
                           ),
                           onPressed: () {
                             // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
                           },
                         ),
-                        Positioned( //titik merah
+                        Positioned(
+                          //titik merah
                           top: 9,
                           right: 10,
                           child: Container(
@@ -198,14 +214,16 @@ class _BerandaState extends State<Beranda> {
                 )
               ],
             ),
-
-            const Divider(  //garis batas
+            const Divider(
+              //garis batas
               thickness: 2,
               color: Colors.black,
             ),
-
-            const Padding(  //Teks layanan
-              padding: EdgeInsets.only(bottom: 5, top: 10), // Atur padding sebanyak yang Anda inginkan
+            const Padding(
+              //Teks layanan
+              padding: EdgeInsets.only(
+                  bottom: 5,
+                  top: 10), // Atur padding sebanyak yang Anda inginkan
               child: Text(
                 "Layanan",
                 style: TextStyle(
@@ -214,8 +232,8 @@ class _BerandaState extends State<Beranda> {
                 ),
               ),
             ),
-
-            Container(  //Kotak Layanan
+            Container(
+              //Kotak Layanan
               padding: const EdgeInsets.all(12),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -229,10 +247,7 @@ class _BerandaState extends State<Beranda> {
                 children: [
                   Builder(builder: (context) {
                     List menuImage = [
-                      {
-                      "icon": Icons.library_add, 
-                      "label": "Buat Janji Temu"
-                      },
+                      {"icon": Icons.library_add, "label": "Buat Janji Temu"},
                       {
                         "icon": Icons.local_hospital,
                         "label": "Informasi Rumah Sakit"
@@ -241,35 +256,23 @@ class _BerandaState extends State<Beranda> {
                         "icon": Icons.person_pin_rounded,
                         "label": "Informasi Dokter"
                       },
-                      {
-                        "icon": Icons.local_bar, 
-                        "label": "Pemeriksaan Lab"
-                        },
-                      {
-                        "icon": Icons.video_call, 
-                        "label": "Video Call Dokter"
-                        },
-                      {
-                        "icon": Icons.chat, 
-                        "label": "Chat Dokter"
-                      },
+                      {"icon": Icons.local_bar, "label": "Pemeriksaan Lab"},
+                      {"icon": Icons.video_call, "label": "Video Call Dokter"},
+                      {"icon": Icons.chat, "label": "Chat Dokter"},
                       {
                         "icon": Icons.person_add_alt_1,
                         "label": "Panggil Dokter"
                       },
-                      {
-                        "icon": Icons.list_alt, 
-                        "label": "Lainnya"
-                      },
+                      {"icon": Icons.list_alt, "label": "Lainnya"},
                     ];
                     return GridView.builder(
                       gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 1,
-                          crossAxisCount: 4,
-                          mainAxisSpacing: 6,
-                          crossAxisSpacing: 10,
-                        ),
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1,
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 6,
+                        crossAxisSpacing: 10,
+                      ),
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: menuImage.length,
@@ -277,12 +280,14 @@ class _BerandaState extends State<Beranda> {
                         var item = menuImage[index];
                         return Column(
                           children: [
-                            Expanded(//atur icon
+                            Expanded(
+                              //atur icon
                               child: IconButton(
                                 icon: Icon(
                                   item["icon"],
                                   size: 40,
-                                  color: const Color.fromARGB( 255, 1, 101, 252), // Atur warna ikon
+                                  color: const Color.fromARGB(
+                                      255, 1, 101, 252), // Atur warna ikon
                                 ),
                                 onPressed: () {
                                   // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
@@ -294,18 +299,16 @@ class _BerandaState extends State<Beranda> {
                                       // Aksi untuk ikon kedua
                                       break;
                                     case 2:
-
                                       break;
                                     case 3:
-
                                       break;
                                     case 4:
-                                    
                                       break;
                                     case 5:
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => ChatPage()),
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage()),
                                       );
                                       break;
                                     // Tambahkan case untuk ikon lainnya sesuai kebutuhan
@@ -316,7 +319,8 @@ class _BerandaState extends State<Beranda> {
                             const SizedBox(
                               height: 2,
                             ),
-                            Text(//atur label
+                            Text(
+                              //atur label
                               item["label"],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
@@ -332,12 +336,11 @@ class _BerandaState extends State<Beranda> {
                 ],
               ),
             ),
-
             const SizedBox(
               height: 24,
             ),
-
-            const Padding(  //Teks anda memiliki janji temu
+            const Padding(
+              //Teks anda memiliki janji temu
               padding: EdgeInsets.only(bottom: 5, top: 10),
               child: Text(
                 "Anda memiliki janji temu!",
@@ -347,8 +350,8 @@ class _BerandaState extends State<Beranda> {
                 ),
               ),
             ),
-
-            Container(//Card janji temu
+            Container(
+              //Card janji temu
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -361,8 +364,10 @@ class _BerandaState extends State<Beranda> {
                   ],
                   borderRadius: const BorderRadius.all(Radius.circular(12))),
               child: Column(children: [
-                Row(children: [ //profil dokter
-                  Container(  //poto dokter
+                Row(children: [
+                  //profil dokter
+                  Container(
+                    //poto dokter
                     width: 60,
                     height: 60,
                     decoration: const BoxDecoration(
@@ -378,7 +383,8 @@ class _BerandaState extends State<Beranda> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Column( //nama, spesialis, asal RS
+                  const Column(
+                    //nama, spesialis, asal RS
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -423,9 +429,11 @@ class _BerandaState extends State<Beranda> {
                 const SizedBox(
                   height: 12,
                 ),
-                Container(  //Waktu Konsultasi
+                Container(
+                  //Waktu Konsultasi
                   width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 5, bottom: 5),
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 8, 88, 209),
                       borderRadius: BorderRadius.all(Radius.circular(12))),
@@ -449,7 +457,8 @@ class _BerandaState extends State<Beranda> {
                               ))
                         ],
                       ),
-                      SizedBox( //garis tengah
+                      SizedBox(
+                        //garis tengah
                         height: 25,
                         child: VerticalDivider(
                             thickness: 2,
@@ -478,7 +487,8 @@ class _BerandaState extends State<Beranda> {
                 const SizedBox(
                   height: 12,
                 ),
-                Material( //lihat detail, direct ke halaman jadwal
+                Material(
+                  //lihat detail, direct ke halaman jadwal
                   type: MaterialType.transparency,
                   child: InkWell(
                     onTap: () {},
@@ -501,12 +511,11 @@ class _BerandaState extends State<Beranda> {
                 ),
               ]),
             ),
-
             const SizedBox(
               height: 24,
             ),
-
-            const Padding(  //Teks informasi kesehatan
+            const Padding(
+              //Teks informasi kesehatan
               padding: EdgeInsets.only(bottom: 5, top: 10),
               child: Text(
                 "Informasi Kesehatan",
@@ -516,49 +525,51 @@ class _BerandaState extends State<Beranda> {
                 ),
               ),
             ),
-
-            Container(  //Tampilan informasi kesehatan
+            Container(
+              //Tampilan informasi kesehatan
               height: 200,
               margin: const EdgeInsets.only(right: 10),
               child: Scrollbar(
-                thumbVisibility: true,  //agar scroll bar selalu muncul
+                thumbVisibility: true, //agar scroll bar selalu muncul
                 controller: ScrollController(),
-                child: Builder(
-                  builder: (context) {
-                    List artikelKesehatan = [
+                child: Builder(builder: (context) {
+                  List artikelKesehatan = [
                     {
-                      "img" : "https://akcdn.detik.net.id/community/media/visual/2022/11/23/ilustrasi-tidur-1_169.jpeg?w=700&q=90",
-                      "judul" : "Solusi Mengatasi Sulit Tidur!",
-                      "tgl" : "08 Feb 2024"
+                      "img":
+                          "https://akcdn.detik.net.id/community/media/visual/2022/11/23/ilustrasi-tidur-1_169.jpeg?w=700&q=90",
+                      "judul": "Solusi Mengatasi Sulit Tidur!",
+                      "tgl": "08 Feb 2024"
                     },
                     {
-                      "img" : "https://images.tokopedia.net/img/KRMmCm/2022/7/13/be1f5715-32af-4c66-bec7-8c8c3b57d6a2.jpg",
-                      "judul" : "Makanan sehat untuk sahur!",
-                      "tgl" : "08 Jan 2024"
+                      "img":
+                          "https://images.tokopedia.net/img/KRMmCm/2022/7/13/be1f5715-32af-4c66-bec7-8c8c3b57d6a2.jpg",
+                      "judul": "Makanan sehat untuk sahur!",
+                      "tgl": "08 Jan 2024"
                     }
-                    ];
-                    return ListView.separated(  //List view horizontal
-                      itemCount: artikelKesehatan.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> item = artikelKesehatan[index];
-                        return _informasiKesehatan(item);
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                        width: 25.0,
-                      ),
-                    );
-                  }
-                ),
+                  ];
+                  return ListView.separated(
+                    //List view horizontal
+                    itemCount: artikelKesehatan.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> item = artikelKesehatan[index];
+                      return _informasiKesehatan(item);
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      width: 25.0,
+                    ),
+                  );
+                }),
               ),
             ),
           ],
         ),
       ),
-      
-      floatingActionButton: FloatingActionButton( //Floating Action Button
+      floatingActionButton: FloatingActionButton(
+        //Floating Action Button
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30), // Mengatur bentuk lingkaran dengan borderRadius
+          borderRadius: BorderRadius.circular(
+              30), // Mengatur bentuk lingkaran dengan borderRadius
         ),
         onPressed: () {
           Navigator.push(
@@ -576,7 +587,8 @@ class _BerandaState extends State<Beranda> {
   }
 }
 
-InkWell _informasiKesehatan(Map<String, dynamic> item) {  //Atur tampilan list view
+InkWell _informasiKesehatan(Map<String, dynamic> item) {
+  //Atur tampilan list view
   return InkWell(
     onTap: () {},
     child: Container(
@@ -595,8 +607,7 @@ InkWell _informasiKesehatan(Map<String, dynamic> item) {  //Atur tampilan list v
               blurRadius: 2,
               offset: Offset(1, 3),
             )
-          ]
-          ),
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
