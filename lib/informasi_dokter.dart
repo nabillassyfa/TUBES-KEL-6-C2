@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'informasi_dokter_pilih_rs.dart';
 
 class Specialization {
   final String name;
@@ -74,23 +75,100 @@ class _SpecializationPageState extends State<SpecializationPage> {
                     onTap: () {
                       switch (index) {
                         case 0:
-                          // Aksi untuk ikon pertama
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
                           break;
                         case 1:
-                          // Aksi untuk ikon kedua
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
                           break;
                         case 2:
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SpecializationPage()),
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
                           );
                           break;
                         case 3:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
                           break;
                         case 4:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
                           break;
                         case 5:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 6:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 7:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 8:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 9:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 10:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
+                          break;
+                        case 11:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpecializationPageSelectRS()),
+                          );
                           break;
                         // Tambahkan case untuk ikon lainnya sesuai kebutuhan
                       }
