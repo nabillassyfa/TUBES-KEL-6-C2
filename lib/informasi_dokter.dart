@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Specialization {
   final String name;
@@ -14,15 +15,18 @@ class SpecializationPage extends StatefulWidget {
 
 class _SpecializationPageState extends State<SpecializationPage> {
   final List<Specialization> specializations = [
-    Specialization(name: 'Cardiologist', icon: Icons.favorite),
-    Specialization(name: 'Dermatologist', icon: Icons.accessibility_new),
-    Specialization(name: 'Gynecologist', icon: Icons.pregnant_woman),
-    Specialization(name: 'Pediatrician', icon: Icons.child_care),
-    Specialization(name: 'Neurologist', icon: Icons.wifi),
-    Specialization(name: 'Ophthalmologist', icon: Icons.remove_red_eye),
-    Specialization(name: 'Orthopedic', icon: Icons.accessibility),
-    Specialization(name: 'Psychiatrist', icon: Icons.mood),
-    Specialization(name: 'Urologist', icon: Icons.person),
+    Specialization(name: 'Sp. Jantung', icon: Icons.favorite),
+    Specialization(name: 'Sp. Kulit', icon: Icons.accessibility_new),
+    Specialization(name: 'Sp. Kandungan', icon: Icons.pregnant_woman),
+    Specialization(name: 'Sp. Anak', icon: Icons.child_care),
+    Specialization(name: 'Sp. Saraf', icon: Icons.wifi),
+    Specialization(name: 'Sp. Mata', icon: Icons.remove_red_eye),
+    Specialization(name: 'Sp. Ortopedi', icon: Icons.accessibility),
+    Specialization(name: 'Sp. Jiwa', icon: Icons.mood),
+    Specialization(name: 'Sp. Urologi', icon: Icons.person),
+    Specialization(name: 'Sp. THT', icon: Icons.hearing),
+    Specialization(name: 'Sp. Kanker', icon: Icons.local_hospital),
+    Specialization(name: 'Sp. Endokrin', icon: Icons.accessibility),
   ];
 
   @override
@@ -30,6 +34,7 @@ class _SpecializationPageState extends State<SpecializationPage> {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             //logo
@@ -37,12 +42,28 @@ class _SpecializationPageState extends State<SpecializationPage> {
             width: 400,
             height: 160,
           ),
+          const SizedBox(height: 12),
+          const Text(
+            'Informasi Dokter',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            'Pilih spesialis dari dokter yang anda cari',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+            maxLines: 2, // Batas jumlah baris
+            overflow: TextOverflow
+                .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
+          ),
+          const SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: GridView.builder(
                 itemCount: specializations.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1.0,
                   mainAxisSpacing: 10,
@@ -80,19 +101,26 @@ class _SpecializationPageState extends State<SpecializationPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.blue,
+                              color: Color(0xffd3e6ff),
                             ),
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Icon(
                               specializations[index].icon,
                               size: 50.0,
-                              color: Colors.white,
+                              color: const Color(0xff0165fc),
                             ),
                           ),
-                          SizedBox(height: 10.0),
-                          Text(specializations[index].name),
+                          const SizedBox(height: 10.0),
+                          Expanded(
+                            child: Text(
+                              specializations[index].name,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ],
                       ),
                     ),
