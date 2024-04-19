@@ -85,6 +85,7 @@ class _RekamMedisState extends State<RekamMedis> {
                     ),
                   ),
                   Container(
+                    height: 500,
                     margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
@@ -101,19 +102,19 @@ class _RekamMedisState extends State<RekamMedis> {
                         offset: Offset(0, 2),
                       )]
                     ),
-                  child: ListView.builder(
-                    itemCount: rekamMed.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index){
-                      return RekamMedList(
-                        index: index,
-                        spesialis: rekamMed[index].spesialis,
-                        dokter: rekamMed[index].dokter,
-                        tanggal: rekamMed[index].tanggal,
-                        waktu: rekamMed[index].waktu,
-                      );
-                    },
-                  ),
+                    child: ListView.builder(
+                      itemCount: rekamMed.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index){
+                        return RekamMedList(
+                          index: index,
+                          spesialis: rekamMed[index].spesialis,
+                          dokter: rekamMed[index].dokter,
+                          tanggal: rekamMed[index].tanggal,
+                          waktu: rekamMed[index].waktu,
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
