@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'detail_dokter.dart';
 
 class Hospital {
   final String name;
@@ -243,8 +244,51 @@ class _PilihDokterState extends State<PilihDokter> {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    // Perform action when doctor is selected
-                    print('Doctor ${doctors[index].name} selected');
+                    switch (index) {
+                      case 0:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      case 1:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      case 2:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      case 3:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      case 4:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      case 5:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailDokter()),
+                        );
+                        break;
+                      // Tambahkan case untuk ikon lainnya sesuai kebutuhan
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
