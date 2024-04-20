@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
-import 'package:timeline_tile/timeline_tile.dart';
-import 'package:tp2/jadwalPanggilDokter.dart';
+import 'package:tp2/jadwalKonsultasi.dart';
 import 'jadwalObat.dart';
-import 'package:timelines/timelines.dart';
 
 class Jadwal extends StatefulWidget {
   const Jadwal({super.key});
@@ -78,7 +76,7 @@ class _JadwalState extends State<Jadwal> {
                     child: TabBarView(
                       children: [
                         // Isi dari Tab 'Jadwal Konsultasi' menggunakan Builder
-                        JadwalPanggilDokter(
+                        JadwalKonsultasi(
                           notifkonsul: notifkonsul,
                           onNotifChanged: (bool value) {
                             setState(() {

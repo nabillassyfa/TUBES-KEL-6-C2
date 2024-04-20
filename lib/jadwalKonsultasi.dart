@@ -3,21 +3,21 @@ import 'package:timelines/timelines.dart';
 import 'dart:async';
 
 
-class JadwalPanggilDokter extends StatefulWidget {
+class JadwalKonsultasi extends StatefulWidget {
   final bool notifkonsul;
   final Function(bool) onNotifChanged;
 
-  JadwalPanggilDokter({
+  JadwalKonsultasi({
     Key? key,
     required this.notifkonsul,
     required this.onNotifChanged,
   }) : super(key: key);
 
   @override
-  _JadwalPanggilDokterState createState() => _JadwalPanggilDokterState();
+  _JadwalKonsultasiState createState() => _JadwalKonsultasiState();
 }
 
-class _JadwalPanggilDokterState extends State<JadwalPanggilDokter> {
+class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
   int indeks = 0;
   late Timer _timer;
 
@@ -89,7 +89,6 @@ class _JadwalPanggilDokterState extends State<JadwalPanggilDokter> {
                 padding: const EdgeInsets.all(10),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  // color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
                   border: const Border(
                     bottom: BorderSide(
                       color: Colors.grey,
@@ -240,7 +239,7 @@ class _JadwalPanggilDokterState extends State<JadwalPanggilDokter> {
                       child: InkWell(
                         onTap: () {
                         },
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -274,6 +273,7 @@ const completeColor = Color.fromARGB(255, 108, 108, 108);
 const inProgressColor = Color.fromARGB(255, 1, 101, 252);
 const todoColor = Colors.grey;
 
+//Timeline buat panggil dokter
 class DoctorTimeline extends StatefulWidget {
   @override
   _DoctorTimelineState createState() => _DoctorTimelineState();
