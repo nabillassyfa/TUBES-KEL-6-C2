@@ -63,12 +63,31 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                   dropdownInput(
                       context: context,
                       label: "Pilih Spesialis",
-                      hintText: "Semua Spesialis"),
+                      hintText: "Semua Spesialis",
+                      items: [
+                        "Spesialis Jantung",
+                        "Spesialis Kulit",
+                        "Spesialis Kandungan",
+                        "Spesialis Anak",
+                        "Spesialis Saraf",
+                        "Spesialis Mata",
+                        "Spesialis Ortopedi",
+                        "Spesialis Jiwa",
+                        "Spesialis Urologi",
+                        "Spesialis THT",
+                        "Spesialis Kanker",
+                        "Spesialis Endokrin",
+                      ]),
                   SizedBox(height: 10), // Add spacing here
                   dropdownInput(
                       context: context,
                       label: "Pilih Rumah Sakit",
-                      hintText: "Semua Rumah Sakit"),
+                      hintText: "Semua Rumah Sakit",
+                      items: [
+                        "Rumah Sakit Doa Ibu A",
+                        "Rumah Sakit Doa Ibu B",
+                        "Rumah Sakit Doa Ibu C",
+                      ]),
                   SizedBox(height: 10), // Add spacing here
                   inputFile(
                       context: context,
@@ -132,11 +151,12 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
 }
 
 // Widget untuk dropdown input
+// Widget untuk dropdown input
 Widget dropdownInput(
     {required BuildContext context,
     required String label,
     required String hintText,
-    List<String>? items}) {
+    required List<String> items}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -152,13 +172,12 @@ Widget dropdownInput(
       DropdownButtonFormField(
         value: null, // Ubah nilai default menjadi null
         hint: Text(hintText), // Tambahkan hintText
-        items: items?.map((String value) {
-              return DropdownMenuItem(
-                value: value,
-                child: Text(value),
-              );
-            }).toList() ??
-            [],
+        items: items.map((String value) {
+          return DropdownMenuItem(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
         onChanged: (value) {
           // Handle dropdown value change
         },
