@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/pembayaran.dart';
 
 class BuatJanjiKonsulBefore extends StatefulWidget {
   @override
@@ -34,7 +35,6 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
             mainAxisAlignment:
                 MainAxisAlignment.center, // Center the content vertically
             children: <Widget>[
-              SizedBox(height: 10), // Smaller spacing here
               Column(
                 children: <Widget>[
                   Text(
@@ -44,11 +44,11 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Center(
                     // Center the text
                     child: Text(
-                      "Buat janji konsultasi online berdasarkan spesialis dan dokter yang Anda inginkan.",
+                      "Buat janji konsultasi online berdasarkan spesialis dan waktu yang Anda inginkan.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
@@ -58,12 +58,13 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   ),
                 ],
               ),
-              SizedBox(height: 30), // Add spacing here
+              SizedBox(height: 40), // Add spacing here
               Column(
                 children: <Widget>[
                   dropdownInput(
                       context: context,
                       label: "Pilih Spesialis",
+                      hintText: "Semua Spesialis",
                       items: [
                         "Spesialis Jantung",
                         "Spesialis Kulit",
@@ -79,13 +80,14 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                         "Spesialis Endokrin",
                       ]),
                   SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Tanggal"),
+                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn"),
                   SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Waktu"),
+                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00"),
                   SizedBox(height: 10), // Add spacing here
                   dropdownInput(
                       context: context,
                       label: "Pilih Dokter",
+                      hintText: "Pilih Dokter",
                       items: [
                         "Dr. John Doe",
                         "Dr. Jane Smith",
@@ -93,7 +95,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                       ]),
                 ],
               ),
-              SizedBox(height: 40), // Add spacing here
+              SizedBox(height: 80), // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -102,7 +104,13 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigasi ke halaman baru ketika tombol diklik
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Pembayaran()),
+                    );
+                  },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -130,15 +138,15 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
 Widget dropdownInput(
     {required BuildContext context,
     required String label,
+    required String hintText,
     required List<String> items}) {
-  String hintText = '$label'; // Tambahkan hintText berdasarkan label
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
         label,
         style: TextStyle(
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
@@ -175,10 +183,9 @@ Widget dropdownInput(
 }
 
 // Widget untuk input field
-Widget inputFile({required BuildContext context, label, obscureText = false}) {
+Widget inputFile({required BuildContext context, required String label, required String hintText, obscureText = false}) {
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
-  String hintText = '$label'; // Tambahkan hintText berdasarkan label
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
