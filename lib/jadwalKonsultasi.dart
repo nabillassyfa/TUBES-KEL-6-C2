@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 import 'dart:async';
 
+import 'package:tp2/tahapRawatJalan.dart';
+
 
 class JadwalKonsultasi extends StatefulWidget {
   final bool notifkonsul;
@@ -45,651 +47,659 @@ class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView( // Tambahkan SingleChildScrollView di sini
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Row(
-              children: [
-                const Text(
-                  'Notifikasi',
-                ),
-                const SizedBox(width: 10,),
-                Switch(
-                  splashRadius: 0,
-                  value: widget.notifkonsul,
-                  activeColor: Color.fromARGB(255, 1, 101, 252),
-                  onChanged: widget.onNotifChanged,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
-              border: Border.all(
-                color: Colors.grey,
-                width: 2
+      child: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  const Text(
+                    'Notifikasi',
+                  ),
+                  const SizedBox(width: 10,),
+                  Switch(
+                    splashRadius: 0,
+                    value: widget.notifkonsul,
+                    activeColor: Color.fromARGB(255, 1, 101, 252),
+                    onChanged: widget.onNotifChanged,
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(
-                color: Colors.grey.withOpacity(0.8), // Warna bayangan
-                blurRadius: 2,
-                spreadRadius: 2,
-                offset: Offset(0, 2),
-              )]
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: const Border(
-                      bottom: BorderSide(
-                        color: Colors.grey,
-                        width: 2
-                      )
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    'Jadwal Panggil Dokter',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 2
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage(
-                                  "assets/images/dokter2.png",
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(
+                  color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                  blurRadius: 2,
+                  spreadRadius: 2,
+                  offset: Offset(0, 2),
+                )]
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: const Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 2
+                        )
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Jadwal Panggil Dokter',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                    "assets/images/dokter2.png",
+                                  ),
+                                  radius: 30,
                                 ),
-                                radius: 30,
+                                SizedBox(width: 5,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 200,
+                                      child: Text(
+                                        'dr. Muhammad Rifky Afandi, SpKj',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      'Spesialis Jiwa',
+                                      style: TextStyle(
+                                        fontSize: 10
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromARGB(255, 1, 101, 252),
                               ),
-                              SizedBox(width: 5,),
-                              Column(
+                              child: IconButton(
+                                color: Colors.white,
+                                onPressed: () {},
+                                icon: Icon(Icons.phone),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Hari & Tanggal',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const Text(
+                              'Selasa, 13/02/2024',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Waktu',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const Text(
+                              '08.00',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Alamat',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 240,
+                              child: Text(
+                                textAlign: TextAlign.end,
+                                'Jln. Geger Kalong Girang, Gg. Cempaka, Kec. Sukasari, Bandung',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 24,),
+                        DoctorTimeline(),
+                        Container(
+                          width: 1000,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: indeks == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( indeks == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
+                            // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
+                          ),
+                          child: Text(
+                            _processes[indeks], // Mendapatkan teks untuk setiap poin
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Lihat Lokasi Dokter',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 1, 101, 252)
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color.fromARGB(255, 1, 101, 252),
+                                  size: 12,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 2
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(
+                  color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                  blurRadius: 2,
+                  spreadRadius: 2,
+                  offset: Offset(0, 2),
+                )]
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: const Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 2
+                        )
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Jadwal Video Call',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/images/dokter2.png",
+                              ),
+                              radius: 30,
+                            ),
+                            SizedBox(width: 5),
+                            Expanded(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
-                                    width: 200,
-                                    child: Text(
-                                      'dr. Muhammad Rifky Afandi, SpKj',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                      ),
+                                  Text(
+                                    'dr. Muhammad Rifky Afandi, SpKj',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold
                                     ),
                                   ),
                                   Text(
                                     'Spesialis Jiwa',
                                     style: TextStyle(
-                                      fontSize: 10
+                                      fontSize: 11
                                     ),
-                                  )
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.pin_drop_sharp,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        size: 20,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Rumah Sakit Doa Ibu C',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Hari & Tanggal',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const Text(
+                              'Selasa, 13/02/2024',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Waktu',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const Text(
+                              '08.00',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Durasi',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 240,
+                              child: Text(
+                                textAlign: TextAlign.end,
+                                '15 menit',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 70,),
+                        Row(
+                          children: [
+                            Text(
+                              'Link : ',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black, // Warna teks lainnya
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'https://uny-ac-id.zoom.us/j/99590146921?',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 1, 101, 252), // Warna teks biru
+                                      decoration: TextDecoration.underline, // Garis bawah
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 30), // Spasi antara link dan tombol
                           Container(
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color.fromARGB(255, 1, 101, 252),
+                            width: double.infinity, // Lebar maksimum
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 1, 101, 252), // Warna latar belakang biru
+                              borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
                             ),
-                            child: IconButton(
-                              color: Colors.white,
-                              onPressed: () {},
-                              icon: Icon(Icons.phone),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Hari & Tanggal',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const Text(
-                            'Selasa, 13/02/2024',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Waktu',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const Text(
-                            '08.00',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Alamat',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 240,
-                            child: Text(
-                              textAlign: TextAlign.end,
-                              'Jln. Geger Kalong Girang, Gg. Cempaka, Kec. Sukasari, Bandung',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 24,),
-                      DoctorTimeline(),
-                      Container(
-                        width: 1000,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.black,
-                          ),
-                          borderRadius: indeks == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( indeks == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
-                          // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
-                        ),
-                        child: Text(
-                          _processes[indeks], // Mendapatkan teks untuk setiap poin
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Lihat Lokasi Dokter',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 1, 101, 252)
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color.fromARGB(255, 1, 101, 252),
-                                size: 12,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
-              border: Border.all(
-                color: Colors.grey,
-                width: 2
-              ),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(
-                color: Colors.grey.withOpacity(0.8), // Warna bayangan
-                blurRadius: 2,
-                spreadRadius: 2,
-                offset: Offset(0, 2),
-              )]
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: const Border(
-                      bottom: BorderSide(
-                        color: Colors.grey,
-                        width: 2
-                      )
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    'Jadwal Video Call',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage(
-                              "assets/images/dokter2.png",
-                            ),
-                            radius: 30,
-                          ),
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'dr. Muhammad Rifky Afandi, SpKj',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Logika untuk memulai video call
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Ubah warna latar belakang tombol menjadi transparan
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
                                   ),
                                 ),
-                                Text(
-                                  'Spesialis Jiwa',
-                                  style: TextStyle(
-                                    fontSize: 11
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.pin_drop_sharp,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Rumah Sakit Doa Ibu C',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Hari & Tanggal',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const Text(
-                            'Selasa, 13/02/2024',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Waktu',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const Text(
-                            '08.00',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Durasi',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 240,
-                            child: Text(
-                              textAlign: TextAlign.end,
-                              '15 menit',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 70,),
-                      Row(
-                        children: [
-                          Text(
-                            'Link : ',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                color: Colors.black, // Warna teks lainnya
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'https://uny-ac-id.zoom.us/j/99590146921?',
+                              child: Padding(
+                                padding: const EdgeInsets.all(10), // Padding teks di dalam tombol
+                                child: Text(
+                                  'Masuk Ke Video Call Room',
                                   style: TextStyle(
+                                    color: Colors.white, // Warna teks putih
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 1, 101, 252), // Warna teks biru
-                                    decoration: TextDecoration.underline, // Garis bawah
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30), // Spasi antara link dan tombol
-                        Container(
-                          width: double.infinity, // Lebar maksimum
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 1, 101, 252), // Warna latar belakang biru
-                            borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Logika untuk memulai video call
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Ubah warna latar belakang tombol menjadi transparan
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
-                                ),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10), // Padding teks di dalam tombol
-                              child: Text(
-                                'Masuk Ke Video Call Room',
-                                style: TextStyle(
-                                  color: Colors.white, // Warna teks putih
-                                  fontWeight: FontWeight.bold,
-                                ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
-              border: Border.all(
-                color: Colors.grey,
-                width: 2
-              ),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(
-                color: Colors.grey.withOpacity(0.8), // Warna bayangan
-                blurRadius: 2,
-                spreadRadius: 2,
-                offset: Offset(0, 2),
-              )]
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: const Border(
-                      bottom: BorderSide(
-                        color: Colors.grey,
-                        width: 2
-                      )
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
-                    'Jadwal Rawat Jalan',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 2
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage(
-                              "assets/images/dokter2.png",
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(
+                  color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                  blurRadius: 2,
+                  spreadRadius: 2,
+                  offset: Offset(0, 2),
+                )]
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: const Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 2
+                        )
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Jadwal Rawat Jalan',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/images/dokter2.png",
+                              ),
+                              radius: 30,
                             ),
-                            radius: 30,
-                          ),
-                          SizedBox(width: 5),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'dr. Muhammad Rifky Afandi, SpKj',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Text(
-                                  'Spesialis Jiwa',
-                                  style: TextStyle(
-                                    fontSize: 11
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.pin_drop_sharp,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      size: 20,
+                            SizedBox(width: 5),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'dr. Muhammad Rifky Afandi, SpKj',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold
                                     ),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      'Rumah Sakit Doa Ibu C',
-                                      style: TextStyle(
-                                        fontSize: 11,
+                                  ),
+                                  Text(
+                                    'Spesialis Jiwa',
+                                    style: TextStyle(
+                                      fontSize: 11
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.pin_drop_sharp,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        size: 20,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Rumah Sakit Doa Ibu C',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Hari & Tanggal',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Hari & Tanggal',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
                             ),
-                          ),
-                          const Text(
-                            'Selasa, 13/02/2024',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Waktu',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const Text(
-                            '08.00',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Durasi',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 240,
-                            child: Text(
-                              textAlign: TextAlign.end,
-                              '30 menit',
+                            const Text(
+                              'Selasa, 13/02/2024',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 40,),
-                      Row(
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Tahap 1/5',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 3),
-                              Text(
-                                'Pergi ke resepsionis',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 40), // Spasi antara link dan tombol
-                        Container(
-                          width: double.infinity, // Lebar maksimum
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 1, 101, 252), // Warna latar belakang biru
-                            borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Logika untuk memulai video call
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Ubah warna latar belakang tombol menjadi transparan
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
-                                ),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10), // Padding teks di dalam tombol
-                              child: Text(
-                                'Lihat Detail Langkah Rawat Jalan',
-                                style: TextStyle(
-                                  color: Colors.white, // Warna teks putih
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                            )
+                          ],
                         ),
-                    ],
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Waktu',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const Text(
+                              '08.00',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Durasi',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 240,
+                              child: Text(
+                                textAlign: TextAlign.end,
+                                '30 menit',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 40,),
+                        Row(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Tahap 1/5',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 3),
+                                Text(
+                                  'Pergi ke resepsionis',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 40), // Spasi antara link dan tombol
+                          Container(
+                            width: double.infinity, // Lebar maksimum
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 1, 101, 252), // Warna latar belakang biru
+                              borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TahapRawatJalan(),
+                                      barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Ubah warna latar belakang tombol menjadi transparan
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
+                                  ),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10), // Padding teks di dalam tombol
+                                child: Text(
+                                  'Lihat Detail Langkah Rawat Jalan',
+                                  style: TextStyle(
+                                    color: Colors.white, // Warna teks putih
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )
-        ]
+            SizedBox(height: 20,)
+          ]
+        ),
       ),
     );
   }

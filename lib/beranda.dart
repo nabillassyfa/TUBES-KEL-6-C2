@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/InfoRS.dart';
+import 'package:tp2/Notif.dart';
+import 'package:tp2/detailBerita.dart';
+import 'package:tp2/tahapRawatJalan.dart';
 import 'package:tp2/panggilDokter.dart';
 import 'bottomNavBar.dart';
 import 'emergency.dart';
@@ -191,7 +195,12 @@ class _BerandaState extends State<Beranda> {
                                 .black, // Atur warna ikon sesuai kebutuhan
                           ),
                           onPressed: () {
-                            // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notif(),
+                                  barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                            );
                           },
                         ),
                         Positioned(
@@ -251,7 +260,9 @@ class _BerandaState extends State<Beranda> {
                 children: [
                   Builder(builder: (context) {
                     List menuImage = [
-                      {"icon": Icons.library_add, "label": "Buat Janji Temu"},
+                      {
+                        "icon": Icons.library_add, 
+                        "label": "Buat Janji Temu"},
                       {
                         "icon": Icons.local_hospital,
                         "label": "Informasi Rumah Sakit"
@@ -260,14 +271,22 @@ class _BerandaState extends State<Beranda> {
                         "icon": Icons.person_pin_rounded,
                         "label": "Informasi Dokter"
                       },
-                      {"icon": Icons.local_bar, "label": "Pemeriksaan Lab"},
-                      {"icon": Icons.video_call, "label": "Video Call Dokter"},
-                      {"icon": Icons.chat, "label": "Chat Dokter"},
+                      {
+                        "icon": Icons.local_bar, 
+                        "label": "Pemeriksaan Lab"},
+                      {
+                        "icon": Icons.video_call, 
+                        "label": "Video Call Dokter"},
+                      {
+                        "icon": Icons.chat, 
+                        "label": "Chat Dokter"},
                       {
                         "icon": Icons.person_add_alt_1,
                         "label": "Panggil Dokter"
                       },
-                      {"icon": Icons.list_alt, "label": "Lainnya"},
+                      {
+                        "icon": Icons.list_alt, 
+                        "label": "Lainnya"},
                     ];
                     return GridView.builder(
                       gridDelegate:
@@ -305,7 +324,12 @@ class _BerandaState extends State<Beranda> {
                                       );
                                       break;
                                     case 1:
-                                      // Aksi untuk ikon kedua
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                InfoRS()),
+                                      );
                                       break;
                                     case 2:
                                       Navigator.push(
@@ -519,7 +543,14 @@ class _BerandaState extends State<Beranda> {
                   //lihat detail, direct ke halaman jadwal
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TahapRawatJalan(),
+                            barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                      );
+                    },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -581,7 +612,7 @@ class _BerandaState extends State<Beranda> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> item = artikelKesehatan[index];
-                      return _informasiKesehatan(item);
+                      return _informasiKesehatan(context, item);
                     },
                     separatorBuilder: (context, index) => const SizedBox(
                       width: 25.0,
@@ -615,10 +646,17 @@ class _BerandaState extends State<Beranda> {
   }
 }
 
-InkWell _informasiKesehatan(Map<String, dynamic> item) {
+InkWell _informasiKesehatan(BuildContext context, Map<String, dynamic> item) {
   //Atur tampilan list view
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => detailBerita(),
+              barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+        );
+    },
     child: Container(
       width: 250,
       height: 170.0,

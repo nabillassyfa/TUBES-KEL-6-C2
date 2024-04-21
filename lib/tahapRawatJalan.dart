@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:tp2/denah.dart';
 
 
 class TahapRawatJalan extends StatefulWidget {
@@ -279,6 +280,11 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Denah()),
+                                );
                               },
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
