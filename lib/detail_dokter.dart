@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'lihat_review.dart';
 
 class Doctor {
   final String imageUrl;
@@ -150,7 +151,12 @@ class DetailDokterState extends State<DetailDokter> {
                                 backgroundColor: Color(0xff0165fc),
                               ),
                               onPressed: () {
-                                // Action when "Lihat Review" button is pressed
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DoctorReviewsPage()),
+                                );
                               },
                               child: Text(
                                 'Lihat Review',
