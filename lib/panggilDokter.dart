@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/pembayaran.dart';
 
-class BuatJanjiKonsulBefore extends StatefulWidget {
+class PanggilDokter extends StatefulWidget {
   @override
-  State<BuatJanjiKonsulBefore> createState() => BuatJanjiKonsulBeforeState();
+  State<PanggilDokter> createState() => PanggilDokterState();
 }
 
-class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
+class PanggilDokterState extends State<PanggilDokter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,24 +38,13 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
               Column(
                 children: <Widget>[
                   Text(
-                    "Video Call Dokter",
+                    "Panggil Dokter",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Center(
-                    // Center the text
-                    child: Text(
-                      "Buat janji konsultasi online berdasarkan spesialis dan waktu yang Anda inginkan.",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[700],
-                      ),
-                      textAlign: TextAlign.center, // Center align the text
-                    ),
-                  ),
+                  SizedBox(height: 10),
                 ],
               ),
               SizedBox(height: 40), // Add spacing here
@@ -64,7 +53,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   dropdownInput(
                       context: context,
                       label: "Pilih Spesialis",
-                      hintText: "Semua Spesialis",
+                      hintText: "Semua Spesialis", // Add different hint text
                       items: [
                         "Spesialis Jantung",
                         "Spesialis Kulit",
@@ -80,14 +69,22 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                         "Spesialis Endokrin",
                       ]),
                   SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn"),
+                  inputFile(
+                    context: context,
+                    label: "Pilih Tanggal",
+                    hintText: "Hari, Tgl - Bln - Thn", // Add different hint text
+                  ),
                   SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00"),
+                  inputFile(
+                    context: context,
+                    label: "Pilih Waktu",
+                    hintText: "00:00", // Add different hint text
+                  ),
                   SizedBox(height: 10), // Add spacing here
                   dropdownInput(
                       context: context,
                       label: "Pilih Dokter",
-                      hintText: "Pilih Dokter",
+                      hintText: "Pilih Dokter", // Add different hint text
                       items: [
                         "Dr. John Doe",
                         "Dr. Jane Smith",
@@ -117,9 +114,9 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    "Buat Janji Konsultasi Online",
+                    "Panggil Dokter",
                     style: TextStyle(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.white,
                     ),
@@ -138,7 +135,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
 Widget dropdownInput(
     {required BuildContext context,
     required String label,
-    required String hintText,
+    required String hintText, // Add parameter hintText
     required List<String> items}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,8 +150,8 @@ Widget dropdownInput(
       ),
       SizedBox(height: 1),
       DropdownButtonFormField(
-        value: null, // Ubah nilai default menjadi null
-        hint: Text(hintText), // Tambahkan hintText
+        value: null,
+        hint: Text(hintText), // Use hintText for the hint
         items: items.map((String value) {
           return DropdownMenuItem(
             value: value,
@@ -183,7 +180,12 @@ Widget dropdownInput(
 }
 
 // Widget untuk input field
-Widget inputFile({required BuildContext context, required String label, required String hintText, obscureText = false}) {
+Widget inputFile({
+  required BuildContext context,
+  required String label,
+  required String hintText, // Add parameter hintText
+  obscureText = false,
+}) {
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   return Column(
@@ -192,7 +194,7 @@ Widget inputFile({required BuildContext context, required String label, required
       Text(
         label,
         style: TextStyle(
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
@@ -202,7 +204,6 @@ Widget inputFile({required BuildContext context, required String label, required
         controller: label == "Pilih Tanggal" ? dateController : timeController,
         obscureText: obscureText,
         onTap: () async {
-          // Tambahkan penanganan onTap
           if (label == "Pilih Tanggal") {
             DateTime? pickedDate = await showDatePicker(
               context: context,
@@ -224,9 +225,9 @@ Widget inputFile({required BuildContext context, required String label, required
             }
           }
         },
-        readOnly: true, // Jadikan readOnly true
+        readOnly: true,
         decoration: InputDecoration(
-          hintText: hintText, // Tambahkan hintText
+          hintText: hintText, // Use hintText for the hint
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),

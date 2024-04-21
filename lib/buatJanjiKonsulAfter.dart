@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/pembayaran.dart';
 
 class BuatJanjiKonsulAfter extends StatefulWidget {
   @override
@@ -31,10 +32,8 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
           height: MediaQuery.of(context).size.height - 50,
           width: double.infinity,
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Center the content vertically
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 10), // Smaller spacing here
               Column(
                 children: <Widget>[
                   Text(
@@ -46,31 +45,30 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                   ),
                   SizedBox(height: 10),
                   Center(
-                    // Center the text
                     child: Text(
                       "Buat janji konsultasi online berdasarkan spesialis dan dokter yang Anda inginkan.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
                       ),
-                      textAlign: TextAlign.center, // Center align the text
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 30), // Add spacing here
+              SizedBox(height: 40),
               Column(
                 children: <Widget>[
-                  inputFile(context: context, label: "Spesialisasi", hintText: "Spesialis Jiwa"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Dokter", hintText: "dr. Muhammad Rifky Afandi, SpKj"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00"),
+                  inputFile(context: context, label: "Spesialisasi", hintText: "Spesialis Jiwa", hintTextColor: Colors.black),
+                  SizedBox(height: 10),
+                  inputFile(context: context, label: "Dokter", hintText: "dr. Muhammad Rifky Afandi, SpKj", hintTextColor: Colors.black),
+                  SizedBox(height: 10),
+                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey),
+                  SizedBox(height: 10),
+                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey),
                 ],
               ),
-              SizedBox(height: 40), // Add spacing here
+              SizedBox(height: 80),
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -79,7 +77,12 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Pembayaran()),
+                    );
+                  },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -103,12 +106,12 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
   }
 }
 
-// Widget untuk input field
 Widget inputFile({
   required BuildContext context,
   required String label,
-  required String hintText, // Tambahkan parameter hintText
-  obscureText = false
+  required String hintText,
+  required Color hintTextColor, // Add hintTextColor parameter
+  obscureText = false,
 }) {
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -118,7 +121,7 @@ Widget inputFile({
       Text(
         label,
         style: TextStyle(
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
@@ -128,7 +131,6 @@ Widget inputFile({
         controller: label == "Pilih Tanggal" ? dateController : timeController,
         obscureText: obscureText,
         onTap: () async {
-          // Tambahkan penanganan onTap
           if (label == "Pilih Tanggal") {
             DateTime? pickedDate = await showDatePicker(
               context: context,
@@ -150,9 +152,10 @@ Widget inputFile({
             }
           }
         },
-        readOnly: true, // Jadikan readOnly true
+        readOnly: true,
         decoration: InputDecoration(
-          hintText: hintText, // Gunakan hintText sebagai hint text
+          hintText: hintText,
+          hintStyle: TextStyle(color: hintTextColor), // Set hintTextColor
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
@@ -173,7 +176,6 @@ Widget inputFile({
     ],
   );
 }
-
 
 String _formatDate(DateTime date) {
   return "${_getDayName(date.weekday)}, ${date.day} ${_getMonthName(date.month)} ${date.year}";

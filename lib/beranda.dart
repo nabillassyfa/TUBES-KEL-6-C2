@@ -3,6 +3,7 @@ import 'package:tp2/InfoRS.dart';
 import 'package:tp2/Notif.dart';
 import 'package:tp2/detailBerita.dart';
 import 'package:tp2/tahapRawatJalan.dart';
+import 'package:tp2/panggilDokter.dart';
 import 'bottomNavBar.dart';
 import 'emergency.dart';
 import 'chat_dokter.dart';
@@ -353,6 +354,13 @@ class _BerandaState extends State<Beranda> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChatPage()),
+                                      );
+                                      break;
+                                    case 6:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PanggilDokter()),
                                       );
                                       break;
                                     // Tambahkan case untuk ikon lainnya sesuai kebutuhan
