@@ -8,7 +8,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:tp2/bottomNavBar.dart';
 import 'package:tp2/denah.dart';
+import 'package:tp2/pembayaran.dart';
 import 'beri_review.dart';
 
 class TahapRawatJalan extends StatefulWidget {
@@ -329,7 +331,14 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                           ? Column(
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const BottomNavBar(idx: 2)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  },
                                   child: Container(
                                     width: double.infinity,
                                     padding: EdgeInsets.symmetric(
@@ -373,7 +382,14 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                   height: 10,
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const BottomNavBar(idx: 1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  },
                                   child: Container(
                                     width: double.infinity,
                                     padding: EdgeInsets.symmetric(
@@ -417,7 +433,14 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                   height: 10,
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const BottomNavBar(idx: 1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  },
                                   child: Container(
                                     width: double.infinity,
                                     padding: EdgeInsets.symmetric(
@@ -669,7 +692,13 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                           ? MaterialButton(
                               minWidth: 380,
                               height: 50,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => indeks == 6 ? DoctorAddReviewsPage() : Pembayaran()),
+                                );
+                              },
                               color: Color.fromARGB(255, 1, 101, 252),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -733,7 +762,7 @@ class _RawatJalanTimeLineState extends State<RawatJalanTimeLine> {
     // Timer untuk menambah nilai _processIndex dan _selectedProcess setiap 10 detik
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
-        if (_processIndex == 2 || _processIndex == 3) {
+        if (_selectedProcess == 2 || _selectedProcess == 3) {
           // Jika _processIndex = 2 atau _processIndex = 3, tunggu 20 detik sebelum menambah nilai
           Future.delayed(Duration(seconds: 10), () {
             if (_processIndex < 4) {
@@ -780,7 +809,7 @@ class _RawatJalanTimeLineState extends State<RawatJalanTimeLine> {
                 8; // Lebar dikurangi 8
           },
           itemCount:
-              5, // Jumlah poin dalam timeline (sesuaikan dengan jumlah posisi dokter)
+              5, 
           contentsBuilder: (context, index) {
             if (_selectedProcess == index) {
               return Column(
@@ -878,33 +907,33 @@ final _processes = [
     'teks1': 'Pergi ke Resepsionis',
     'teks2':
         'Begitu sampai rumah sakit langsung pergi ke resepsionis dan scan QR code untuk konfirmasi kedatangan.'
-  }, // Contoh dengan ikon
+  }, 
   {
     'teks1': 'Pergi ke Nurse station',
     'teks2':
         'Anda telah mendapat nomor antrian, dimohon untuk pergi ke nurse station terlebih dahulu.'
-  }, // Contoh dengan ikon lain
+  },  
   {
     'teks1': 'Menunggu Pemeriksaan',
     'teks2':
         'Anda telah dicek di nurse station, dimohon untuk menunggu nomor antrean anda dipanggil.'
-  }, // Contoh dengan ikon lain lagi
+  },   
   {
     'teks1': 'Pemeriksaan',
     'teks2': 'Silahkan memasuki ruangan dokter dan lakukan konsultasi.'
-  }, // Contoh dengan ikon lain lagi
+  },   
   {
     'teks1': 'Pembayaran obat',
     'teks2':
         'Silahkan pergi ke ruang tunggu farmasi.\nDibawah ini obat yang anda dapatkan, silahkan lakukan pembayaran terlebih dahulu.'
-  }, // Contoh dengan ikon lain lagi
+  },   
   {
     'teks1': 'Pengambilan obat',
     'teks2':
         'Tunggu nama anda dipanggil, setelah dipanggil pergi ke meja farmasi dan ambil obat anda.'
-  }, // Contoh dengan ikon lain lagi
+  },   
   {
     'teks1': 'Selesai',
     'teks2': 'Selamat anda telah menyelesaikan rawat jalan anda!'
-  }, // Contoh dengan ikon lain lagi
+  },   
 ];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tp2/bottomNavBar.dart';
 import 'beranda.dart';
 
 class Doctor {
@@ -173,10 +174,13 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                           TextButton(
                             child: Text('Kirim'),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                      builder: (context) => Beranda()));
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const BottomNavBar(
+                                        idx: 0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                                (Route<dynamic> route) => false,
+                              );
                             },
                           ),
                         ],
