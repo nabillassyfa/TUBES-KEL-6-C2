@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/bottomNavBar.dart';
 import 'detailRS.dart';
 import 'beranda.dart';
 
@@ -20,9 +21,11 @@ class _InfoRSState extends State<InfoRS> {
         leading: Container(
         child: IconButton(
           onPressed: () {
-           Navigator.push(
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Beranda()),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BottomNavBar(idx: 0,)),
             );
           },
           icon: Icon(

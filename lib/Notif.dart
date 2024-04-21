@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/bottomNavBar.dart';
 import 'Beranda.dart';
 
 class Notif extends StatefulWidget {
@@ -19,10 +20,7 @@ class _NotifState extends State<Notif> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Beranda()),
-            );
+            Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_circle_left_outlined,

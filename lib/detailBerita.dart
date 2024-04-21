@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/bottomNavBar.dart';
 import 'beranda.dart';
 
 class detailBerita extends StatefulWidget {
@@ -39,9 +40,11 @@ class _detailBeritaState extends State<detailBerita> {
                             SizedBox(width: 20),
                             IconButton(
                               onPressed: () {
-                              Navigator.push(
+                                Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Beranda()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BottomNavBar(idx: 0,)),
                                 );
                               },
                               icon: Icon(

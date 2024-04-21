@@ -210,21 +210,23 @@ class _PembayaranState extends State<Pembayaran> {
                       ),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Pilih Metode Pembayaran',
-                          style: TextStyle(
-                            color: Colors.grey
+                    child: InkWell(
+                      onTap: () {
+                        
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Pilih Metode Pembayaran',
+                            style: TextStyle(
+                              color: Colors.grey
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          icon : Icon(Icons.arrow_forward_ios),
-                          onPressed: () {
-                          },
-                        )
-                      ],
+                          Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16,),
+                            
+                        ],
+                      ),
                     ),
                   )
                 ],
