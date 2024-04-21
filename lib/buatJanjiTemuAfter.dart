@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/pembayaran.dart';
 
 class BuatJanjiTemuAfter extends StatefulWidget {
   @override
@@ -81,7 +82,13 @@ class BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigasi ke halaman baru ketika tombol diklik
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Pembayaran()),
+                    );
+                  },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
                   shape: RoundedRectangleBorder(

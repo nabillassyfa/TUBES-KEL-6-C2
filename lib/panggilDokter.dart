@@ -40,7 +40,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                   Text(
                     "Panggil Dokter",
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -92,7 +92,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                       ]),
                 ],
               ),
-              SizedBox(height: 40), // Add spacing here
+              SizedBox(height: 110), // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                   child: Text(
                     "Panggil Dokter",
                     style: TextStyle(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.white,
                     ),
@@ -143,7 +143,7 @@ Widget dropdownInput(
       Text(
         label,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
@@ -194,7 +194,7 @@ Widget inputFile({
       Text(
         label,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
