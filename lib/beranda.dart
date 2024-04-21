@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/panggilDokter.dart';
 import 'bottomNavBar.dart';
 import 'emergency.dart';
 import 'chat_dokter.dart';
@@ -329,6 +330,13 @@ class _BerandaState extends State<Beranda> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChatPage()),
+                                      );
+                                      break;
+                                    case 6:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PanggilDokter()),
                                       );
                                       break;
                                     // Tambahkan case untuk ikon lainnya sesuai kebutuhan
