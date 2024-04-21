@@ -3,6 +3,8 @@ import 'bottomNavBar.dart';
 import 'emergency.dart';
 import 'chat_dokter.dart';
 import 'informasi_dokter.dart';
+import 'buatJanjiKonsulBefore.dart';
+import 'buatJanjiTemuBefore.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -294,7 +296,12 @@ class _BerandaState extends State<Beranda> {
                                   // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
                                   switch (index) {
                                     case 0:
-                                      // Aksi untuk ikon pertama
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BuatJanjiTemuBefore()),
+                                      );
                                       break;
                                     case 1:
                                       // Aksi untuk ikon kedua
@@ -310,6 +317,12 @@ class _BerandaState extends State<Beranda> {
                                     case 3:
                                       break;
                                     case 4:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BuatJanjiKonsulBefore()),
+                                      );
                                       break;
                                     case 5:
                                       Navigator.push(
