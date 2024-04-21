@@ -24,7 +24,7 @@ class Emergency extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_circle_left_outlined,
               size: 40,
               color: Colors.black,
@@ -34,7 +34,7 @@ class Emergency extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -48,21 +48,21 @@ class Emergency extends StatelessWidget {
                         color: Colors.red,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
                       style: TextStyle(fontSize: 17),
                     ),
                   ],
                 ),
-                SizedBox(height: 90),
+                const SizedBox(height: 90),
                 Column(
                   children: <Widget>[
                     TextField(
                       readOnly: true, // Make the TextField read-only
                       decoration: InputDecoration(
-                      hintText: emergencyNumber, // Display emergency number  
-                      labelText: 'Hubungi Kami',                      
+                        hintText: emergencyNumber, // Display emergency number
+                        labelText: 'Hubungi Kami',
                         border: OutlineInputBorder(),
                         suffixIcon: IconButton(
                           color: Colors.red,
@@ -71,29 +71,27 @@ class Emergency extends StatelessWidget {
                           },
                           icon: Icon(Icons.call),
                         ),
-                        
                       ),
-                      
                       keyboardType: TextInputType.phone,
                       // You can add more attributes as needed
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
-                HospitalInfoCard(
+                const SizedBox(height: 30),
+                HospitalInfoContainer(
                   hospitalName: ' Rumah Sakit Doa Ibu C',
                   address: 'Jl. AH Nasution no.15',
                   travelTime: '18 Menit dari lokasi saat ini',
                   imagePath:
-                      'assets/hospital_gambar.png', // Path to hospital image
+                      'assets/images/hospital.png', // Path to hospital image
                 ),
-                SizedBox(height: 20),
-                HospitalInfoCard(
+                const SizedBox(height: 20),
+                HospitalInfoContainer(
                   hospitalName: 'Rumah Sakit Doa Ibu A ',
                   address: 'Jl. RE Martadinata no.34',
                   travelTime: '50  Menit dari lokasi saat ini',
                   imagePath:
-                      'assets/hospital_gambar.png', // Path to hospital image
+                      'assets/images/hospital.png', // Path to hospital image
                 ),
               ],
             ),
@@ -104,13 +102,13 @@ class Emergency extends StatelessWidget {
   }
 }
 
-class HospitalInfoCard extends StatelessWidget {
+class HospitalInfoContainer extends StatelessWidget {
   final String hospitalName;
   final String address;
   final String travelTime;
   final String imagePath;
 
-  const HospitalInfoCard({
+  const HospitalInfoContainer({
     required this.hospitalName,
     required this.address,
     required this.travelTime,
@@ -119,78 +117,88 @@ class HospitalInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: 200,
-              height: 200, // Adjust the height to maintain aspect ratio
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
-                ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+        color: Colors.white,
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 90,
+            height: 90, // Adjust the height to maintain aspect ratio
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    hospitalName,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    address,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    travelTime,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 16),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    // Add your navigation logic here
-                  },
-                  icon: Icon(Icons.arrow_circle_right),
-                  color: Colors.blue,
-                  iconSize: 30,
-                ),
-                SizedBox(height: 4),
                 Text(
-                  'Petunjuk Arah',
+                  hospitalName,
                   style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.blue,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  address,
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  travelTime,
+                  style: TextStyle(fontSize: 16),
+                ),
+                // Here's the additional row for the arrow icon and "Petunjuk Arah" text
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Petunjuk Arah',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    IconButton(
+                      onPressed: () {
+                        // Add your navigation logic here
+                      },
+                      icon: const Icon(Icons.arrow_circle_right),
+                      color: Colors.blue,
+                      iconSize: 30,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 
 
