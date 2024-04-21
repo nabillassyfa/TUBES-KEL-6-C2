@@ -60,15 +60,15 @@ class _PilihDokterState extends State<PilihDokter> {
 
   final List<Doctor> doctors = [
     Doctor(
-      name: 'Dr. John Doe',
+      name: 'dr. Muhammad Rifky Afandi, SpKj',
       imageUrl: 'assets/images/dokter-portrait.png',
-      specialization: 'Cardiologist',
+      specialization: 'Spesialis Jiwa',
       rating: 4.8,
     ),
     Doctor(
-      name: 'Dr. Jane Smith',
+      name: 'dr. Muhammad Rifky Afandi, SpKj',
       imageUrl: 'assets/images/dokter-portrait.png',
-      specialization: 'Dermatologist',
+      specialization: 'Spesialis Kulit',
       rating: 4.5,
     ),
     // Add more doctors here
@@ -210,20 +210,20 @@ class _PilihDokterState extends State<PilihDokter> {
                       hint: Text('Select Time'),
                       items: [
                         DropdownMenuItem<String>(
-                          value: '9 AM',
-                          child: Text('9 AM'),
+                          value: '09.00',
+                          child: Text('09.00'),
                         ),
                         DropdownMenuItem<String>(
-                          value: '11 AM',
-                          child: Text('11 AM'),
+                          value: '11.00',
+                          child: Text('11.00'),
                         ),
                         DropdownMenuItem<String>(
-                          value: '2 PM',
-                          child: Text('2 PM'),
+                          value: '14.00',
+                          child: Text('14.00'),
                         ),
                         DropdownMenuItem<String>(
-                          value: '4 PM',
-                          child: Text('4 PM'),
+                          value: '16.00',
+                          child: Text('16.00'),
                         ),
                       ],
                       onChanged: (value) {

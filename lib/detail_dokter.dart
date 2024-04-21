@@ -35,10 +35,10 @@ class DetailDokterState extends State<DetailDokter> {
   Widget build(BuildContext context) {
     Doctor doctor = Doctor(
       imageUrl: 'assets/images/dokter-portrait.png',
-      name: 'Dr. John Doe',
-      specialization: 'Cardiologist',
+      name: 'dr. Muhammad Rifky Afandi, SpKj',
+      specialization: 'Spesialis Jiwa',
       yearsOfExperience: 10,
-      hospitalAddress: '123 Main St, City',
+      hospitalAddress: 'Kl. AH Nasution No.07',
       rating: 4.5,
       description:
           'Muhammad Rifky Afandi adalah seorang dokter spesialis jiwa dengan pengalaman kerja 5 tahun. Beliau menempuh S1 dan spesialis jiwa di Universitas Padjajaran.',
@@ -53,7 +53,7 @@ class DetailDokterState extends State<DetailDokter> {
           children: [
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              height: 360,
+              height: 400,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
                 color: Color(0xffd3e6ff),
