@@ -9,19 +9,30 @@ class MyVegetable extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text(
-            'Makan Sayur',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_circle_left_outlined,
+            size: 40,
+            color: Colors.black,
           ),
-          centerTitle: true,
-          elevation: 0, // Menghilangkan shadow
         ),
+      ),
         body: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10), // Jarak antara judul dan garis biru
+              Text(
+                'Makan Sayur',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28
+                ),
+              ),
               SizedBox(height: 10), // Jarak antara judul dan garis biru
               Container(
                 height: 2, // Ketebalan garis

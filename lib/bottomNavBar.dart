@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'beranda.dart';
 import 'jadwal.dart';
 import 'rekamMedis.dart';
-import 'monitoring.dart';
+import 'monitoringKesehatan.dart';
 import 'profile.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -16,11 +16,11 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     Beranda(),
     Jadwal(),
     RekamMedis(),
-    Monitoring(),
+    MonitoringKesehatanApp(),
     ProfilePage()
   ];
 

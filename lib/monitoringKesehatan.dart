@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp2/monitoringSayur.dart';
 
 
 class MonitoringKesehatanApp extends StatelessWidget {
@@ -287,28 +288,36 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                             ),
                           ),
                           // kontainer 4 sama kek kontainer 3
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey
-                              ),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(6)
-                            ),
-                            height: 50,
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Makan Lebih Banyak Sayuran" 
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(builder: (context) => MyVegetable())
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey
                                 ),
-                                Spacer(),
-                                Icon(
-                                  Icons.keyboard_arrow_right_rounded,
-                                  color: Color.fromARGB(255, 1, 101, 252),
-                                )
-                              ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6)
+                              ),
+                              height: 50,
+                              margin: EdgeInsets.only(bottom: 10.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Makan Lebih Banyak Sayuran" 
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.keyboard_arrow_right_rounded,
+                                    color: Color.fromARGB(255, 1, 101, 252),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ],
