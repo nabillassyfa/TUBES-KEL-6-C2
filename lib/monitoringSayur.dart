@@ -52,25 +52,25 @@ class MyVegetable extends StatelessWidget {
                 child: Column(
                   children: [
                     VegContainer(
-                      imagePath: 'assets/vegetable.jpg',
+                      imagePath: 'assets/images/vegetable.jpg',
                       vegName: 'Bayam',
                       description: '1 Porsi',
                     ),
                     SizedBox(height: 20),
                     VegContainer(
-                      imagePath: 'assets/vegetable.jpg',
+                      imagePath: 'assets/images/vegetable.jpg',
                       vegName: 'Kangkung',
                       description: '1 Porsi',
                     ),
                     SizedBox(height: 20),
                     VegContainer(
-                      imagePath: 'assets/vegetable.jpg',
+                      imagePath: 'assets/images/vegetable.jpg',
                       vegName: 'Tomat',
                       description: '1 Porsi',
                     ),
                     SizedBox(height: 20),
                     VegContainer(
-                      imagePath: 'assets/vegetable.jpg',
+                      imagePath: 'assets/images/vegetable.jpg',
                       vegName: 'Wortel',
                       description: '1 Porsi',
                     ),

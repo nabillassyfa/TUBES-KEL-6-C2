@@ -498,7 +498,15 @@ class _BerandaState extends State<Beranda> {
                   //lihat detail, direct ke halaman jadwal
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Emergency(),
+                            barrierDismissible:
+                                true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                      );
+                    },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
