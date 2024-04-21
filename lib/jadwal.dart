@@ -71,7 +71,7 @@ class _JadwalState extends State<Jadwal> {
                   ),
                 ),
                 SizedBox(
-                  height: 592, // Atur sesuai dengan tinggi TabBarView
+                  height: MediaQuery.of(context).size.height-322, // Atur sesuai dengan tinggi TabBarView
                   child: TabBarView(
                     children: [
                       // Isi dari Tab 'Jadwal Konsultasi' menggunakan Builder
