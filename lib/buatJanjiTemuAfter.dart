@@ -96,6 +96,7 @@ class BuatJanjiTemuAfter extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20), // Tambahkan SizedBox untuk menambahkan jarak
             ],
           ),
         ),
