@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'lihat_review.dart';
 import 'buatJanjiKonsulAfter.dart';
 import 'buatJanjiTemuAfter.dart';
 
@@ -152,7 +153,12 @@ class DetailDokterState extends State<DetailDokter> {
                                 backgroundColor: Color(0xff0165fc),
                               ),
                               onPressed: () {
-                                // Action when "Lihat Review" button is pressed
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DoctorReviewsPage()),
+                                );
                               },
                               child: Text(
                                 'Lihat Review',
@@ -298,7 +304,8 @@ class DetailDokterState extends State<DetailDokter> {
                               // Navigasi ke halaman baru saat tombol ditekan
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => BuatJanjiTemuAfter()),
+                                MaterialPageRoute(
+                                    builder: (context) => BuatJanjiTemuAfter()),
                               );
                             },
                           ),
@@ -424,7 +431,9 @@ class DetailDokterState extends State<DetailDokter> {
                               // Navigasi ke halaman baru saat tombol ditekan
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => BuatJanjiKonsulAfter()),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        BuatJanjiKonsulAfter()),
                               );
                             },
                           ),
