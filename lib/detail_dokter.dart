@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'buatJanjiKonsulAfter.dart';
+import 'buatJanjiTemuAfter.dart';
 
 class Doctor {
   final String imageUrl;
@@ -292,7 +294,13 @@ class DetailDokterState extends State<DetailDokter> {
                                     32.0), // Mengatur sudut melengkung menjadi 10.0
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              // Navigasi ke halaman baru saat tombol ditekan
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => BuatJanjiTemuAfter()),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -399,7 +407,7 @@ class DetailDokterState extends State<DetailDokter> {
                           width: double.infinity,
                           child: ElevatedButton(
                             child: Text(
-                              'Buat Janji Temu',
+                              'Buat Janji Konsultasi Online',
                               style: TextStyle(
                                   fontSize: 20.0,
                                   color: Colors.white,
@@ -412,7 +420,13 @@ class DetailDokterState extends State<DetailDokter> {
                                     32.0), // Mengatur sudut melengkung menjadi 10.0
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              // Navigasi ke halaman baru saat tombol ditekan
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => BuatJanjiKonsulAfter()),
+                              );
+                            },
                           ),
                         ),
                       ],
