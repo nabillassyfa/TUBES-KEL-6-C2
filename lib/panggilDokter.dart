@@ -40,14 +40,14 @@ class PanggilDokterState extends State<PanggilDokter> {
                   Text(
                     "Panggil Dokter",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 10),
                 ],
               ),
-              SizedBox(height: 30), // Add spacing here
+              SizedBox(height: 40), // Add spacing here
               Column(
                 children: <Widget>[
                   dropdownInput(
@@ -92,7 +92,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                       ]),
                 ],
               ),
-              SizedBox(height: 110), // Add spacing here
+              SizedBox(height: 80), // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(

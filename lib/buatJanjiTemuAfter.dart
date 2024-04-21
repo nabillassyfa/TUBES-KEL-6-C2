@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/pembayaran.dart';
 
-class BuatJanjiTemuAfter extends StatefulWidget {
-  @override
-  State<BuatJanjiTemuAfter> createState() => BuatJanjiTemuAfterState();
-}
-
-class BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
+class BuatJanjiTemuAfter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,52 +23,49 @@ class BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
-          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Center the content vertically
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 10), // Smaller spacing here
-              Column(
-                children: <Widget>[
-                  Text(
-                    "Buat Janji Temu",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Buat Janji Temu",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Center(
-                    // Center the text
-                    child: Text(
+                    SizedBox(height: 5),
+                    Text(
                       "Buat janji temu Anda berdasarkan spesialis dan waktu yang Anda inginkan.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
                       ),
-                      textAlign: TextAlign.center, // Center align the text
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              SizedBox(height: 30), // Add spacing here
+              SizedBox(height: 30),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   inputFile(context: context, label: "Spesialis", hintText: "Spesialis Jiwa"),
-                  SizedBox(height: 10), // Add spacing here
+                  SizedBox(height: 2),
                   inputFile(context: context, label: "Rumah Sakit", hintText: "Rumah Sakit Doa Ibu C"),
-                  SizedBox(height: 10), // Add spacing here
+                  SizedBox(height: 5),
                   inputFile(context: context, label: "Dokter", hintText: "dr. Muhammad Rifky Afandi, SpKj"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00"),
+                  SizedBox(height: 5),
+                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey),
+                  SizedBox(height: 5),
+                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey),
                 ],
               ),
-              SizedBox(height: 40), // Add spacing here
+              SizedBox(height: 40),
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -97,7 +89,7 @@ class BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                   child: Text(
                     "Buat Janji Temu",
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.white,
                     ),
@@ -116,8 +108,8 @@ class BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
 Widget inputFile({
   required BuildContext context,
   required String label,
-  required String hintText, // Tambahkan parameter hintText
-  obscureText = false
+  required String hintText,
+  Color hintTextColor = Colors.black,
 }) {
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -127,7 +119,7 @@ Widget inputFile({
       Text(
         label,
         style: TextStyle(
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.black87,
         ),
@@ -135,9 +127,7 @@ Widget inputFile({
       SizedBox(height: 1),
       TextFormField(
         controller: label == "Pilih Tanggal" ? dateController : timeController,
-        obscureText: obscureText,
         onTap: () async {
-          // Tambahkan penanganan onTap
           if (label == "Pilih Tanggal") {
             DateTime? pickedDate = await showDatePicker(
               context: context,
@@ -159,9 +149,10 @@ Widget inputFile({
             }
           }
         },
-        readOnly: true, // Jadikan readOnly true
+        readOnly: true,
         decoration: InputDecoration(
-          hintText: hintText, // Gunakan hintText sebagai hint text
+          hintText: hintText,
+          hintStyle: TextStyle(color: hintTextColor), // Atur warna hintText
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
@@ -170,15 +161,13 @@ Widget inputFile({
             borderSide: BorderSide(color: Colors.grey),
           ),
           suffixIcon: label == "Pilih Tanggal"
-              ? Icon(Icons.calendar_today,
-                  color: Color.fromARGB(255, 1, 101, 252))
+              ? Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252))
               : (label == "Pilih Waktu"
-                  ? Icon(Icons.access_time_filled_rounded,
-                      color: Color.fromARGB(255, 1, 101, 252))
+                  ? Icon(Icons.access_time_filled_rounded, color: Color.fromARGB(255, 1, 101, 252))
                   : null),
         ),
       ),
-      SizedBox(height: 1),
+      SizedBox(height: 10),
     ],
   );
 }
