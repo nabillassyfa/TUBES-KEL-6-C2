@@ -11,14 +11,14 @@ import crud, models, schemas
 from database import SessionLocal, engine
 models.BaseDB.metadata.create_all(bind=engine)
 
-from jose import jwt
+# from jose import jwt
 import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
 
-app = FastAPI(title="Web service BarayaFood",
-    description="Web service untuk quiz provis Mei 2024",
-    version="0.0.1",)
+app = FastAPI(title="Web service DIHospital",
+    description="Web service untuk Tubes provis Kel 6",
+    version="0.0.1 (Alpha)",)
 
 app.add_middleware(
     CORSMiddleware,
@@ -65,3 +65,53 @@ def read_image(rs_id:int,  db: Session = Depends(get_db)):
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_artikel = crud.get_Artikel(db, skip=skip, limit=limit)
     return data_artikel
+
+#hapus ini kalau salt sudah digenerate
+# import bcrypt
+# @app.get("/getsalt")
+# async def getsalt():
+#     hasil = bcrypt.gensalt()
+#     return {"message": hasil}
+
+# create user 
+@app.post("/Signup/", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db,email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Error: Username sudah digunakan")
+    return crud.create_user(db=db, user=user)
+
+
+# hasil adalah id 
+@app.post("/login") #,response_model=schemas.Token
+async def login(user: schemas.UserLog, db: Session = Depends(get_db)):
+    if not authenticate(db,user):
+        raise HTTPException(status_code=400, detail="Username atau password tidak cocock")
+
+    # ambil informasi username
+    user_login = crud.get_user_by_email(db,user.email)
+    if user_login:
+        user_id = user_login.id
+        return {"user_id":user_id}
+    else:
+        raise HTTPException(status_code=400, detail="User tidak ditemukan, kontak admin")
+
+#lihat detil user_id
+@app.get("/users/{user_id}", response_model=schemas.User)
+def read_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
+######################## AUTH
+
+# periksa apakah username ada dan passwordnya cocok
+# return boolean TRUE jika username dan password cocok
+def authenticate(db,user: schemas.UserCreate):
+    user_cari = crud.get_user_by_email(db=db, email=user.email)
+    if user_cari:
+        return (user_cari.password == crud.hashPassword(user.password))
+    else:
+        return False    
+    

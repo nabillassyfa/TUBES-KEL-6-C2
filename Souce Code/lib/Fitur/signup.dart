@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:provider/provider.dart';
+import 'package:tp2/provider/p_user.dart';
+import 'login.dart'; // Import halaman login.dart jika belum diimport
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  bool _isObscure = true;
+  final TextEditingController namaController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController noTelpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -17,7 +33,6 @@ class SignupPage extends StatelessWidget {
           icon: Icon(Icons.arrow_circle_left_outlined,
             size: 40,
             color: Colors.black,),
-
 
         ),
       ),
@@ -48,11 +63,11 @@ class SignupPage extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                  inputFile(label: "Nama Lengkap"),
-                  inputFile(label: "Username"),
-                  inputFile(label: "Password", obscureText: true),
-                  inputFile(label: "Email"),
-                  inputFile(label: "No Handphone"),
+                  inputFile(label: "Nama Lengkap", controller: namaController),
+                  inputFile(label: "Username", controller: usernameController),
+                  inputFile(label: "Password", obscureText: _isObscure, controller: passwordController),
+                  inputFile(label: "Email", controller: emailController),
+                  inputFile(label: "No Handphone", controller: noTelpController),
                 ],
               ),
               
@@ -103,7 +118,44 @@ class SignupPage extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () async  {
+                     try {
+                      Map<String, dynamic> signupResponse = await userProvider.signUp(
+                        namaController.text.trim(),
+                        usernameController.text.trim(),
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                        noTelpController.text.trim(),
+                      );
+                      print('Signup successful: $signupResponse');
+                      // Add navigation or show success message
+                      // Tampilkan dialog akun terdaftar
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Akun Telah Terdaftar'),
+                            content: Text('Silahkan login untuk melanjutkan.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Tutup dialog
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => LoginMenu()),
+                                  ); // Pindah ke halaman login
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } catch (e) {
+                      print('Signup failed: $e');
+                      // Handle signup failure, show error message, etc.
+                    }
+                  },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -162,14 +214,19 @@ class SignupPage extends StatelessWidget {
 
     );
   }
-}
-
 
   // Widget untuk input field
-  Widget inputFile({label, obscureText = false}) {
+  Widget inputFile({label, obscureText = false, required TextEditingController controller}) {
     Widget? icon;
     if (label == "Password") {
-      icon = Icon(Icons.visibility_off); // Assign lock icon if true
+      icon = IconButton(
+        icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+        onPressed: () {
+          setState(() {
+            _isObscure = !_isObscure;
+          });
+        },
+      );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,6 +241,7 @@ class SignupPage extends StatelessWidget {
         ),
         SizedBox(height: 1),
         TextField(
+            controller: controller,
             obscureText: obscureText,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10), // Adjusted vertical padding
@@ -200,3 +258,4 @@ class SignupPage extends StatelessWidget {
       ],
     );
   }
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:tp2/provider/p_user.dart';
 import 'signup.dart';
 import 'bottomNavBar.dart';
 
@@ -10,9 +12,13 @@ class LoginMenu extends StatefulWidget {
 
 class _LoginMenuState extends State<LoginMenu> {
   bool _isObscure = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -126,12 +132,28 @@ class _LoginMenuState extends State<LoginMenu> {
                       child: MaterialButton(
                         minWidth: 300,
                         height: 60,
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 0)),
-                            (Route<dynamic> route) => false,
-                          );
+                        onPressed: () async {
+                          try {
+                            Map<String, dynamic> loginResponse = await userProvider.login(
+                              emailController.text.trim(), // Ambil email dari input field
+                              passwordController.text.trim(), // Ambil password dari input field
+                            );
+                            print('Login successful: $loginResponse');
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 0)),
+                              (Route<dynamic> route) => false,
+                            );
+                          } catch (e) {
+                            print('Login failed: $e');
+                            // Handle login failure, show error message, etc.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Email atau password tidak sesuai'),
+                                duration: Duration(seconds: 2), // Durasi pemberitahuan
+                              ),
+                            );
+                          }
                         },
                         color: Color.fromARGB(255, 1, 101, 252),
                         elevation: 0,
@@ -149,7 +171,9 @@ class _LoginMenuState extends State<LoginMenu> {
                       ),
                     ),
                   ),
-                   Row(
+
+                  //Lainnya
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      Expanded(
@@ -158,7 +182,7 @@ class _LoginMenuState extends State<LoginMenu> {
                           height: 36, // Tinggi garis
                         ),
                       ),
-                  Padding(
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "Lainnya",
@@ -325,7 +349,8 @@ class _LoginMenuState extends State<LoginMenu> {
         ),
         SizedBox(height: 1),
         TextField(
-          obscureText: _isObscure,
+          controller: label == "Email" ? emailController : passwordController, // Sesuaikan controller
+          obscureText: label == "Password" ? _isObscure : false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             enabledBorder: OutlineInputBorder(
@@ -341,4 +366,12 @@ class _LoginMenuState extends State<LoginMenu> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 }
+
