@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tp2/provider/p_user.dart';
 import 'Fitur/landingPage1.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider())
+      ],            
+      child: const MyApp(),
+    ) 
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -30,3 +30,29 @@ class Artikel(ArtikelBase):
     id: int
     class Config:
         orm_mode = True
+
+# User
+class UserBase(BaseModel):
+    nama: str
+    username: str
+    email: str
+    no_telp: str
+
+class UserCreate(UserBase):
+    password: str
+
+class User(UserBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+class UserLogBase(BaseModel):
+    email: str
+
+class UserLog(UserLogBase):
+    password: str
+
+class UserL(UserBase):
+    id: int
+    class Config:
+        orm_mode = True

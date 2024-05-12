@@ -27,3 +27,12 @@ class Artikel(BaseDB):
     penulis = Column(String,nullable=False)
     img = Column(String)  
     tanggal = Column(Date, nullable=False, index=True)
+
+class User(BaseDB):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    nama = Column(String, index=True)
+    username = Column(String, index=True)
+    password = Column(String)
+    email = Column(String, index=True, unique=True)
+    no_telp = Column(String, index=True)
