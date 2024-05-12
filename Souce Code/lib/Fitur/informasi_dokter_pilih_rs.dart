@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'pilih_dokter.dart';
+import '../widget/Rs_widget.dart';
+import '../provider/P_RS.dart';
+import 'package:provider/provider.dart';
 
 class Specialization {
   final String name;
@@ -24,6 +27,7 @@ class Hospital {
 }
 
 class SpecializationPageSelectRS extends StatefulWidget {
+  const SpecializationPageSelectRS({Key? key}) : super(key: key);
   @override
   State<SpecializationPageSelectRS> createState() =>
       _SpecializationPageSelectRSState();
@@ -70,164 +74,62 @@ class _SpecializationPageSelectRSState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            //logo
-            'assets/images/banner.png',
-            width: 400,
-            height: 160,
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Pilih Rumah Sakit',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const Text(
-            'Berikut Rumah Sakit yang tersedia Spesialis tersebut',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey,
-            ),
-            maxLines: 2, // Batas jumlah baris
-            overflow: TextOverflow
-                .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: hospitals.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    // Tambahkan aksi yang ingin dilakukan saat card diklik di sini
-                    switch (index) {
-                      case 0:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      case 1:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      case 2:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      case 3:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      case 4:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      case 5:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PilihDokter()),
-                        );
-                        break;
-                      // Tambahkan case untuk ikon lainnya sesuai kebutuhan
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              bottomLeft: Radius.circular(8.0),
-                            ),
-                            child: Container(
-                              width: 120,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(hospitals[index].imageUrl),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
+    return ChangeNotifierProvider(
+      create: (context) => RSProvider()..getdataRS(),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Consumer<RSProvider>(
+          builder: (context, value, child) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    //logo
+                    'assets/images/banner.png',
+                    width: 400,
+                    height: 160,
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Pilih Rumah Sakit',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    'Berikut Rumah Sakit yang tersedia Spesialis tersebut',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    maxLines: 2, // Batas jumlah baris
+                    overflow: TextOverflow
+                        .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    height: MediaQuery.of(context).size.height -
+                        kToolbarHeight -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom,
+                    padding: const EdgeInsets.all(10),
+                    child: ListView.builder(
+                      itemCount: value.dataRS.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: RSWidget(
+                            data: value.dataRS[index],
+                            asal: "dokter",
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        hospitals[index].name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Address: ${hospitals[index].address}',
-                                      ),
-                                      Text(
-                                        '${hospitals[index].time} Menit dari lokasi Anda saat ini',
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 10.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 4),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(
-                                        'Pilih',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xff0165fc),
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

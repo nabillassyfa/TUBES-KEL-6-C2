@@ -11,7 +11,7 @@ import crud, models, schemas
 from database import SessionLocal, engine
 models.BaseDB.metadata.create_all(bind=engine)
 
-from jose import jwt
+# from jose import jwt
 import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
