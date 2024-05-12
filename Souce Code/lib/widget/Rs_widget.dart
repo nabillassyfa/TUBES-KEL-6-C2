@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tp2/Fitur/detailRS.dart';
+import 'package:tp2/Fitur/pilih_dokter.dart';
 import '../models/dataRS.dart';
 
 class RSWidget extends StatelessWidget {
@@ -21,6 +22,11 @@ class RSWidget extends StatelessWidget {
             return detailRS(
               data: data,
             );
+          }));
+        }
+        if (asal == "dokter") {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return PilihDokter();
           }));
         }
       },
