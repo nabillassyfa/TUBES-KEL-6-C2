@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'detail_dokter.dart';
-
-class Hospital {
-  final String name;
-  final String imageUrl;
-  final String address;
-  final String time;
-
-  Hospital({
-    required this.name,
-    required this.imageUrl,
-    required this.address,
-    required this.time,
-  });
-}
+import '../models/dataRS.dart';
 
 class Doctor {
   final String name;
@@ -31,33 +18,18 @@ class Doctor {
 }
 
 class PilihDokter extends StatefulWidget {
+  const PilihDokter({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final RS data;
+
   @override
   State<PilihDokter> createState() => _PilihDokterState();
 }
 
 class _PilihDokterState extends State<PilihDokter> {
-  final List<Hospital> hospitals = [
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu A',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. A.H. Nasution No.15',
-      time: '10',
-    ),
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu B',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. MH. Tamrin No.10',
-      time: '18',
-    ),
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu C',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. Dr. Setibaudi No.21',
-      time: '27',
-    ),
-    // Tambahkan rumah sakit lainnya di sini
-  ];
-
   final List<Doctor> doctors = [
     Doctor(
       name: 'dr. Muhammad Rifky Afandi, SpKj',
@@ -98,7 +70,7 @@ class _PilihDokterState extends State<PilihDokter> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 const Text(
                   'Dokter Spesialis ...',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -110,8 +82,8 @@ class _PilihDokterState extends State<PilihDokter> {
                       size: 24,
                       color: Color(0xff0165fc),
                     ),
-                    const Text(
-                      'Rumah Sakit Doa Ibu ...',
+                    Text(
+                      widget.data.nama,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -337,10 +309,4 @@ class _PilihDokterState extends State<PilihDokter> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: PilihDokter(),
-  ));
 }

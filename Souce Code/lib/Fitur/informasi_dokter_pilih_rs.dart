@@ -12,20 +12,6 @@ class Specialization {
   Specialization({required this.name, required this.icon});
 }
 
-class Hospital {
-  final String name;
-  final String imageUrl;
-  final String address;
-  final String time;
-
-  Hospital({
-    required this.name,
-    required this.imageUrl,
-    required this.address,
-    required this.time,
-  });
-}
-
 class SpecializationPageSelectRS extends StatefulWidget {
   const SpecializationPageSelectRS({Key? key}) : super(key: key);
   @override
@@ -48,28 +34,6 @@ class _SpecializationPageSelectRSState
     Specialization(name: 'Sp. THT', icon: Icons.hearing),
     Specialization(name: 'Sp. Kanker', icon: Icons.local_hospital),
     Specialization(name: 'Sp. Endokrin', icon: Icons.accessibility),
-  ];
-
-  final List<Hospital> hospitals = [
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu A',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. A.H. Nasution No.15',
-      time: '10',
-    ),
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu B',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. MH. Tamrin No.10',
-      time: '18',
-    ),
-    Hospital(
-      name: 'Rumah Sakit Doa Ibu C',
-      imageUrl: 'assets/images/hospital.png',
-      address: 'Jl. Dr. Setibaudi No.21',
-      time: '27',
-    ),
-    // Tambahkan rumah sakit lainnya di sini
   ];
 
   @override

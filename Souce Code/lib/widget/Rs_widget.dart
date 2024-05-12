@@ -26,7 +26,9 @@ class RSWidget extends StatelessWidget {
         }
         if (asal == "dokter") {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return PilihDokter();
+            return PilihDokter(
+              data: data,
+            );
           }));
         }
       },
