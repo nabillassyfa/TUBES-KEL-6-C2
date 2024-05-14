@@ -42,12 +42,13 @@ def get_db():
 async def root():
     return {"message": "Dokumentasi API: [url]:8000/docs"}
 
+## Rumah Sakit 
 @app.get("/RS/", response_model=list[schemas.RS])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_rs = crud.get_RS(db, skip=skip, limit=limit)
     return data_rs
 
-path_img = "../img/"
+path_img = "../img/RS/"
 @app.get("/RS_image/{rs_id}")
 def read_image(rs_id:int,  db: Session = Depends(get_db)):
     
@@ -57,14 +58,48 @@ def read_image(rs_id:int,  db: Session = Depends(get_db)):
     nama_image =  RS.img 
     if not(path.exists(path_img+nama_image)):
         raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
-    
+        
     fr =  FileResponse(path_img+nama_image)
     return fr  
 
+## Artikel
 @app.get("/artikel/", response_model=list[schemas.Artikel])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_artikel = crud.get_Artikel(db, skip=skip, limit=limit)
     return data_artikel
+
+## Dokter
+@app.get("/daftar_dokter/", response_model=list[schemas.Dokter])
+def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    data_dokter = crud.get_Dokter(db, skip=skip, limit=limit)
+    return data_dokter
+
+path_image = "../img/dokter/"
+@app.get("/dokter_image/{dokter_id}")
+def read_image(dokter_id:int,  db: Session = Depends(get_db)):
+    
+    FotoDokter = crud.get_Dokter_by_id(db,dokter_id)
+    if not(FotoDokter):
+        raise HTTPException(status_code=404, detail="id tidak valid")
+    nama_image =  FotoDokter.foto 
+    if not(path.exists(path_image+nama_image)):
+        raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
+    
+    fr =  FileResponse(path_image+nama_image)
+    return fr  
+
+## Rekam Medis
+@app.get("/rekam_medis/{user_id}")
+def read_items(user_id: int, db: Session = Depends(get_db)):
+    rekam_medis = crud.get_rekam_medis(db, user_id)
+    return rekam_medis
+
+## Rating
+@app.get("/rating/{dokter_id}")
+def read_items(dokter_id: int, db: Session = Depends(get_db)):
+    ratings = crud.get_rating_dokter(db, dokter_id)
+    return ratings
+
 
 #hapus ini kalau salt sudah digenerate
 # import bcrypt

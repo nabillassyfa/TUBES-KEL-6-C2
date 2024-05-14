@@ -5,17 +5,83 @@ from sqlalchemy import desc
 
 SALT = b'$2b$12$rX.6REj.knvtNtaqkPT1cu'
 
-# ambil semua item
+# RS
 def get_RS(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.RS).offset(skip).limit(limit).all()
 
-# ambil RS dengan id tertentu
 def get_RS_by_id(db: Session, rs_id: int):
     return db.query(models.RS).filter(models.RS.id == rs_id).first()
 
-# ambil semua item
+# Artikel
 def get_Artikel(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Artikel).offset(skip).limit(limit).all()
+
+# Dokter
+def get_Dokter(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Dokter).offset(skip).limit(limit).all()
+
+def get_Dokter_by_id(db: Session, dokter_id: int):
+    return db.query(models.Dokter).filter(models.Dokter.id == dokter_id).first()
+
+# Rekam Medis
+def get_rekam_medis(db: Session, user_id: int):
+    results = (
+        db.query(
+            models.RekamMedis,
+            models.Dokter.nama.label("dokter_name"),
+            models.User.nama.label("user_name")
+        )
+        .join(models.Dokter, models.RekamMedis.id_dokter == models.Dokter.id)
+        .join(models.User, models.RekamMedis.id_user == models.User.id)
+        .filter(models.RekamMedis.id_user == user_id)
+        .all()
+    )
+
+    rekam_medis_list = []
+    for rekam_medis, dokter_name, user_name in results:
+        rekam_medis_dict = {
+            "id": rekam_medis.id,
+            "keterangan": rekam_medis.keterangan,
+            "catatan_dokter": rekam_medis.catatan_dokter,
+            "tanggal": rekam_medis.tanggal,
+            "id_user": rekam_medis.id_user,
+            "id_dokter": rekam_medis.id_dokter,
+            "obat": rekam_medis.obat,
+            "dokter_nama": dokter_name,
+            "user_nama": user_name,
+        }
+        rekam_medis_list.append(rekam_medis_dict)
+
+    return rekam_medis_list
+
+# Rating
+def get_rating_dokter(db: Session, dokter_id: int):
+    results = (
+        db.query(
+            models.Rating,
+            models.Dokter.nama.label("nama_dokter"),
+            models.User.nama.label("nama_user")
+        )
+        .join(models.Dokter, models.Rating.id_dokter == models.Dokter.id)
+        .join(models.User, models.Rating.id_user == models.User.id)
+        .filter(models.Rating.id_dokter == dokter_id)
+        .all()
+    )
+
+    rating_dokter_list = []
+    for rating_dokter, nama_dokter, nama_user in results:
+        rating_dokter_dict = {
+            "id": rating_dokter.id,
+            "pesan": rating_dokter.pesan,
+            "rating": rating_dokter.rating,
+            "id_user": rating_dokter.id_user,
+            "id_dokter": rating_dokter.id_dokter,
+            "nama_dokter": nama_dokter,
+            "nama_user": nama_user,
+        }
+        rating_dokter_list.append(rating_dokter_dict)
+
+    return rating_dokter_list
 
 # User ###########
 def get_user(db: Session, user_id: int):

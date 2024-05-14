@@ -1,8 +1,8 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 
 
-# item
+# RS
 class RSBase(BaseModel):
     nama: str
     deskripsi: str | None = None
@@ -30,7 +30,48 @@ class Artikel(ArtikelBase):
     id: int
     class Config:
         orm_mode = True
+        
+# Dokter
+class DokterBase(BaseModel):
+    nama: str
+    spesialis: str 
+    informasi: str | None = None
+    pengalaman: int
+    foto:str
 
+class Dokter(DokterBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+
+# Rekam Medis
+class RekamMedisBase(BaseModel):
+    keterangan: str
+    catatan_dokter: str | None = None
+    obat:str
+    tanggal:datetime
+    id_dokter:int
+    id_user:int
+
+class RekamMedis(RekamMedisBase):
+    id: int
+    class Config:
+        orm_mode = True
+   
+   
+# Rating
+class RatingBase(BaseModel):
+    rating: float
+    keterangan: str | None = None
+    id_dokter:int
+    id_user:int
+
+class Rating(RatingBase):
+    id: int
+    class Config:
+        orm_mode = True
+             
 # User
 class UserBase(BaseModel):
     nama: str
