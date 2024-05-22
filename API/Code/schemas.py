@@ -71,6 +71,21 @@ class Rating(RatingBase):
     id: int
     class Config:
         orm_mode = True
+
+# InfoUser
+class InfoUserBase(BaseModel):
+    jenis_kelamin: str | None = None
+    umur: int | None = None
+    berat_badan: int | None = None
+    tanggal_lahir: date | None = None
+    tinggi_badan: int | None = None
+    golongan_darah: str | None = None
+    id_user:int
+
+class InfoUser(InfoUserBase):
+    id: int
+    class Config:
+        orm_mode = True
              
 # User
 class UserBase(BaseModel):
