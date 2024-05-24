@@ -122,9 +122,13 @@ class UserL(UserBase):
     id: int
     class Config:
         orm_mode = True
+<<<<<<< HEAD
         
         
 # Janji Temu
+=======
+
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
 class JadwalJanjiTemuBase(BaseModel):
     id_user: int
     id_dokter: int
@@ -134,6 +138,12 @@ class JadwalJanjiTemuBase(BaseModel):
     waktu: time
     durasi: int
 
+<<<<<<< HEAD
+=======
+class JadwalJanjiTemuCreate(JadwalJanjiTemuBase):
+    pass
+
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
 class JadwalJanjiTemu(JadwalJanjiTemuBase):
     id: int
 

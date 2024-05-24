@@ -14,6 +14,7 @@ models.BaseDB.metadata.create_all(bind=engine)
 # from jose import jwt
 import datetime
 from fastapi.middleware.cors import CORSMiddleware
+from typing import List
 
 
 app = FastAPI(title="Web service DIHospital",
@@ -182,6 +183,7 @@ def authenticate(db,user: schemas.UserCreate):
     if user_cari:
         return (user_cari.password == crud.hashPassword(user.password))
     else:
+<<<<<<< HEAD
         return False   
     
     
@@ -191,6 +193,16 @@ def create_jadwal(jadwal: schemas.JadwalJanjiTemu, db: Session = Depends(get_db)
     return crud.create_jadwal_janji_temu(db=db, jadwal=jadwal)
 
 @app.get("/jadwal/")
+=======
+        return False    
+    
+# Jadwal Janji Temu
+@app.post("/jadwal/", response_model=schemas.JadwalJanjiTemu)
+def create_jadwal(jadwal: schemas.JadwalJanjiTemuCreate, db: Session = Depends(get_db)):
+    return crud.create_jadwal_janji_temu(db=db, jadwal=jadwal)
+
+@app.get("/jadwal/", response_model=List[schemas.JadwalJanjiTemu])
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
 def read_jadwal(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_jadwal_janji_temu(db=db, skip=skip, limit=limit)
 
@@ -199,5 +211,9 @@ def read_jadwal_by_id(jadwal_id: int, db: Session = Depends(get_db)):
     db_jadwal = crud.get_jadwal_janji_temu_by_id(db, jadwal_id=jadwal_id)
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan")
+<<<<<<< HEAD
     return db_jadwal 
     
+=======
+    return db_jadwal
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade

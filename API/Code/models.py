@@ -1,5 +1,5 @@
 from database import BaseDB
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, Nullable, String, func
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
 from typing import List
@@ -14,6 +14,8 @@ class RS(BaseDB):
     lokasi = Column(String,nullable=False)
     fasilitas = Column(String,nullable=False)
     img = Column(String)
+
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="RS")
     
     DataRS = relationship("DaftarRS", back_populates="Rs")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="rs")
@@ -53,8 +55,13 @@ class Spesialis(BaseDB):
     icon = Column(String, index=True)
     
     dokter = relationship("Dokter", back_populates="spesialis_ref")
+<<<<<<< HEAD
     dataSpesialis = relationship("DaftarRS", back_populates="Spesialis")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="spesialis")
+=======
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="spesialis_ref")
+
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
        
 class Rating(BaseDB):
     __tablename__ = "rating"
@@ -118,7 +125,10 @@ class User(BaseDB):
     infoUser = relationship("InfoUser", back_populates="user")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="user")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
 class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
     id = Column(Integer, primary_key=True)

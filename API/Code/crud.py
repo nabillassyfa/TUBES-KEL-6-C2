@@ -185,9 +185,13 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
+<<<<<<< HEAD
 
 # jadwal
 def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemu):
+=======
+def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate):
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
     db_jadwal = models.JadwalJanjiTemu(
         id_user=jadwal.id_user,
         id_dokter=jadwal.id_dokter,
@@ -206,4 +210,8 @@ def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.JadwalJanjiTemu).offset(skip).limit(limit).all()
 
 def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
+<<<<<<< HEAD
     return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
+=======
+    return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
+>>>>>>> 753958fad54f30ae62234f4499d50b6121f06ade
