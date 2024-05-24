@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class UserProvider with ChangeNotifier {
   final String baseUrl = 'http://127.0.0.1:8000';
@@ -25,14 +27,16 @@ class UserProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       // _isLoggedIn = true;
+      var responseData = jsonDecode(response.body);
+      await _saveUserId(responseData['id']);
       notifyListeners();
-      return jsonDecode(response.body);
+      return responseData;
     } else {
       throw Exception('Failed to sign up');
     }
   }
 
-  Future<Map<String, dynamic>> login(String email, String password) async {
+   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login/'),
       headers: <String, String>{
@@ -47,14 +51,32 @@ class UserProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       _isLoggedIn = true;
       notifyListeners();
-      return jsonDecode(response.body);
+      var responseData = jsonDecode(response.body);
+      await _saveUserId(responseData['user_id']);
+      return responseData;
     } else {
       throw Exception('Failed to login');
     }
   }
 
-  void logout() {
+  void logout() async {
     _isLoggedIn = false;
+    await _clearUserId();
     notifyListeners();
+  }
+
+  Future<void> _saveUserId(int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('user_id', userId);
+  }
+
+  Future<void> _clearUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user_id');
+  }
+
+  Future<int?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id');
   }
 }
