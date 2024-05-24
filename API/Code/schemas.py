@@ -34,7 +34,7 @@ class Artikel(ArtikelBase):
 # Dokter
 class DokterBase(BaseModel):
     nama: str
-    spesialis: str 
+    spesialis: int 
     informasi: str | None = None
     pengalaman: int
     foto:str
@@ -58,7 +58,17 @@ class RekamMedis(RekamMedisBase):
     id: int
     class Config:
         orm_mode = True
-   
+  
+  
+# Spesialis
+class SpesialisBase(BaseModel):
+    spesialis: str
+    icon:str
+
+class Spesialis(SpesialisBase):
+    id: int
+    class Config:
+        orm_mode = True 
    
 # Rating
 class RatingBase(BaseModel):
