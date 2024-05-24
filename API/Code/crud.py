@@ -87,6 +87,35 @@ def get_rekam_medis(db: Session, user_id: int):
 
     return rekam_medis_list
 
+# Daftar RS berdasarkan Spesialis ----------------------------------------------------------------
+def get_RS_by_spesialis(db: Session, id: int):
+    results = (
+        db.query(
+            models.DaftarRS,
+            models.RS,
+            models.Spesialis.spesialis.label("spesialis")
+        )
+        .join(models.RS, models.DaftarRS.id_RS == models.RS.id)
+        .join(models.Spesialis, models.DaftarRS.id_spesialis == models.Spesialis.id)
+        .filter(models.DaftarRS.id_spesialis == id)
+        .all()
+    )
+    
+    rs_list = []
+    for daftar_rs, rs, spesialis in results:
+        rs_dict = {
+            "id": rs.id,
+            "nama": rs.nama,
+            "deskripsi": rs.deskripsi,
+            "lokasi": rs.lokasi,
+            "fasilitas": rs.fasilitas,
+            "img": rs.img,
+        }
+        rs_list.append(rs_dict)
+
+    return rs_list
+
+
 
 # Rating
 def get_rating_dokter(db: Session, dokter_id: int):

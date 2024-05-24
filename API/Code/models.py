@@ -15,6 +15,8 @@ class RS(BaseDB):
     fasilitas = Column(String,nullable=False)
     img = Column(String)
     
+    DataRS  = relationship("DaftarRS", back_populates="Rs")
+    
 class Dokter(BaseDB):
     __tablename__ = "dokter"
     id = Column(Integer, primary_key=True)
@@ -49,6 +51,7 @@ class Spesialis(BaseDB):
     icon = Column(String, index=True)
     
     dokter = relationship("Dokter", back_populates="spesialis_ref")
+    dataSpesialis = relationship("DaftarRS", back_populates="Spesialis")
 
        
 class Rating(BaseDB):
@@ -75,6 +78,15 @@ class InfoUser(BaseDB):
     id_user = Column(Integer, ForeignKey('user.id'))
     
     user = relationship("User", back_populates="infoUser")
+    
+class DaftarRS(BaseDB):
+    __tablename__ = "daftarRS"
+    id = Column(Integer, primary_key=True)
+    id_spesialis = Column(Integer, ForeignKey('spesialis.id'))
+    id_RS = Column(Integer, ForeignKey('RS.id'))
+    
+    Spesialis = relationship("Spesialis", back_populates="dataSpesialis")
+    Rs = relationship("RS", back_populates="DataRS")
     
 
 class Artikel(BaseDB):

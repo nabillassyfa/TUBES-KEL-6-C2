@@ -62,6 +62,13 @@ def read_image(rs_id:int,  db: Session = Depends(get_db)):
     fr =  FileResponse(path_img+nama_image)
     return fr  
 
+## Daftar RS berdasarkan id spesialis
+@app.get("/daftar_RS/{id}")
+def read_items(id: int, db: Session = Depends(get_db)):
+    daftar_RS = crud.get_RS_by_spesialis(db, id)
+    return daftar_RS
+
+
 ## Artikel
 @app.get("/artikel/", response_model=list[schemas.Artikel])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
