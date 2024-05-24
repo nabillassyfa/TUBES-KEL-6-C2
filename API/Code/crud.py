@@ -16,29 +16,61 @@ def get_RS_by_id(db: Session, rs_id: int):
 def get_Artikel(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Artikel).offset(skip).limit(limit).all()
 
-# Dokter
+#dokter
 def get_Dokter(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Dokter).offset(skip).limit(limit).all()
+    results = (
+        db.query(
+            models.Dokter,
+            models.Spesialis.spesialis.label("spesialis_name")
+        )
+        .join(models.Spesialis, models.Dokter.spesialis == models.Spesialis.id)
+        .offset(skip).limit(limit)
+        .all()
+    )
+
+    dokter_list = []
+    for dokter, spesialis_name in results:
+        dokter_dict = {
+            "id": dokter.id,
+            "nama": dokter.nama,
+            "spesialis": dokter.spesialis,
+            "foto": dokter.foto,
+            "informasi": dokter.informasi,
+            "pengalaman": dokter.pengalaman,
+            "nama_spesialis": spesialis_name,
+        }
+        dokter_list.append(dokter_dict)
+
+    return dokter_list
 
 def get_Dokter_by_id(db: Session, dokter_id: int):
     return db.query(models.Dokter).filter(models.Dokter.id == dokter_id).first()
 
-# Rekam Medis
+
+# Spesialis ---------------------------------------------------------
+def get_Spesialis(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Spesialis).offset(skip).limit(limit).all()
+
+def get_spesialis_by_id(db: Session, id: int):
+    return db.query(models.Spesialis).filter(models.Spesialis.id == id).first()
+
+# Rekam Medis -------------------------------------------------------
 def get_rekam_medis(db: Session, user_id: int):
     results = (
         db.query(
             models.RekamMedis,
             models.Dokter.nama.label("dokter_name"),
-            models.User.nama.label("user_name")
+            models.User.nama.label("user_name"),
+            models.Spesialis.spesialis.label("spesialis")  
         )
         .join(models.Dokter, models.RekamMedis.id_dokter == models.Dokter.id)
         .join(models.User, models.RekamMedis.id_user == models.User.id)
+        .join(models.Spesialis, models.Dokter.spesialis == models.Spesialis.id) 
         .filter(models.RekamMedis.id_user == user_id)
         .all()
     )
-
     rekam_medis_list = []
-    for rekam_medis, dokter_name, user_name in results:
+    for rekam_medis, dokter_name, user_name, spesialis in results:
         rekam_medis_dict = {
             "id": rekam_medis.id,
             "keterangan": rekam_medis.keterangan,
@@ -49,10 +81,12 @@ def get_rekam_medis(db: Session, user_id: int):
             "obat": rekam_medis.obat,
             "dokter_nama": dokter_name,
             "user_nama": user_name,
+            "spesialis": spesialis,
         }
         rekam_medis_list.append(rekam_medis_dict)
 
     return rekam_medis_list
+
 
 # Rating
 def get_rating_dokter(db: Session, dokter_id: int):

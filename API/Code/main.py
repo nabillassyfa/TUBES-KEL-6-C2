@@ -68,8 +68,8 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_artikel = crud.get_Artikel(db, skip=skip, limit=limit)
     return data_artikel
 
-## Dokter
-@app.get("/daftar_dokter/", response_model=list[schemas.Dokter])
+# Dokter
+@app.get("/daftar_dokter/")
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_dokter = crud.get_Dokter(db, skip=skip, limit=limit)
     return data_dokter
@@ -100,6 +100,26 @@ def read_items(dokter_id: int, db: Session = Depends(get_db)):
     ratings = crud.get_rating_dokter(db, dokter_id)
     return ratings
 
+
+# ## Spesialis
+@app.get("/spesialis/", response_model=list[schemas.Spesialis])
+def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    data = crud.get_Spesialis(db, skip=skip, limit=limit)
+    return data
+
+path_img = "../img/spesialis/"
+@app.get("/spesialis_icon/{id}")
+def read_image(id:int,  db: Session = Depends(get_db)):
+    
+    spesialis = crud.get_spesialis_by_id(db,id)
+    if not(spesialis):
+        raise HTTPException(status_code=404, detail="id tidak valid")
+    nama_image =  spesialis.icon 
+    if not(path.exists(path_img+nama_image)):
+        raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
+        
+    fr =  FileResponse(path_img+nama_image)
+    return fr
 
 #hapus ini kalau salt sudah digenerate
 # import bcrypt

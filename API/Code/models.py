@@ -19,13 +19,14 @@ class Dokter(BaseDB):
     __tablename__ = "dokter"
     id = Column(Integer, primary_key=True)
     nama =  Column(String, index=True)
-    spesialis = Column(String, index=True)
+    spesialis = Column(Integer, ForeignKey('spesialis.id'))
     foto = Column(String, index=True)
     informasi = Column(String,nullable=False)
     pengalaman = Column(Integer)
     
     rekam_medis = relationship("RekamMedis", back_populates="dokter")
     rating = relationship("Rating", back_populates="dokter")
+    spesialis_ref = relationship("Spesialis", back_populates="dokter")
     
 class RekamMedis(BaseDB):
     __tablename__ = "rekam_medis"
@@ -40,6 +41,16 @@ class RekamMedis(BaseDB):
     dokter = relationship("Dokter", back_populates="rekam_medis")
     user = relationship("User", back_populates="rekam_medis")
 
+
+class Spesialis(BaseDB):
+    __tablename__ = "spesialis"
+    id = Column(Integer, primary_key=True)
+    spesialis = Column(String, index=True)
+    icon = Column(String, index=True)
+    
+    dokter = relationship("Dokter", back_populates="spesialis_ref")
+
+       
 class Rating(BaseDB):
     __tablename__ = "rating"
     id = Column(Integer, primary_key=True)
