@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 
 # RS
@@ -89,11 +89,11 @@ class InfoUserBase(BaseModel):
     berat_badan: int | None = None
     tanggal_lahir: date | None = None
     tinggi_badan: int | None = None
-    golongan_darah: str | None = None
-    id_user:int
+    golongan: str | None = None
+    id_pengguna:int
 
 class InfoUser(InfoUserBase):
-    id: int
+    id_user: int
     class Config:
         orm_mode = True
              
@@ -120,5 +120,22 @@ class UserLog(UserLogBase):
 
 class UserL(UserBase):
     id: int
+    class Config:
+        orm_mode = True
+        
+        
+# Janji Temu
+class JadwalJanjiTemuBase(BaseModel):
+    id_user: int
+    id_dokter: int
+    id_rs: int
+    id_spesialis: int
+    tanggal: date
+    waktu: time
+    durasi: int
+
+class JadwalJanjiTemu(JadwalJanjiTemuBase):
+    id: int
+
     class Config:
         orm_mode = True

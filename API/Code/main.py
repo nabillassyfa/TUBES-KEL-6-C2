@@ -56,6 +56,7 @@ def read_image(rs_id:int,  db: Session = Depends(get_db)):
     if not(RS):
         raise HTTPException(status_code=404, detail="id tidak valid")
     nama_image =  RS.img 
+    print (path_img + nama_image)
     if not(path.exists(path_img+nama_image)):
         raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
         
@@ -113,13 +114,14 @@ def read_info(user_id: int, db: Session = Depends(get_db)):
     infoUser = crud.get_infoUser(db, user_id)
     return infoUser
 
+
 # ## Spesialis
 @app.get("/spesialis/", response_model=list[schemas.Spesialis])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data = crud.get_Spesialis(db, skip=skip, limit=limit)
     return data
 
-path_img = "../img/spesialis/"
+path_icon = "../img/spesialis/"
 @app.get("/spesialis_icon/{id}")
 def read_image(id:int,  db: Session = Depends(get_db)):
     
@@ -127,10 +129,10 @@ def read_image(id:int,  db: Session = Depends(get_db)):
     if not(spesialis):
         raise HTTPException(status_code=404, detail="id tidak valid")
     nama_image =  spesialis.icon 
-    if not(path.exists(path_img+nama_image)):
+    if not(path.exists(path_icon+nama_image)):
         raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
         
-    fr =  FileResponse(path_img+nama_image)
+    fr =  FileResponse(path_icon+nama_image)
     return fr
 
 #hapus ini kalau salt sudah digenerate
@@ -180,5 +182,22 @@ def authenticate(db,user: schemas.UserCreate):
     if user_cari:
         return (user_cari.password == crud.hashPassword(user.password))
     else:
-        return False    
+        return False   
+    
+    
+# Jadwal Janji Temu
+@app.post("/jadwal/")
+def create_jadwal(jadwal: schemas.JadwalJanjiTemu, db: Session = Depends(get_db)):
+    return crud.create_jadwal_janji_temu(db=db, jadwal=jadwal)
+
+@app.get("/jadwal/")
+def read_jadwal(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.get_jadwal_janji_temu(db=db, skip=skip, limit=limit)
+
+@app.get("/jadwal/{jadwal_id}", response_model=schemas.JadwalJanjiTemu)
+def read_jadwal_by_id(jadwal_id: int, db: Session = Depends(get_db)):
+    db_jadwal = crud.get_jadwal_janji_temu_by_id(db, jadwal_id=jadwal_id)
+    if db_jadwal is None:
+        raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan")
+    return db_jadwal 
     

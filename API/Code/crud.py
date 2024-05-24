@@ -148,13 +148,11 @@ def get_rating_dokter(db: Session, dokter_id: int):
 
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
-    return db.query(
-            models.InfoUser,
-        )\
-        .join(models.User, models.InfoUser.id_user == models.User.id)\
-        .filter(models.InfoUser.id_user == user_id)\
-        .all()
-    
+    return db.query(models.InfoUser)\
+             .join(models.User, models.InfoUser.id_pengguna == models.User.id)\
+             .filter(models.InfoUser.id_pengguna == user_id)\
+             .all()
+
 
 # User ###########
 def get_user(db: Session, user_id: int):
@@ -186,3 +184,26 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+# jadwal
+def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemu):
+    db_jadwal = models.JadwalJanjiTemu(
+        id_user=jadwal.id_user,
+        id_dokter=jadwal.id_dokter,
+        id_rs=jadwal.id_rs,
+        id_spesialis=jadwal.id_spesialis,
+        tanggal=jadwal.tanggal,
+        waktu=jadwal.waktu,
+        durasi=jadwal.durasi
+    )
+    db.add(db_jadwal)
+    db.commit()
+    db.refresh(db_jadwal)
+    return db_jadwal
+
+def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.JadwalJanjiTemu).offset(skip).limit(limit).all()
+
+def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
+    return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
