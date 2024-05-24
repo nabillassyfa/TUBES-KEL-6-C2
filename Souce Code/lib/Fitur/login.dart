@@ -14,7 +14,6 @@ class _LoginMenuState extends State<LoginMenu> {
   bool _isObscure = true;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -67,81 +66,91 @@ class _LoginMenuState extends State<LoginMenu> {
                   ),
                   SizedBox(height: 8),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       children: <Widget>[
                         inputFile(label: "Email"),
+                        SizedBox(height: 16),
                         inputFile(label: "Password", obscureText: _isObscure)
                       ],
                     ),
                   ),
                   SizedBox(height: 3),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Add your onTap functionality here
-                          print("Circular container tapped!");
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 15,
-                          height: 15,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            border: Border.all(width: 1, color: Colors.black),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Add your onTap functionality here
+                            print("Circular container tapped!");
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              border: Border.all(width: 1, color: Colors.black),
+                            ),
+                            margin: EdgeInsets.only(left: 8),
                           ),
-                          margin: EdgeInsets.only(left: 21),
                         ),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "Ingatkan Password",
-                        style: TextStyle(fontSize: 10),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SignupPage()),
-                              );
-                            },
-                            child: Text(
-                              "Lupa password?",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 1, 101, 252),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 10,
-                                decoration: TextDecoration.underline,
+                        SizedBox(width: 8),
+                        Text(
+                          "Ingatkan Password",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupPage()),
+                                );
+                              },
+                              child: Text(
+                                "Lupa password?",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 1, 101, 252),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     child: Container(
                       padding: EdgeInsets.only(top: 3, left: 3),
                       child: MaterialButton(
-                        minWidth: 300,
+                        minWidth: double.infinity,
                         height: 60,
                         onPressed: () async {
                           try {
-                            Map<String, dynamic> loginResponse = await userProvider.login(
-                              emailController.text.trim(), // Ambil email dari input field
-                              passwordController.text.trim(), // Ambil password dari input field
+                            Map<String, dynamic> loginResponse =
+                                await userProvider.login(
+                              emailController.text
+                                  .trim(), // Ambil email dari input field
+                              passwordController.text
+                                  .trim(), // Ambil password dari input field
                             );
                             print('Login successful: $loginResponse');
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 0)),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BottomNavBar(idx: 0)),
                               (Route<dynamic> route) => false,
                             );
                           } catch (e) {
@@ -149,8 +158,10 @@ class _LoginMenuState extends State<LoginMenu> {
                             // Handle login failure, show error message, etc.
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Email atau password tidak sesuai'),
-                                duration: Duration(seconds: 2), // Durasi pemberitahuan
+                                content:
+                                    Text('Email atau password tidak sesuai'),
+                                duration: Duration(
+                                    seconds: 2), // Durasi pemberitahuan
                               ),
                             );
                           }
@@ -176,10 +187,10 @@ class _LoginMenuState extends State<LoginMenu> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                     Expanded(
-                         child: Divider(
+                      Expanded(
+                        child: Divider(
                           color: Colors.black,
-                          height: 36, // Tinggi garis
+                          height: 24, // Tinggi garis
                         ),
                       ),
                       Padding(
@@ -194,125 +205,141 @@ class _LoginMenuState extends State<LoginMenu> {
                       Expanded(
                         child: Divider(
                           color: Colors.black,
-                          height: 36, // Tinggi garis
+                          height: 12, // Tinggi garis
                         ),
                       ),
                     ],
                   ),
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 250,
-                          height: 35,
-                          padding: EdgeInsets.all(8), // Menambahkan padding
-                          margin: EdgeInsets.all(8), // Menambahkan margin
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10), // Memberikan border radius
-                            border: Border.all(
-                              color: Colors.black, // Warna border
-                              width: 1, // Ketebalan border
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: double.infinity,
+                            height: 48,
+                            padding: EdgeInsets.all(8), // Menambahkan padding
+                            margin: EdgeInsets.all(8), // Menambahkan margin
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Memberikan border radius
+                              border: Border.all(
+                                color: Colors.black, // Warna border
+                                width: 1, // Ketebalan border
+                              ),
+                            ),
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: const [
+                                Image(
+                                  image: AssetImage("assets/images/google.png"),
+                                  width: 28,
+                                  height: 28,
+                                ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'Masuk dengan Google',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: const [
-                              Image(
-                                image: AssetImage("assets/images/google.png"),
-                                width: 20,
-                                height: 20,
-                              ),
-                              SizedBox(width: 12),
-                              Text('Masuk dengan Google', style: TextStyle(fontSize: 10),),
-                            ],
-                          ),
                         ),
-                      ),
-                      SizedBox(height: 0.25),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 250,
-                          height: 35,
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1,
+                        SizedBox(height: 0.25),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: double.infinity,
+                            height: 48,
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: const [
+                                Image(
+                                  image: AssetImage(
+                                      "assets/images/facebook (1).png"),
+                                  width: 28,
+                                  height: 28,
+                                ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'Masuk dengan Facebook',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: const [
-                              Image(
-                                image: AssetImage("assets/images/facebook (1).png"),
-                                width: 20,
-                                height: 20,
-                              ),
-                              SizedBox(width: 12),
-                              Text('Masuk dengan Facebook', style: TextStyle(fontSize: 10),),
-                            ],
-                          ),
                         ),
-                      ),
-                      SizedBox(height: 0.25),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 250,
-                          height: 35,
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1,
+                        SizedBox(height: 0.25),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: double.infinity,
+                            height: 48,
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: const [
+                                Image(
+                                  image: AssetImage("assets/images/apple.png"),
+                                  width: 28,
+                                  height: 28,
+                                ),
+                                SizedBox(width: 12),
+                                Text(
+                                  'Masuk dengan Apple',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: const [
-                              Image(
-                                image: AssetImage("assets/images/apple.png"),
-                                width: 20,
-                                height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Belum punya akun?"),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupPage()),
+                                );
+                              },
+                              child: Text(
+                                "Daftar",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 1, 101,
+                                      252), // Menambahkan warna teks
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  decoration: TextDecoration
+                                      .underline, // Menambahkan garis bawah
+                                ),
                               ),
-                              SizedBox(width: 12),
-                              Text('Masuk dengan Apple', style: TextStyle(fontSize: 10),),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Belum punya akun?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignupPage()),
-                          );
-                        },
-                        child: Text(
-                          "Daftar",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 1, 101, 252), // Menambahkan warna teks
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                            decoration: TextDecoration.underline, // Menambahkan garis bawah
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -349,7 +376,9 @@ class _LoginMenuState extends State<LoginMenu> {
         ),
         SizedBox(height: 1),
         TextField(
-          controller: label == "Email" ? emailController : passwordController, // Sesuaikan controller
+          controller: label == "Email"
+              ? emailController
+              : passwordController, // Sesuaikan controller
           obscureText: label == "Password" ? _isObscure : false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -374,4 +403,3 @@ class _LoginMenuState extends State<LoginMenu> {
     super.dispose();
   }
 }
-

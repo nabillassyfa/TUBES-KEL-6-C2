@@ -42,59 +42,68 @@ class Emergency extends StatelessWidget {
             return SingleChildScrollView(
               child: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          'Panggilan Darurat',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 90),
-                    Column(
-                      children: <Widget>[
-                        TextField(
-                          readOnly: true, // Make the TextField read-only
-                          decoration: InputDecoration(
-                            hintText: emergencyNumber, // Display emergency number
-                            labelText: 'Hubungi Kami',
-                            border: OutlineInputBorder(),
-                            suffixIcon: IconButton(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Panggilan Darurat',
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
                               color: Colors.red,
-                              onPressed: () {
-                               
-                              },
-                              icon: Icon(Icons.call),
                             ),
                           ),
-                          keyboardType: TextInputType.phone,
-                      
-                        ),
-                      ],
+                          const SizedBox(height: 10),
+                          Text(
+                            'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 90),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            readOnly: true, // Make the TextField read-only
+                            decoration: InputDecoration(
+                              hintText:
+                                  emergencyNumber, // Display emergency number
+                              labelText: '1-12345-123',
+                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                color: Colors.red,
+                                onPressed: () {},
+                                icon: Icon(Icons.call),
+                              ),
+                            ),
+                            keyboardType: TextInputType.phone,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      height: MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom,
+                      height: MediaQuery.of(context).size.height -
+                          kToolbarHeight -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom,
                       padding: const EdgeInsets.all(10),
                       child: ListView.builder(
                         itemCount: value.dataRS.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: RSWidget(data: value.dataRS[index], asal: "emergency",),
+                            child: RSWidget(
+                              data: value.dataRS[index],
+                              asal: "emergency",
+                            ),
                           );
                         },
                       ),
