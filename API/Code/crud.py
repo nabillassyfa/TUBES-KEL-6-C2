@@ -123,3 +123,23 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate):
+    db_jadwal = models.JadwalJanjiTemu(
+        id_user=jadwal.id_user,
+        id_dokter=jadwal.id_dokter,
+        id_rs=jadwal.id_rs,
+        tanggal=jadwal.tanggal,
+        waktu=jadwal.waktu,
+        durasi=jadwal.durasi
+    )
+    db.add(db_jadwal)
+    db.commit()
+    db.refresh(db_jadwal)
+    return db_jadwal
+
+def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.JadwalJanjiTemu).offset(skip).limit(limit).all()
+
+def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
+    return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
