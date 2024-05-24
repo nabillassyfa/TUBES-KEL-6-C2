@@ -117,6 +117,16 @@ def get_rating_dokter(db: Session, dokter_id: int):
 
     return rating_dokter_list
 
+# InfoUser
+def get_infoUser(db: Session, user_id: int):
+    return db.query(
+            models.InfoUser,
+        )\
+        .join(models.User, models.InfoUser.id_user == models.User.id)\
+        .filter(models.InfoUser.id_user == user_id)\
+        .all()
+    
+
 # User ###########
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()

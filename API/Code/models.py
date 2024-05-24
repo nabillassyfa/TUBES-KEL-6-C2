@@ -63,6 +63,20 @@ class Rating(BaseDB):
     user = relationship("User", back_populates="rating")
     
 
+class InfoUser(BaseDB):
+    __tablename__ = "infoUser"
+    id = Column(Integer, primary_key=True)
+    jenis_kelamin = Column(String, index=True)
+    umur = Column(Integer, index=True)
+    berat_badan = Column(Integer, index=True)
+    tanggal_lahir = Column(Date, index=True)
+    tinggi_badan = Column(Integer, index=True)
+    golongan_darah = Column(String, index=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+    
+    user = relationship("User", back_populates="infoUser")
+    
+
 class Artikel(BaseDB):
     __tablename__ = "Artikel"
     id = Column(Integer, primary_key=True)
@@ -86,3 +100,4 @@ class User(BaseDB):
     
     rekam_medis = relationship("RekamMedis", back_populates="user")
     rating = relationship("Rating", back_populates="user")
+    infoUser = relationship("InfoUser", back_populates="user")

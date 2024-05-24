@@ -100,6 +100,11 @@ def read_items(dokter_id: int, db: Session = Depends(get_db)):
     ratings = crud.get_rating_dokter(db, dokter_id)
     return ratings
 
+## InfoUser
+@app.get("/infoUser/{user_id}")
+def read_info(user_id: int, db: Session = Depends(get_db)):
+    infoUser = crud.get_infoUser(db, user_id)
+    return infoUser
 
 # ## Spesialis
 @app.get("/spesialis/", response_model=list[schemas.Spesialis])
