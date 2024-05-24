@@ -127,6 +127,7 @@ class JadwalJanjiTemuBase(BaseModel):
     id_user: int
     id_dokter: int
     id_rs: int
+    id_spesialis: int
     tanggal: date
     waktu: time
     durasi: int

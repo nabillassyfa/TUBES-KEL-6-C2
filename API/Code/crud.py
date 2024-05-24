@@ -163,6 +163,7 @@ def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate)
         id_user=jadwal.id_user,
         id_dokter=jadwal.id_dokter,
         id_rs=jadwal.id_rs,
+        id_spesialis=jadwal.id_spesialis,
         tanggal=jadwal.tanggal,
         waktu=jadwal.waktu,
         durasi=jadwal.durasi

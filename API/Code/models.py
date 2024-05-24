@@ -28,6 +28,7 @@ class Dokter(BaseDB):
     
     rekam_medis = relationship("RekamMedis", back_populates="dokter")
     rating = relationship("Rating", back_populates="dokter")
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="dokter")
     
 class RekamMedis(BaseDB):
     __tablename__ = "rekam_medis"
@@ -50,6 +51,7 @@ class Spesialis(BaseDB):
     icon = Column(String, index=True)
     
     dokter = relationship("Dokter", back_populates="spesialis_ref")
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="spesialis_ref")
 
        
 class Rating(BaseDB):
@@ -110,6 +112,7 @@ class JadwalJanjiTemu(BaseDB):
     id_user = Column(Integer, ForeignKey('user.id'))
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
     id_rs = Column(Integer, ForeignKey('RS.id'))
+    id_spesialis = Column(Integer, ForeignKey('spesialis.id'))
     tanggal = Column(Date, nullable=False, index=True)
     waktu = Column(Time, nullable=False)
     durasi = Column(Integer, index=True)
@@ -117,3 +120,4 @@ class JadwalJanjiTemu(BaseDB):
     dokter = relationship("Dokter", back_populates="jadwal_janji_temu")
     user = relationship("User", back_populates="jadwal_janji_temu")
     rs = relationship("RS", back_populates="jadwal_janji_temu")
+    spesialis = relationship("Spesialis", back_populates="jadwal_janji_temu")
