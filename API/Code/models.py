@@ -73,14 +73,14 @@ class Rating(BaseDB):
 
 class InfoUser(BaseDB):
     __tablename__ = "infoUser"
-    id_user = Column(Integer, primary_key=True)  # Menggunakan id_user sebagai primary key
+    id = Column(Integer, primary_key=True)  # Menggunakan id_user sebagai primary key
     jenis_kelamin = Column(String, index=True)
     umur = Column(Integer, index=True)
     berat_badan = Column(Integer, index=True)
     tanggal_lahir = Column(Date, index=True)
     tinggi_badan = Column(Integer, index=True)
-    golongan = Column(String, index=True)
-    id_pengguna = Column(Integer, ForeignKey('user.id'))  # Foreign key ke user
+    golongan_darah = Column(String, index=True)
+    id_user = Column(Integer, ForeignKey('user.id'))  # Foreign key ke user
 
     user = relationship("User", back_populates="infoUser")
 

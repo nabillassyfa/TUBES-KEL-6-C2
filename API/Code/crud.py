@@ -149,8 +149,8 @@ def get_rating_dokter(db: Session, dokter_id: int):
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
     return db.query(models.InfoUser)\
-             .join(models.User, models.InfoUser.id_pengguna == models.User.id)\
-             .filter(models.InfoUser.id_pengguna == user_id)\
+             .join(models.User, models.InfoUser.id_user == models.User.id)\
+             .filter(models.InfoUser.id_user == user_id)\
              .all()
 
 
