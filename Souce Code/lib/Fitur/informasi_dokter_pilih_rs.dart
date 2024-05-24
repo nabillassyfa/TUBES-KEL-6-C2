@@ -1,106 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'pilih_dokter.dart';
-import '../widget/Rs_widget.dart';
-import '../provider/P_RS.dart';
 import 'package:provider/provider.dart';
-
-class Specialization {
-  final String name;
-  final IconData icon;
-
-  Specialization({required this.name, required this.icon});
-}
+import '../widget/rs_widget.dart';
+import '../provider/p_rs.dart';
 
 class SpecializationPageSelectRS extends StatefulWidget {
-  const SpecializationPageSelectRS({Key? key}) : super(key: key);
+  const SpecializationPageSelectRS({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final int data;
+
   @override
-  State<SpecializationPageSelectRS> createState() =>
-      _SpecializationPageSelectRSState();
+  State<SpecializationPageSelectRS> createState() => _SpecializationPageSelectRSState();
 }
 
-class _SpecializationPageSelectRSState
-    extends State<SpecializationPageSelectRS> {
-  final List<Specialization> specializations = [
-    Specialization(name: 'Sp. Jantung', icon: Icons.favorite),
-    Specialization(name: 'Sp. Kulit', icon: Icons.accessibility_new),
-    Specialization(name: 'Sp. Kandungan', icon: Icons.pregnant_woman),
-    Specialization(name: 'Sp. Anak', icon: Icons.child_care),
-    Specialization(name: 'Sp. Saraf', icon: Icons.wifi),
-    Specialization(name: 'Sp. Mata', icon: Icons.remove_red_eye),
-    Specialization(name: 'Sp. Ortopedi', icon: Icons.accessibility),
-    Specialization(name: 'Sp. Jiwa', icon: Icons.mood),
-    Specialization(name: 'Sp. Urologi', icon: Icons.person),
-    Specialization(name: 'Sp. THT', icon: Icons.hearing),
-    Specialization(name: 'Sp. Kanker', icon: Icons.local_hospital),
-    Specialization(name: 'Sp. Endokrin', icon: Icons.accessibility),
-  ];
-
+class _SpecializationPageSelectRSState extends State<SpecializationPageSelectRS> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => RSProvider()..getdataRS(),
+      create: (context) => RSProvider()..getdataRSbySpesialis(widget.data),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text('Pilih Rumah Sakit'),
+        ),
         body: Consumer<RSProvider>(
           builder: (context, value, child) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    //logo
-                    'assets/images/banner.png',
-                    width: 400,
-                    height: 160,
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Pilih Rumah Sakit',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    'Berikut Rumah Sakit yang tersedia Spesialis tersebut',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey,
+            if (value.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (value.dataRS.isEmpty) {
+              return const Center(child: Text('Tidak ada data rumah sakit yang tersedia.'));
+            } else {
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/banner.png',
+                      width: 400,
+                      height: 160,
                     ),
-                    maxLines: 2, // Batas jumlah baris
-                    overflow: TextOverflow
-                        .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: MediaQuery.of(context).size.height -
-                        kToolbarHeight -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom,
-                    padding: const EdgeInsets.all(10),
-                    child: ListView.builder(
-                      itemCount: value.dataRS.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: RSWidget(
-                            data: value.dataRS[index],
-                            asal: "dokter",
-                          ),
-                        );
-                      },
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Pilih Rumah Sakit',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                ],
-              ),
-            );
+                    const Text(
+                      'Berikut Rumah Sakit yang tersedia Spesialis tersebut',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      height: MediaQuery.of(context).size.height -
+                          kToolbarHeight -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom,
+                      padding: const EdgeInsets.all(10),
+                      child: ListView.builder(
+                        itemCount: value.dataRS.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: RSWidget(
+                              data: value.dataRS[index],
+                              asal: "dokter",
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
           },
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: SpecializationPageSelectRS(),
-  ));
 }

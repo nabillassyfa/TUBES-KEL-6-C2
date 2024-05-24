@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 
 # RS
@@ -34,7 +34,7 @@ class Artikel(ArtikelBase):
 # Dokter
 class DokterBase(BaseModel):
     nama: str
-    spesialis: str 
+    spesialis: int 
     informasi: str | None = None
     pengalaman: int
     foto:str
@@ -58,7 +58,17 @@ class RekamMedis(RekamMedisBase):
     id: int
     class Config:
         orm_mode = True
-   
+  
+  
+# Spesialis
+class SpesialisBase(BaseModel):
+    spesialis: str
+    icon:str
+
+class Spesialis(SpesialisBase):
+    id: int
+    class Config:
+        orm_mode = True 
    
 # Rating
 class RatingBase(BaseModel):
@@ -69,6 +79,21 @@ class RatingBase(BaseModel):
 
 class Rating(RatingBase):
     id: int
+    class Config:
+        orm_mode = True
+
+# InfoUser
+class InfoUserBase(BaseModel):
+    jenis_kelamin: str | None = None
+    umur: int | None = None
+    berat_badan: int | None = None
+    tanggal_lahir: date | None = None
+    tinggi_badan: int | None = None
+    golongan: str | None = None
+    id_pengguna:int
+
+class InfoUser(InfoUserBase):
+    id_user: int
     class Config:
         orm_mode = True
              
@@ -95,5 +120,23 @@ class UserLog(UserLogBase):
 
 class UserL(UserBase):
     id: int
+    class Config:
+        orm_mode = True
+        
+# Janji Temu
+class JadwalJanjiTemuBase(BaseModel):
+    id_user: int
+    id_dokter: int
+    id_rs: int
+    id_spesialis: int
+    tanggal: date
+    waktu: time
+    durasi: int
+
+class JadwalJanjiTemuCreate(JadwalJanjiTemuBase):
+    pass
+class JadwalJanjiTemu(JadwalJanjiTemuBase):
+    id: int
+
     class Config:
         orm_mode = True

@@ -18,4 +18,16 @@ class RSProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+  Future<void> getdataRSbySpesialis(int id) async {
+    isLoading = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(
+        'http://127.0.0.1:8000/daftar_RS/$id'));
+
+    data_RS = RSFromJson(response.body);
+    isLoading = false;
+    notifyListeners();
+  }
 }

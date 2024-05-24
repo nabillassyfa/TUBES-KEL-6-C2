@@ -1,38 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import '../models/rekamMedis.dart';
+import 'package:intl/intl.dart';
 
 
 class DetailRekamMedis extends StatefulWidget {
-  final int index;
-  final String spesialis;
-  final String dokter;
-  final String tanggal;
-  final String waktu;
-
   const DetailRekamMedis({
-    super.key,
-    required this.index,
-    required this.spesialis,
-    required this.dokter,
-    required this.tanggal,
-    required this.waktu,
-  });
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final RekamMedis data;
 
   @override
   State<DetailRekamMedis> createState() => _DetailRekamMedisState();
 }
 
 class _DetailRekamMedisState extends State<DetailRekamMedis> {
-  List<DetailRekamMed> detailRekamMed = [
-    DetailRekamMed(keterangan: "Post-traumatic stress disorder", obat: "Paroxetine, Sertraline, Prazosin", catatan: "Makan - makanan kaya akan serat, magnesium, omega-3. Hindari minuman berkafein, alkohol, kurangi merokok, perbanyak minum air mineral."),
-    DetailRekamMed(keterangan: "Nyeri Hidung", obat: "Bernafas", catatan: "Jangan lupa bernafas dengan hidung"),
-    DetailRekamMed(keterangan: "Demam", obat: "Tidur", catatan: "Jangan banyak main HP"),
-    DetailRekamMed(keterangan: "Sesak napas", obat: "Liburan", catatan: "Coba sekali-kali liburan ke tempat asri yang tidak banyak polusi udara"),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final DateFormat dateFormatter = DateFormat('yyyy-MM-dd'); 
+    final DateFormat timeFormatter = DateFormat('HH:mm:ss');
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -94,7 +84,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                   SizedBox(
                     width: 200,
                     child: Text(
-                      widget.dokter,
+                      widget.data.dokter_nama,
                       textAlign: TextAlign.start,
                       style: const TextStyle(
                         fontSize: 20,
@@ -103,7 +93,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                     ),
                   ), 
                   Text(
-                    widget.spesialis,
+                    widget.data.spesialis,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -112,7 +102,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                     children: [
                       Spacer(),
                       Text(
-                        widget.tanggal,
+                        dateFormatter.format(widget.data.tanggal), //tanggal
                         style: const TextStyle(
                           fontSize: 16,
                         ),
@@ -123,7 +113,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                     children: [
                       Spacer(),
                       Text(
-                        widget.waktu,
+                        timeFormatter.format(widget.data.tanggal), //waktu
                         style: const TextStyle(
                           fontSize: 16,
                         ),
@@ -149,7 +139,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                       borderRadius: BorderRadius.circular(8)
                     ),
                     child: Text(
-                      detailRekamMed[widget.index].keterangan,
+                      widget.data.keterangan,
                       // style: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -172,7 +162,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                       borderRadius: BorderRadius.circular(8)
                     ),
                     child: Text(
-                      detailRekamMed[widget.index].obat,
+                      widget.data.obat,
                     ),
                   ),
                   SizedBox(height: 15,),
@@ -194,7 +184,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                       borderRadius: BorderRadius.circular(8)
                     ),
                     child: Text(
-                      detailRekamMed[widget.index].catatan,
+                      widget.data.catatan_dokter,
                     ),
                   ),
                   
@@ -208,12 +198,4 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
       ),
     );
   }
-}
-class DetailRekamMed {
-  String keterangan;
-  String obat;
-  String catatan;
-
-
-  DetailRekamMed({required this.keterangan, required this.obat, required this.catatan});
 }
