@@ -65,7 +65,7 @@ def get_rekam_medis(db: Session, user_id: int):
         )
         .join(models.Dokter, models.RekamMedis.id_dokter == models.Dokter.id)
         .join(models.User, models.RekamMedis.id_user == models.User.id)
-        .join(models.Spesialis, models.Dokter.spesialis == models.Spesialis.id) 
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id) 
         .filter(models.RekamMedis.id_user == user_id)
         .all()
     )
