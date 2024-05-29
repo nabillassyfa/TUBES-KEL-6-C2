@@ -34,7 +34,7 @@ class RSWidget extends StatelessWidget {
       },
       child: Container(
         color: Color.fromARGB(0, 0, 0, 0),
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -42,14 +42,12 @@ class RSWidget extends StatelessWidget {
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
-                blurRadius: 7,
-                offset: Offset(0, 3),
+                blurRadius: 4,
               ),
             ],
             color: Colors.white,
           ),
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -72,19 +70,17 @@ class RSWidget extends StatelessWidget {
                     Text(
                       data.nama,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
                     Text(
                       data.lokasi,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
-                    const SizedBox(height: 8),
                     Text(
                       "18 menit",
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 14),
                     ),
                     if (asal == "rs")
                       Row(
@@ -97,7 +93,6 @@ class RSWidget extends StatelessWidget {
                               color: Colors.blue,
                             ),
                           ),
-                          const SizedBox(width: 4),
                           Icon(
                             Icons.keyboard_arrow_right_outlined,
                             color: Colors.blue,
