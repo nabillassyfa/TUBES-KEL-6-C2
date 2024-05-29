@@ -120,6 +120,7 @@ class User(BaseDB):
     rating = relationship("Rating", back_populates="user")
     infoUser = relationship("InfoUser", back_populates="user")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="user")
+    status_rawatJalan = relationship("StatusRawatJalan", back_populates="user")
 
 class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
