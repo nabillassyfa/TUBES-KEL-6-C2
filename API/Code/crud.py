@@ -205,3 +205,28 @@ def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
 
 def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
     return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
+
+## Status Rawatb Jalan
+def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
+    results = (
+        db.query(
+            models.StatusRawatJalan,
+            models.User.nama.label("nama_user")
+        )
+        .join(models.User, models.StatusRawatJalan.id_user == models.User.id)
+        .offset(skip).limit(limit)
+        .all()
+    )
+
+    status_rawat_jalan_list = []
+    for status_rawat_jalan, nama_user in results:
+        status_rawat_jalan_dict = {
+            "id": status_rawat_jalan.id_status,
+            "keterangan": status_rawat_jalan.keterangan_status,
+            "deskripsi": status_rawat_jalan.deskripsi,
+            "id_user": status_rawat_jalan.id_user,
+            "nama_user": nama_user,
+        }
+        status_rawat_jalan_list.append(status_rawat_jalan_dict)
+
+    return status_rawat_jalan_list

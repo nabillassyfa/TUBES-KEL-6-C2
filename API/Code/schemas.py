@@ -140,3 +140,15 @@ class JadwalJanjiTemu(JadwalJanjiTemuBase):
 
     class Config:
         orm_mode = True
+        
+# Status Rawat Jalan
+class StatusRawatJalanBase(BaseModel):
+    id_user: int
+    keterangan_status: str
+    deskripsi: str
+    
+class StatusRawatJalan(StatusRawatJalanBase):
+    id_status: int
+    
+    class Config:
+        orm_mode = True

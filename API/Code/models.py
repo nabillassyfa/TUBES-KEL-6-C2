@@ -136,3 +136,14 @@ class JadwalJanjiTemu(BaseDB):
     user = relationship("User", back_populates="jadwal_janji_temu")
     RS = relationship("RS", back_populates="jadwal_janji_temu")
     spesialis = relationship("Spesialis", back_populates="jadwal_janji_temu")
+    
+
+class StatusRawatJalan(BaseDB):
+    __tablename__ = "status_rawat_jalan"
+    id_status = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+    keterangan_status = Column(String, index=True)
+    deskripsi = Column(String, index=True)
+    
+    user = relationship("User", back_populates="status_rawatJalan")
+    
