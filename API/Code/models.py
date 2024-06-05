@@ -19,6 +19,7 @@ class RS(BaseDB):
     
     daftarRS = relationship("DaftarRS", back_populates="RS")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="RS")
+    jadwal_dokter = relationship("JadwalDokter", back_populates="RS")
     
 class Dokter(BaseDB):
     __tablename__ = "dokter"
@@ -33,6 +34,7 @@ class Dokter(BaseDB):
     rekam_medis = relationship("RekamMedis", back_populates="dokter")
     rating = relationship("Rating", back_populates="dokter")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="dokter")
+    jadwal_dokter = relationship("JadwalDokter", back_populates="dokter")
     
 class RekamMedis(BaseDB):
     __tablename__ = "rekam_medis"
@@ -147,4 +149,17 @@ class StatusRawatJalan(BaseDB):
     deskripsi = Column(String, index=True)
     
     user = relationship("User", back_populates="status_rawatJalan")
+    
+
+class JadwalDokter(BaseDB):
+    __tablename__ = "jadwal_dokter"
+    id = Column(Integer, primary_key=True)
+    hari = Column(String, index=True)
+    waktu_mulai = Column(Time, index=True)
+    waktu_berakhir = Column(Time, index=True)
+    id_dokter = Column(Integer, ForeignKey('dokter.id'))
+    id_RS = Column(Integer, ForeignKey('RS.id'))
+    
+    dokter = relationship("Dokter", back_populates="jadwal_dokter")
+    RS = relationship("RS", back_populates="jadwal_dokter")
     

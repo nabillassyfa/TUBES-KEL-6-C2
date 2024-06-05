@@ -6,6 +6,9 @@ from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
 from pydantic import BaseModel
 
 from sqlalchemy.orm import Session
+from datetime import time
+
+
 
 import crud, models, schemas
 from database import SessionLocal, engine
@@ -70,6 +73,12 @@ def read_items(id: int, db: Session = Depends(get_db)):
     daftar_RS = crud.get_RS_by_spesialis(db, id)
     return daftar_RS
 
+## Daftar Spesialis berdasarkan id RS
+@app.get("/daftar_spesialis/{id}")
+def read_items(id: int, db: Session = Depends(get_db)):
+    daftar_RS = crud.get_spesialis_by_RS(db, id)
+    return daftar_RS
+
 
 ## Artikel
 @app.get("/artikel/", response_model=list[schemas.Artikel])
@@ -81,6 +90,18 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @app.get("/daftar_dokter/")
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_dokter = crud.get_Dokter(db, skip=skip, limit=limit)
+    return data_dokter
+
+# Dokter By RS
+@app.get("/daftar_dokter_by_RS_Spesialis/{rs_id}/{spesialis_id}")
+def read_items(spesialis_id: int ,rs_id: int, db: Session = Depends(get_db)):
+    data_dokter = crud.get_dokter_by_rs_spesialis(db, spesialis_id, rs_id)
+    return data_dokter
+
+# Dokter By Jadwal
+@app.get("/daftar_dokter_by_jadwal/{rs_id}/{spesialis_id}/{hari}")
+def read_items(spesialis_id: int ,rs_id: int, hari: str, db: Session = Depends(get_db)):
+    data_dokter = crud.get_dokter_by_rs_spesialis_jadwal(db, spesialis_id, rs_id, hari)
     return data_dokter
 
 path_image = "../img/dokter/"

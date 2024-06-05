@@ -152,3 +152,17 @@ class StatusRawatJalan(StatusRawatJalanBase):
     
     class Config:
         orm_mode = True
+
+# Jadwal Dokter
+class JadwalDokterBase(BaseModel):
+    hari: str
+    waktu_mulai: time
+    waktu_berakhir: time
+    id_dokter: int
+    id_RS: int
+        
+class StatusRawatJalan(JadwalDokterBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
