@@ -9,9 +9,11 @@ class RSWidget extends StatelessWidget {
     Key? key,
     required this.data,
     required this.asal,
+    this.idPrev = 0
   }) : super(key: key);
   final RS data;
   final String asal;
+  final int idPrev;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,8 @@ class RSWidget extends StatelessWidget {
         if (asal == "dokter") {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return PilihDokter(
-              data: data,
+              dataRS: data,
+              idSpesialis: idPrev,
             );
           }));
         }

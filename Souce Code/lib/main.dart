@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tp2/provider/p_RS.dart';
+import 'package:tp2/provider/p_dokter.dart';
+import 'package:tp2/provider/p_spesialis.dart';
 import 'package:tp2/provider/p_user.dart';
 import 'Fitur/landingPage1.dart';
 
@@ -7,7 +10,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider())
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => SpesialisProvider()),
+        ChangeNotifierProvider(create: (_) => RSProvider()),
+        ChangeNotifierProvider(create: (_) => DokterProvider()),
       ],            
       child: const MyApp(), 
     ) 

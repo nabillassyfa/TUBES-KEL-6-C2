@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 import models, schemas
 import bcrypt
+from datetime import time
 from sqlalchemy import desc
 
 SALT = b'$2b$12$rX.6REj.knvtNtaqkPT1cu'
@@ -45,6 +46,66 @@ def get_Dokter(db: Session, skip: int = 0, limit: int = 100):
 
 def get_Dokter_by_id(db: Session, dokter_id: int):
     return db.query(models.Dokter).filter(models.Dokter.id == dokter_id).first()
+
+def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
+    results = (
+        db.query(
+            models.Dokter,
+            models.Spesialis.spesialis.label("spesialis_name"),
+            # models.RS.nama.label("rs_name"),
+        )
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .join(models.JadwalDokter, models.Dokter.id == models.JadwalDokter.id_dokter)
+        .filter(models.Spesialis.id == id_spesialis, 
+                models.JadwalDokter.id_RS == id_rs)
+        .all()
+    )
+
+    dokter_list = []
+    for dokter, spesialis_name in results:
+        dokter_dict = {
+            "id": dokter.id,
+            "nama": dokter.nama,
+            "spesialis": id_spesialis,
+            "foto": dokter.foto,
+            "informasi": dokter.informasi,
+            "pengalaman": dokter.pengalaman,
+            "namaSpesialis": spesialis_name
+        }
+        dokter_list.append(dokter_dict)
+
+    return dokter_list
+
+def get_dokter_by_rs_spesialis_jadwal(db: Session, id_spesialis: int, id_rs: int, hari: str):
+    results = (
+        db.query(
+            models.Dokter,
+            models.Spesialis.spesialis.label("spesialis_name"),
+            # models.RS.nama.label("rs_name"),
+        )
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .join(models.JadwalDokter, models.Dokter.id == models.JadwalDokter.id_dokter)
+        .filter(models.Spesialis.id == id_spesialis, 
+                models.JadwalDokter.id_RS == id_rs,
+                models.JadwalDokter.hari == hari,
+                )
+        .all()
+    )
+
+    dokter_list = []
+    for dokter, spesialis_name in results:
+        dokter_dict = {
+            "id": dokter.id,
+            "nama": dokter.nama,
+            "spesialis": id_spesialis,
+            "foto": dokter.foto,
+            "informasi": dokter.informasi,
+            "pengalaman": dokter.pengalaman,
+            "namaSpesialis": spesialis_name
+        }
+        dokter_list.append(dokter_dict)
+
+    return dokter_list
 
 
 # Spesialis ---------------------------------------------------------
@@ -114,6 +175,29 @@ def get_RS_by_spesialis(db: Session, id: int):
         rs_list.append(rs_dict)
 
     return rs_list
+
+def get_spesialis_by_RS(db: Session, id: int):
+    results = (
+        db.query(
+            models.DaftarRS,
+            models.RS,
+            models.Spesialis
+        )
+        .join(models.RS, models.DaftarRS.id_RS == models.RS.id)
+        .join(models.Spesialis, models.DaftarRS.id_spesialis == models.Spesialis.id)
+        .filter(models.DaftarRS.id_RS == id)
+        .all()
+    )
+    
+    spesialis_list = []
+    for daftar_rs, rs, spesialis in results:
+        spesialis_dict = {
+            "id": spesialis.id,
+            "spesialis": spesialis.spesialis,
+        }
+        spesialis_list.append(spesialis_dict)
+
+    return spesialis_list
 
 
 

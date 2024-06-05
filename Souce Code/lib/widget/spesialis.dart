@@ -16,7 +16,7 @@ class SpesialisWidget extends StatelessWidget {
       onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return SpecializationPageSelectRS(
-              data: data.id,
+              idSpesialis: data.id,
             );
           }));
         },

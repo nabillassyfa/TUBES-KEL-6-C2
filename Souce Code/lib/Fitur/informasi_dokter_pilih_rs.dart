@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widget/rs_widget.dart';
+import '../widget/Rs_widget.dart';
 import '../provider/p_rs.dart';
 
 class SpecializationPageSelectRS extends StatefulWidget {
   const SpecializationPageSelectRS({
     Key? key,
-    required this.data,
+    required this.idSpesialis,
   }) : super(key: key);
 
-  final int data;
+  final int idSpesialis;
 
   @override
   State<SpecializationPageSelectRS> createState() => _SpecializationPageSelectRSState();
 }
 
 class _SpecializationPageSelectRSState extends State<SpecializationPageSelectRS> {
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => RSProvider()..getdataRSbySpesialis(widget.data),
+      create: (context) => RSProvider()..getdataRSbySpesialis(widget.idSpesialis),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Pilih Rumah Sakit'),
@@ -69,6 +70,7 @@ class _SpecializationPageSelectRSState extends State<SpecializationPageSelectRS>
                             child: RSWidget(
                               data: value.dataRS[index],
                               asal: "dokter",
+                              idPrev: widget.idSpesialis,
                             ),
                           );
                         },

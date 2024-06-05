@@ -18,4 +18,16 @@ class SpesialisProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+  Future<void> getdataSpesialisbyRS(int id) async {
+    isLoading = true;
+    notifyListeners();
+
+    final response = await http.get(Uri.parse(
+        'http://127.0.0.1:8000/daftar_spesialis/$id'));
+
+    data_Spesialis = SpesialisFromJson(response.body);
+    isLoading = false;
+    notifyListeners();
+  }
 }

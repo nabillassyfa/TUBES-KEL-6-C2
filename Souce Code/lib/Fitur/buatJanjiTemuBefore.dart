@@ -1,5 +1,10 @@
+// Harus memilih spesialis dulu lalu rs
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
+import 'package:tp2/provider/p_RS.dart';
+import 'package:tp2/provider/p_spesialis.dart';
 
 class BuatJanjiTemuBefore extends StatefulWidget {
   @override
@@ -7,6 +12,16 @@ class BuatJanjiTemuBefore extends StatefulWidget {
 }
 
 class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
+  int? selectedSpesialisId;
+  int? selectedRSId;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<SpesialisProvider>(context, listen: false).getdataSpesialis();
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,58 +73,71 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                 ],
               ),
               SizedBox(height: 20), // Add spacing here
-              Column(
-                children: <Widget>[
-                  dropdownInput(
-                      context: context,
-                      label: "Pilih Spesialis",
-                      hintText: "Semua Spesialis",
-                      items: [
-                        "Spesialis Jantung",
-                        "Spesialis Kulit",
-                        "Spesialis Kandungan",
-                        "Spesialis Anak",
-                        "Spesialis Saraf",
-                        "Spesialis Mata",
-                        "Spesialis Ortopedi",
-                        "Spesialis Jiwa",
-                        "Spesialis Urologi",
-                        "Spesialis THT",
-                        "Spesialis Kanker",
-                        "Spesialis Endokrin",
-                      ]),
-                  SizedBox(height: 10), // Add spacing here
-                  dropdownInput(
-                      context: context,
-                      label: "Pilih Rumah Sakit",
-                      hintText: "Semua Rumah Sakit",
-                      items: [
-                        "Rumah Sakit Doa Ibu A",
-                        "Rumah Sakit Doa Ibu B",
-                        "Rumah Sakit Doa Ibu C",
-                      ]),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(
-                      context: context,
-                      label: "Pilih Tanggal",
-                      hintText: "Hari, Tgl - Bln - Thn"),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(
-                      context: context,
-                      label: "Pilih Waktu",
-                      hintText: "00:00"),
-                  SizedBox(height: 10), // Add spacing here
-                  dropdownInput(
-                      context: context,
-                      label: "Pilih Dokter",
-                      hintText: "Pilih dokter",
-                      items: [
-                        "Dr. John Doe",
-                        "Dr. Jane Smith",
-                        "Dr. Rifky Afandi",
-                      ]),
-                ],
+              Consumer<SpesialisProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  if (provider.dataSpesialis.isEmpty) {
+                    return Text("No Spesialis found");
+                  }
+                  return dropdownInput(
+                    context: context,
+                    label: "Pilih Spesialis",
+                    hintText: "Semua Spesialis",
+                    items: provider.dataSpesialis.map((spesialis) => spesialis.nama).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSpesialisId = provider.dataSpesialis.firstWhere((spesialis) => spesialis.nama == value).id;
+                        // Fetch Rumah Sakit based on selected Spesialis
+                        Provider.of<RSProvider>(context, listen: false).getdataRSbySpesialis(selectedSpesialisId!);
+                      });
+                    },
+                  );
+                },
               ),
+              SizedBox(height: 10), // Add spacing here
+              Consumer<RSProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  if (provider.dataRS.isEmpty) {
+                    return Text("No Rumah Sakit found");
+                  }
+                  return dropdownInput(
+                    context: context,
+                    label: "Pilih Rumah Sakit",
+                    hintText: "Pilih Rumah Sakit",
+                    items: provider.dataRS.map((rs) => rs.nama).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRSId = provider.dataRS.firstWhere((rs) => rs.nama == value).id;
+                      });
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 10), // Add spacing here
+              inputFile(
+                  context: context,
+                  label: "Pilih Tanggal",
+                  hintText: "Hari, Tgl - Bln - Thn"),
+              SizedBox(height: 10), // Add spacing here
+              inputFile(
+                  context: context,
+                  label: "Pilih Waktu",
+                  hintText: "00:00"),
+              SizedBox(height: 10), // Add spacing here
+              dropdownInput(
+                  context: context,
+                  label: "Pilih Dokter",
+                  hintText: "Pilih dokter",
+                  items: [
+                    "Dr. John Doe",
+                    "Dr. Jane Smith",
+                    "Dr. Rifky Afandi",
+                  ]),
               SizedBox(height: 50), // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
@@ -151,36 +179,34 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
 }
 
 // Widget untuk dropdown input
-// Widget untuk dropdown input
-Widget dropdownInput(
-    {required BuildContext context,
-    required String label,
-    required String hintText,
-    required List<String> items}) {
+Widget dropdownInput({
+  required BuildContext context,
+  required String label,
+  required String hintText,
+  required List<String> items,
+  void Function(String?)? onChanged,
+}) {
+  String? selectedValue;
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
-      SizedBox(height: 1),
-      DropdownButtonFormField(
-        value: null, // Ubah nilai default menjadi null
-        hint: Text(hintText), // Tambahkan hintText
-        items: items.map((String value) {
-          return DropdownMenuItem(
+      SizedBox(height: 5),
+      DropdownButtonFormField<String>(
+        isExpanded: true,
+        value: selectedValue,
+        hint: Text(hintText),
+        onChanged: onChanged,
+        items: items.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
           );
         }).toList(),
-        onChanged: (value) {
-          // Handle dropdown value change
-        },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
             vertical: 8,
@@ -193,8 +219,8 @@ Widget dropdownInput(
             borderSide: BorderSide(color: Colors.grey),
           ),
         ),
+
       ),
-      SizedBox(height: 1),
     ],
   );
 }
