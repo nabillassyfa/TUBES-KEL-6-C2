@@ -178,7 +178,7 @@ class _PilihDokterState extends State<PilihDokter> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailDokter(
-                              // dokter: dokter
+                              dokter: dokter
                               ),
                           ),
                         );

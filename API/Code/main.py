@@ -92,6 +92,12 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data_dokter = crud.get_Dokter(db, skip=skip, limit=limit)
     return data_dokter
 
+# Dokter By Id
+@app.get("/data_dokter_by_id_withS/{dokter_id}")
+def read_items(dokter_id: int , db: Session = Depends(get_db)):
+    data_dokter = crud.get_Dokter_by_id_withS(db, dokter_id)
+    return data_dokter
+
 # Dokter By RS
 @app.get("/daftar_dokter_by_RS_Spesialis/{rs_id}/{spesialis_id}")
 def read_items(spesialis_id: int ,rs_id: int, db: Session = Depends(get_db)):
@@ -104,6 +110,12 @@ def read_items(spesialis_id: int ,rs_id: int, hari: str, db: Session = Depends(g
     data_dokter = crud.get_dokter_by_rs_spesialis_jadwal(db, spesialis_id, rs_id, hari)
     return data_dokter
 
+## Jadwal Dokter
+@app.get("/jadwal_dokter/{dokter_id}/{rs_id}")
+def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
+    return crud.get_jadwal_dokter(db=db, dokter_id=dokter_id, rs_id=rs_id)
+
+
 path_image = "../img/dokter/"
 @app.get("/dokter_image/{dokter_id}")
 def read_image(dokter_id:int,  db: Session = Depends(get_db)):
@@ -111,7 +123,7 @@ def read_image(dokter_id:int,  db: Session = Depends(get_db)):
     FotoDokter = crud.get_Dokter_by_id(db,dokter_id)
     if not(FotoDokter):
         raise HTTPException(status_code=404, detail="id tidak valid")
-    nama_image =  FotoDokter.foto 
+    nama_image =  FotoDokter.foto
     if not(path.exists(path_image+nama_image)):
         raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
     

@@ -47,6 +47,32 @@ def get_Dokter(db: Session, skip: int = 0, limit: int = 100):
 def get_Dokter_by_id(db: Session, dokter_id: int):
     return db.query(models.Dokter).filter(models.Dokter.id == dokter_id).first()
 
+def get_Dokter_by_id_withS(db: Session, dokter_id:int):
+    results = (
+        db.query(
+            models.Dokter,
+            models.Spesialis.spesialis.label("spesialis_name")
+        )
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .filter(models.Dokter.id == dokter_id)
+        .first()
+    )
+
+    dokter, spesialis_name = results
+
+    # Membuat dictionary untuk dokter
+    dokter_dict = {
+        "id": dokter.id,
+        "nama": dokter.nama,
+        "spesialis": dokter.spesialis,
+        "foto": dokter.foto,
+        "informasi": dokter.informasi,
+        "pengalaman": dokter.pengalaman,
+        "nama_spesialis": spesialis_name,
+    }
+
+    return dokter_dict
+
 def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
     results = (
         db.query(
@@ -70,7 +96,8 @@ def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
             "foto": dokter.foto,
             "informasi": dokter.informasi,
             "pengalaman": dokter.pengalaman,
-            "namaSpesialis": spesialis_name
+            "namaSpesialis": spesialis_name,
+            "id_rs": id_rs
         }
         dokter_list.append(dokter_dict)
 
@@ -101,7 +128,8 @@ def get_dokter_by_rs_spesialis_jadwal(db: Session, id_spesialis: int, id_rs: int
             "foto": dokter.foto,
             "informasi": dokter.informasi,
             "pengalaman": dokter.pengalaman,
-            "namaSpesialis": spesialis_name
+            "namaSpesialis": spesialis_name,
+            "id_rs": id_rs
         }
         dokter_list.append(dokter_dict)
 
@@ -230,6 +258,32 @@ def get_rating_dokter(db: Session, dokter_id: int):
 
     return rating_dokter_list
 
+# Jadwal Dokter
+def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
+    results = (
+        db.query(
+            models.JadwalDokter,
+        )
+        .filter(models.JadwalDokter.id_dokter == dokter_id,
+                models.JadwalDokter.id_RS == rs_id)
+        .all()
+    )
+
+    jadwal_dokter_list = []
+    for jadwal_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "id_RS": jadwal_dokter.id_RS,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
     return db.query(models.InfoUser)\
@@ -287,8 +341,6 @@ def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate)
 def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.JadwalJanjiTemu).offset(skip).limit(limit).all()
 
-def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
-    return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
 
 ## Status Rawatb Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
