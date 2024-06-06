@@ -15,6 +15,7 @@ class Dokter {
     required this.pengalaman,
     required this.foto,
     required this.namaSpesialis,
+    required this.id_rs
   });
 
   final int id;
@@ -24,6 +25,7 @@ class Dokter {
   final int pengalaman;
   final String foto;
   final String namaSpesialis;
+  final int id_rs;
 
   String get imageUrl => 'http://127.0.0.1:8000/dokter_image/$id';
 
@@ -36,6 +38,7 @@ class Dokter {
         informasi: json["informasi"],
         foto: json["foto"],
         namaSpesialis: json["namaSpesialis"],
+        id_rs: json["id_rs"],
       );
 
   Map<String, dynamic> toJson() => {

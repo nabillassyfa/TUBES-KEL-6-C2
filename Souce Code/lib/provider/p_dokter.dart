@@ -24,6 +24,24 @@ class DokterProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
+  
+  Future<void> getdataDokterbyIdwithS(int id) async {
+    _setLoading(true);
+    try {
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/dokter_by_id_withS/$id'));
+      if (response.statusCode == 200) {
+        data_dokter = DokterFromJson(response.body);
+      } else {
+        // Handle server error
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // Handle network or parsing error
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
 
   Future<void> getdataDokterbyRSSpesialis(int id_rs, int id_spesialis) async {
     _setLoading(true);
