@@ -11,8 +11,8 @@ class SpesialisProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse(
-        'http://127.0.0.1:8000/spesialis/'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8000/spesialis/'));
 
     data_Spesialis = SpesialisFromJson(response.body);
     isLoading = false;
@@ -23,8 +23,20 @@ class SpesialisProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse(
-        'http://127.0.0.1:8000/daftar_spesialis/$id'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8000/daftar_spesialis/$id'));
+
+    data_Spesialis = SpesialisFromJson(response.body);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getdataSpesialisbyID(int id) async {
+    isLoading = true;
+    notifyListeners();
+
+    final response = await http
+        .get(Uri.parse('http://127.0.0.1:8000/daftar_spesialis_by_id/$id'));
 
     data_Spesialis = SpesialisFromJson(response.body);
     isLoading = false;

@@ -79,6 +79,12 @@ def read_items(id: int, db: Session = Depends(get_db)):
     daftar_RS = crud.get_spesialis_by_RS(db, id)
     return daftar_RS
 
+## Daftar Spesialis berdasarkan id
+@app.get("/daftar_spesialis_by_id/{id}")
+def read_items(id: int, db: Session = Depends(get_db)):
+    spesialis = crud.get_spesialis_by_id(db, id)
+    return spesialis
+
 
 ## Artikel
 @app.get("/artikel/", response_model=list[schemas.Artikel])
