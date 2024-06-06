@@ -29,8 +29,8 @@ class _LoginMenuState extends State<LoginMenu> {
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back_ios,
+            size: 20,
             color: Colors.black,
           ),
         ),
@@ -75,7 +75,6 @@ class _LoginMenuState extends State<LoginMenu> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 3),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -330,7 +329,7 @@ class _LoginMenuState extends State<LoginMenu> {
                                   color: Color.fromARGB(255, 1, 101,
                                       252), // Menambahkan warna teks
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   decoration: TextDecoration
                                       .underline, // Menambahkan garis bawah
                                 ),
