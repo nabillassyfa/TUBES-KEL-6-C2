@@ -16,7 +16,6 @@ import '../provider/P_Artikel.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-
 class Beranda extends StatefulWidget {
   const Beranda({Key? key}) : super(key: key);
 
@@ -77,7 +76,8 @@ class _BerandaState extends State<Beranda> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const BottomNavBar(idx: 4),
+                                builder: (context) =>
+                                    const BottomNavBar(idx: 4),
                               ),
                               (Route<dynamic> route) => false,
                             );
@@ -90,15 +90,16 @@ class _BerandaState extends State<Beranda> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: const Color.fromARGB(255, 1, 101, 252),
+                                    color:
+                                        const Color.fromARGB(255, 1, 101, 252),
                                     width: 2,
                                   ),
                                 ),
                                 child: ClipOval(
                                   child: Image.asset(
                                     "assets/images/celine.png",
-                                    width: 40,
-                                    height: 40,
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -151,12 +152,14 @@ class _BerandaState extends State<Beranda> {
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(5),
-                                width: 100,
+                                width: 84,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: const Color.fromARGB(255, 255, 62, 62),
+                                    color:
+                                        const Color.fromARGB(255, 255, 62, 62),
                                   ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4)),
                                 ),
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +182,6 @@ class _BerandaState extends State<Beranda> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
                           Stack(
                             children: [
                               IconButton(
@@ -211,7 +213,8 @@ class _BerandaState extends State<Beranda> {
                                     border: Border.all(
                                       color: Colors.white,
                                       width: 3,
-                                      strokeAlign: BorderSide.strokeAlignOutside,
+                                      strokeAlign:
+                                          BorderSide.strokeAlignOutside,
                                     ),
                                   ),
                                 ),
@@ -222,9 +225,13 @@ class _BerandaState extends State<Beranda> {
                       )
                     ],
                   ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.black,
+                  ),
                   const Padding(
                     //Teks layanan
-                    padding: EdgeInsets.only(bottom: 5, top: 10),
+                    padding: EdgeInsets.only(bottom: 5),
                     child: Text(
                       "Layanan",
                       style: TextStyle(
@@ -243,13 +250,14 @@ class _BerandaState extends State<Beranda> {
                           color: const Color.fromARGB(255, 1, 101, 252),
                           width: 2,
                         ),
-                        borderRadius: const BorderRadius.all(Radius.circular(12))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12))),
                     child: Column(
                       children: [
                         Builder(builder: (context) {
                           List menuImage = [
                             {
-                              "icon": Icons.library_add, 
+                              "icon": Icons.library_add,
                               "label": "Buat Janji Temu"
                             },
                             {
@@ -261,25 +269,19 @@ class _BerandaState extends State<Beranda> {
                               "label": "Informasi Dokter"
                             },
                             {
-                              "icon": Icons.local_bar, 
+                              "icon": Icons.local_bar,
                               "label": "Pemeriksaan Lab"
                             },
                             {
-                              "icon": Icons.video_call, 
+                              "icon": Icons.video_call,
                               "label": "Video Call Dokter"
                             },
-                            {
-                              "icon": Icons.chat, 
-                              "label": "Chat Dokter"
-                            },
+                            {"icon": Icons.chat, "label": "Chat Dokter"},
                             {
                               "icon": Icons.person_add_alt_1,
                               "label": "Panggil Dokter"
                             },
-                            {
-                              "icon": Icons.list_alt, 
-                              "label": "Lainnya"
-                            },
+                            {"icon": Icons.list_alt, "label": "Lainnya"},
                           ];
                           return GridView.builder(
                             gridDelegate:
@@ -302,8 +304,8 @@ class _BerandaState extends State<Beranda> {
                                       icon: Icon(
                                         item["icon"],
                                         size: 40,
-                                        color: const Color.fromARGB(
-                                            255, 1, 101, 252), // Atur warna ikon
+                                        color: const Color.fromARGB(255, 1, 101,
+                                            252), // Atur warna ikon
                                       ),
                                       onPressed: () {
                                         // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
@@ -346,14 +348,16 @@ class _BerandaState extends State<Beranda> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ChatPage()),
+                                                  builder: (context) =>
+                                                      ChatPage()),
                                             );
                                             break;
                                           case 6:
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => PanggilDokter()),
+                                                  builder: (context) =>
+                                                      PanggilDokter()),
                                             );
                                             break;
                                           // Tambahkan case untuk ikon lainnya sesuai kebutuhan
@@ -407,7 +411,8 @@ class _BerandaState extends State<Beranda> {
                               blurRadius: 16,
                               offset: const Offset(0, 11)),
                         ],
-                        borderRadius: const BorderRadius.all(Radius.circular(12))),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12))),
                     child: Column(children: [
                       Row(children: [
                         //profil dokter
@@ -481,7 +486,8 @@ class _BerandaState extends State<Beranda> {
                             left: 15, right: 15, top: 5, bottom: 5),
                         decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 8, 88, 209),
-                            borderRadius: BorderRadius.all(Radius.circular(12))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12))),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -541,7 +547,8 @@ class _BerandaState extends State<Beranda> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => TahapRawatJalan(),
-                                  barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                                  barrierDismissible:
+                                      true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
                             );
                           },
                           child: const Row(
@@ -576,25 +583,24 @@ class _BerandaState extends State<Beranda> {
                       ),
                     ),
                   ),
-                 Container(
-                  height: 200,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      aspectRatio: 16 / 9,
-                      viewportFraction: 0.8,
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enlargeCenterPage: true,
+                  Container(
+                    height: 200,
+                    margin: const EdgeInsets.only(right: 10),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                      ),
+                      items: value.dataArtikel.map((item) {
+                        return _informasiKesehatan(context, item);
+                      }).toList(),
                     ),
-                    items: value.dataArtikel.map((item) {
-                      return _informasiKesehatan(context, item);
-                    }).toList(),
                   ),
-                ),
-
                   SizedBox(
                     height: 80,
                   ),
@@ -631,7 +637,9 @@ InkWell _informasiKesehatan(BuildContext context, Artikel item) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Berita_widget(data: item,),
+          builder: (context) => Berita_widget(
+            data: item,
+          ),
           barrierDismissible: true,
         ),
       );
@@ -690,7 +698,6 @@ InkWell _informasiKesehatan(BuildContext context, Artikel item) {
                       fontSize: 10,
                     ),
                   ),
-
                 ),
               ),
             ],
@@ -709,4 +716,3 @@ InkWell _informasiKesehatan(BuildContext context, Artikel item) {
     ),
   );
 }
-
