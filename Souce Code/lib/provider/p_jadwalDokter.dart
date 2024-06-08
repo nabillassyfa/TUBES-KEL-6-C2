@@ -25,6 +25,24 @@ class JadwalDokterProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getdataJadwalDokterByDokterRSHari(int id_dokter, int id_rs, String hari) async {
+    _setLoading(true);
+    try {
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_dokter_by_hari/$id_dokter/$id_rs/$hari'));
+      if (response.statusCode == 200) {
+        data_Jadwal_dokter = JadwalDokterFromJson(response.body);
+      } else {
+        // Handle server error
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // Handle network or parsing error
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
+
 
   void _setLoading(bool value) {
     isLoading = value;

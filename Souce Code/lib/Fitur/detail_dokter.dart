@@ -261,7 +261,9 @@ class DetailDokterState extends State<DetailDokter> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BuatJanjiTemuAfter()),
+                                        builder: (context) => BuatJanjiTemuAfter(
+                                          dokter: dokter,
+                                        )),
                                   );
                                 },
                               ),

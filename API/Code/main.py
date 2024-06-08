@@ -121,6 +121,11 @@ def read_items(spesialis_id: int ,rs_id: int, hari: str, db: Session = Depends(g
 def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter(db=db, dokter_id=dokter_id, rs_id=rs_id)
 
+## Jadwal Dokter by Hari
+@app.get("/jadwal_dokter_by_hari/{dokter_id}/{rs_id}/{hari}")
+def read_jadwal(dokter_id:int, rs_id:int, hari:str, db: Session = Depends(get_db)):
+    return crud.get_jadwal_dokter_by_hari(db=db, dokter_id=dokter_id, rs_id=rs_id, hari=hari)
+
 
 path_image = "../img/dokter/"
 @app.get("/dokter_image/{dokter_id}")
