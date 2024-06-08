@@ -21,7 +21,7 @@ class _JadwalState extends State<Jadwal> {
         body: Column(
       children: [
         SizedBox(
-          height: 40,
+          height: 20,
         ),
         const Center(
           child: Text(
@@ -72,7 +72,7 @@ class _JadwalState extends State<Jadwal> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height -
-                    322, // Atur sesuai dengan tinggi TabBarView
+                    291, // Atur sesuai dengan tinggi TabBarView
                 child: TabBarView(
                   children: [
                     // Isi dari Tab 'Jadwal Konsultasi' menggunakan Builder

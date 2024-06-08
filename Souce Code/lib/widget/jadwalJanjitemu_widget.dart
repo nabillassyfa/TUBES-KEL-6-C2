@@ -6,7 +6,8 @@ import 'package:tp2/models/jadwalJanjiTemu.dart';
 class WidgetJadwalJanjiTemu extends StatelessWidget {
   final List<JadwalJanjiTemu> jadwalJanjiTemu;
 
-  WidgetJadwalJanjiTemu({Key? key, required this.jadwalJanjiTemu}) : super(key: key);
+  WidgetJadwalJanjiTemu({Key? key, required this.jadwalJanjiTemu})
+      : super(key: key);
 
   TimeOfDay parseTimeOfDay(String timeString) {
     final parts = timeString.split(':');
@@ -16,12 +17,15 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
   }
 
   String formatTanggal(DateTime dateTime) {
-    return DateFormat.yMMMMEEEEd('id_ID').format(dateTime); // Format tanggal hari, tanggal-bulan-tahun (Bahasa Indonesia)
+    return DateFormat.yMMMMEEEEd('id_ID').format(
+        dateTime); // Format tanggal hari, tanggal-bulan-tahun (Bahasa Indonesia)
   }
 
   String formatWaktu(TimeOfDay timeOfDay) {
-    final formattedHour = timeOfDay.hour.toString().padLeft(2, '0'); // Menggunakan padLeft untuk menambah nol di depan jam jika hanya satu digit
-    final formattedMinute = timeOfDay.minute.toString().padLeft(2, '0'); // Menggunakan padLeft untuk menambah nol di depan menit jika hanya satu digit
+    final formattedHour = timeOfDay.hour.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan jam jika hanya satu digit
+    final formattedMinute = timeOfDay.minute.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan menit jika hanya satu digit
     return '$formattedHour:$formattedMinute'; // Menggabungkan jam dan menit dalam format 24 jam
   }
 
@@ -43,7 +47,8 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
           width: double.infinity,
           margin: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+            color: Color.fromARGB(
+                250, 206, 222, 245), // Latar belakang chat berwarna biru
             border: Border.all(
               color: Colors.grey,
               width: 2,
@@ -181,7 +186,7 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 24),
                     Row(
                       children: [
                         Column(
@@ -206,12 +211,14 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40), // Spasi antara link dan tombol
+                    SizedBox(height: 24), // Spasi antara link dan tombol
                     Container(
                       width: double.infinity, // Lebar maksimum
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 1, 101, 252), // Warna latar belakang biru
-                        borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
+                        color: Color.fromARGB(
+                            255, 1, 101, 252), // Warna latar belakang biru
+                        borderRadius: BorderRadius.circular(
+                            50), // Ubah ke sudut bulat jika diinginkan
                       ),
                       child: ElevatedButton(
                         onPressed: () {
@@ -219,19 +226,24 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => TahapRawatJalan(),
-                                barrierDismissible: true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                                barrierDismissible:
+                                    true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Ubah warna latar belakang tombol menjadi transparan
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors
+                              .transparent), // Ubah warna latar belakang tombol menjadi transparan
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50), // Ubah ke sudut bulat jika diinginkan
+                              borderRadius: BorderRadius.circular(
+                                  50), // Ubah ke sudut bulat jika diinginkan
                             ),
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(10), // Padding teks di dalam tombol
+                          padding: const EdgeInsets.all(
+                              10), // Padding teks di dalam tombol
                           child: Text(
                             'Lihat Detail Langkah Rawat Jalan',
                             style: TextStyle(
@@ -252,4 +264,3 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
     );
   }
 }
-
