@@ -163,13 +163,13 @@ class JadwalDokter(BaseDB):
     dokter = relationship("Dokter", back_populates="jadwal_dokter")
     RS = relationship("RS", back_populates="jadwal_dokter")
 
-class Pembayaran(BaseDB):
-     _tablename_ = "pembayaran"
-     id = Column(Integer, primary_key=True)
-     id_user = Column(Integer, ForeignKey('user.id'))
-     waktu_pembayaran = Column(DateTime, nullable=False, index=True)
-     metode_pembayaran = Column(String, index=True)
-     total_pembayaran = Column(Integer, index=True)
-     status = Column(String, index=True)
+# class Pembayaran(BaseDB):
+#     __tablename__ = "pembayaran"
+#     id = Column(Integer, primary_key=True)
+#     id_user = Column(Integer, ForeignKey('user.id'))
+#     waktu_pembayaran = Column(DateTime, nullable=False, index=True)
+#     metode_pembayaran = Column(String, index=True)
+#     total_pembayaran = Column(Integer, index=True)
+#     status = Column(String, index=True)
      
-     user = relationship("User", back_populates="pembayaran")
+#     user = relationship("User", back_populates="pembayaran")

@@ -167,15 +167,15 @@ class JadwalDokter(JadwalDokterBase):
     class Config:
         orm_mode = True
 
-class PembayaranBase(BaseModel):
-    id_user: int
-    waktu_pembayaran: datetime
-    metode_pembayaran: str
-    total_pembayaran: int
-    status: str
+# class PembayaranBase(BaseModel):
+#     id_user: int
+#     waktu_pembayaran: datetime
+#     metode_pembayaran: str
+#     total_pembayaran: int
+#     status: str
         
-class Pembayaran(PembayaranBase):
-    id: int
+# class Pembayaran(PembayaranBase):
+#     id: int
     
-    class Config:
-        orm_mode = True
+#     class Config:
+#      orm_mode = True

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 List<JadwalDokter> JadwalDokterFromJson(String str) =>
     List<JadwalDokter>.from(json.decode(str).map((x) => JadwalDokter.fromJson(x)));
 
@@ -16,6 +14,7 @@ class JadwalDokter {
     required this.waktu_berakhir,
     required this.id_dokter,
     required this.id_RS,
+    required this.nama, 
   });
 
   final int id;
@@ -24,6 +23,7 @@ class JadwalDokter {
   final String waktu_berakhir;
   final int id_dokter;
   final int id_RS;
+  final String nama; 
 
   factory JadwalDokter.fromJson(Map<String, dynamic> json) => JadwalDokter(
         id: json["id"],
@@ -32,6 +32,7 @@ class JadwalDokter {
         waktu_berakhir: json["waktu_berakhir"],
         id_dokter: json["id_dokter"],
         id_RS: json["id_RS"],
+        nama: json["nama_dokter"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +42,7 @@ class JadwalDokter {
         'waktu_berakhir': waktu_berakhir,
         "id_dokter": id_dokter,
         "id_RS": id_RS,
+        "nama_dokter": nama,
       };
+
 }
