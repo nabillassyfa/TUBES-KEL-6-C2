@@ -4,6 +4,7 @@ import 'kebijakan_privasi.dart';
 import 'edit_biodata.dart';
 import 'pengaturan.dart';
 import 'pusat_bantuan.dart';
+import 'login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,29 +16,25 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color(0xff0165fc),
         title: Row(
           children: [
-            Icon(Icons.person),
+            Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
             SizedBox(width: 8.0),
             Text(
               'Profil Saya',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.mail),
-            onPressed: () {
-              // Tindakan ketika tombol email ditekan
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -494,9 +491,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     TextButton(
                                       child: Text('Keluar'),
                                       onPressed: () {
-                                        // Tambahkan logika untuk keluar akun di sini
-                                        Navigator.of(context).pop();
-                                        // Tambahkan logika untuk kembali ke halaman login atau halaman utama aplikasi
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginMenu()),
+                                          (Route<dynamic> route) => false,
+                                        );
                                       },
                                     ),
                                   ],

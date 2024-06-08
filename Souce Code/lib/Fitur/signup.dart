@@ -32,8 +32,8 @@ class _SignupPageState extends State<SignupPage> {
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back_ios,
+            size: 20,
             color: Colors.black,
           ),
         ),

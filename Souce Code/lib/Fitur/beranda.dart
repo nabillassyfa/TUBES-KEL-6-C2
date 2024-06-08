@@ -386,7 +386,7 @@ class _BerandaState extends State<Beranda> {
                     ),
                   ),
                   const SizedBox(
-                    height: 24,
+                    height: 8,
                   ),
                   const Padding(
                     //Teks anda memiliki janji temu
@@ -571,7 +571,7 @@ class _BerandaState extends State<Beranda> {
                     ]),
                   ),
                   const SizedBox(
-                    height: 24,
+                    height: 16,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 5, top: 10),
