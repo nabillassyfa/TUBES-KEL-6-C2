@@ -15,6 +15,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
   String? selectedDay;
   String? selectedTime;
   int? selectedDokterId;
+  String? selectedDokterName;
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -53,14 +54,12 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 40),
-          height: MediaQuery.of(context).size.height - 50,
-          width: double.infinity,
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Center the content vertically
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              SizedBox(height: 20), // Add spacing here
               Column(
                 children: <Widget>[
                   Text(
@@ -104,15 +103,16 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                         selectedDay = null;
                         selectedTime = null;
                         selectedDokterId = null;
+                        selectedDokterName = null;
                         dateController.clear();
                         timeController.clear();
-                         _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                        _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
                       });
                     },
                   );
                 },
               ),
-               SizedBox(height: 10),
+              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -192,7 +192,6 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   ),
                 ],
               ),
-
               SizedBox(height: 10),
               Consumer<JadwalDokterProvider>(
                 builder: (context, provider, child) {
@@ -202,13 +201,19 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   if (provider.data_Jadwal_dokter.isEmpty) {
                     return Text("No Dokters found");
                   }
+
+                  // Extract unique doctor names using a Set
+                  final uniqueDokterNames = provider.data_Jadwal_dokter.map((dokter) => dokter.nama).toSet().toList();
+
                   return dropdownInput(
                     context: context,
                     label: "Pilih Dokter",
                     hintText: "Pilih dokter",
-                    items: provider.data_Jadwal_dokter.map((dokter) => dokter.nama).toList(),
+                    items: uniqueDokterNames,
+                    value: selectedDokterName,
                     onChanged: (value) {
                       setState(() {
+                        selectedDokterName = value;
                         selectedDokterId = provider.data_Jadwal_dokter.firstWhere((dokter) => dokter.nama == value).id;
                       });
                     },
@@ -216,7 +221,6 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                 },
               ),
               SizedBox(height: 20),
-                // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -249,7 +253,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                             ],
                           );
                         },
-                    );
+                      );
                     }
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
@@ -260,69 +264,62 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   child: Text(
                     "Buat Janji Konsultasi Online",
                     style: TextStyle(
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: 30), // Add spacing to avoid overflow
             ],
           ),
         ),
       ),
     );
   }
+
+ String _formatDate(DateTime date) {
+  return "${_getDayName(date.weekday)}, ${date.day} ${_getMonthName(date.month)} ${date.year}";
 }
 
-// Widget untuk dropdown input
-Widget dropdownInput({
-  required BuildContext context,
-  required String label,
-  required String hintText,
-  required List<String> items,
-  void Function(String?)? onChanged,
-}) {
-  String? selectedValue;
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      SizedBox(height: 5),
-      DropdownButtonFormField<String>(
-        isExpanded: true,
-        value: selectedValue,
-        hint: Text(hintText),
-        onChanged: onChanged,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 10,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+  Widget dropdownInput({
+    required BuildContext context,
+    required String label,
+    required String hintText,
+    required List<String> items,
+    String? value,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
           ),
         ),
-      ),
-    ],
-  );
-}
-
-String _formatDate(DateTime date) {
-  return "${_getDayName(date.weekday)}, ${date.day} ${_getMonthName(date.month)} ${date.year}";
+        SizedBox(height: 10),
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: OutlineInputBorder(),
+          ),
+          value: value,
+          onChanged: onChanged,
+          items: items.map((String item) {
+            return DropdownMenuItem<String>(
+              value: item,
+              child: Text(item),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
 }
 
 String _getDayName(int day) {

@@ -393,7 +393,7 @@ class DetailDokterState extends State<DetailDokter> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        BuatJanjiKonsulAfter()),
+                                        BuatJanjiKonsulAfter(dokter: dokter,)),
                               );
                             },
                           ),

@@ -364,7 +364,8 @@ def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
         db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
         .filter(
             models.JadwalDokter.hari == hari,
-            models.JadwalDokter.waktu_mulai == waktu,
+            models.JadwalDokter.waktu_mulai <= waktu,
+            models.JadwalDokter.waktu_berakhir > waktu,
             models.Dokter.id_spesialis == spesialis,
         )
         .all()

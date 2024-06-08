@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
+import 'package:tp2/models/dokter.dart';
+import 'package:tp2/models/jadwalDokter.dart';
+import 'package:tp2/provider/p_jadwalDokter.dart';
 
 class BuatJanjiKonsulAfter extends StatefulWidget {
+  final Dokter dokter;
+
+  BuatJanjiKonsulAfter({required this.dokter});
+
   @override
   State<BuatJanjiKonsulAfter> createState() => BuatJanjiKonsulAfterState();
 }
 
 class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
+  late JadwalDokterProvider jadwalDokterProvider;
+  DateTime? pickedDate;
+  String? selectedTime;
+  List<String> waktuGabung = [];
+
+  TextEditingController timeController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    jadwalDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
+    jadwalDokterProvider.getdataJadwalDokterByDokterRS(widget.dokter.id, widget.dokter.id_rs);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,16 +82,15 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
               SizedBox(height: 40),
               Column(
                 children: <Widget>[
-                  inputFile(context: context, label: "Spesialisasi", hintText: "Spesialis Jiwa", hintTextColor: Colors.black),
+                  inputFile(context: context, label: "Spesialisasi", hintText: "${widget.dokter.namaSpesialis}", hintTextColor: Colors.black),
                   SizedBox(height: 10),
-                  inputFile(context: context, label: "Dokter", hintText: "dr. Muhammad Rifky Afandi, SpKj", hintTextColor: Colors.black),
+                  inputFile(context: context, label: "Dokter", hintText: "${widget.dokter.nama}", hintTextColor: Colors.black),
                   SizedBox(height: 10),
-                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey),
-                  SizedBox(height: 10),
-                  inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey),
+                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey, controller: dateController),
+                  pickedDate != null ? inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey, controller: timeController) : Container(),
                 ],
               ),
-              SizedBox(height: 80),
+              SizedBox(height: 40),
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -104,130 +126,190 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
       ),
     );
   }
-}
 
-Widget inputFile({
-  required BuildContext context,
-  required String label,
-  required String hintText,
-  required Color hintTextColor, // Add hintTextColor parameter
-  obscureText = false,
-}) {
-  TextEditingController timeController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
-      ),
-      SizedBox(height: 1),
-      TextFormField(
-        controller: label == "Pilih Tanggal" ? dateController : timeController,
-        obscureText: obscureText,
-        onTap: () async {
-          if (label == "Pilih Tanggal") {
-            DateTime? pickedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(Duration(days: 365)),
-            );
-            if (pickedDate != null) {
-              dateController.text = "${_formatDate(pickedDate)}";
-            }
-          } else if (label == "Pilih Waktu") {
-            TimeOfDay? pickedTime = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.now(),
-            );
-            if (pickedTime != null) {
-              timeController.text =
-                  "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
-            }
-          }
-        },
-        readOnly: true,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: hintTextColor), // Set hintTextColor
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+  // Widget untuk input field
+  Widget inputFile({
+    required BuildContext context,
+    required String label,
+    required String hintText,
+    TextEditingController? controller,
+    Color hintTextColor = Colors.black,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          suffixIcon: label == "Pilih Tanggal"
-              ? Icon(Icons.calendar_today,
-                  color: Color.fromARGB(255, 1, 101, 252))
-              : (label == "Pilih Waktu"
-                  ? Icon(Icons.access_time_filled_rounded,
-                      color: Color.fromARGB(255, 1, 101, 252))
-                  : null),
         ),
-      ),
-      SizedBox(height: 1),
-    ],
-  );
-}
-
-String _formatDate(DateTime date) {
-  return "${_getDayName(date.weekday)}, ${date.day} ${_getMonthName(date.month)} ${date.year}";
-}
-
-String _getDayName(int day) {
-  switch (day) {
-    case 1:
-      return "Senin";
-    case 2:
-      return "Selasa";
-    case 3:
-      return "Rabu";
-    case 4:
-      return "Kamis";
-    case 5:
-      return "Jumat";
-    case 6:
-      return "Sabtu";
-    case 7:
-      return "Minggu";
-    default:
-      return "";
+        SizedBox(height: 1),
+        TextFormField(
+          controller: controller,
+          onTap: () async {
+            if (label == "Pilih Tanggal") {
+              pickedDate = await _selectDate(context, jadwalDokterProvider.dataJadwalDokter);
+              if (pickedDate != null) {
+                setState(() {
+                  controller?.text = "${_formatDate(pickedDate)}";
+                  _updateWaktuGabung();
+                });
+              }
+            } else if (label == "Pilih Waktu") {
+              showTimePickerDialog(context);
+            }
+          },
+          readOnly: true,
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(color: hintTextColor), // Atur warna hintText
+            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            suffixIcon: label == "Pilih Tanggal"
+                ? Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252))
+                : (label == "Pilih Waktu"
+                    ? Icon(Icons.access_time_filled_rounded, color: Color.fromARGB(255, 1, 101, 252))
+                    : null),
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
+    );
   }
-}
 
-String _getMonthName(int month) {
-  switch (month) {
-    case 1:
-    case 2:
-      return "Februari";
-    case 3:
-      return "Maret";
-    case 4:
-      return "April";
-    case 5:
-      return "Mei";
-    case 6:
-      return "Juni";
-    case 7:
-      return "Juli";
-    case 8:
-      return "Agustus";
-    case 9:
-      return "September";
-    case 10:
-      return "Oktober";
-    case 11:
-      return "November";
-    case 12:
-      return "Desember";
-    default:
-      return "";
+  Future<DateTime?> _selectDate(BuildContext context, List<JadwalDokter> jadwalDokter) async {
+    DateTime? pickedDate;
+    pickedDate = await showDatePicker(
+      context: context,
+      initialDate: null,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 31)),
+      selectableDayPredicate: (DateTime date) {
+        String dayName = _getDayName(date.weekday);
+        return jadwalDokter.any((jadwal) => jadwal.hari == dayName);
+      },
+    );
+    return pickedDate;
+  }
+
+  void _updateWaktuGabung() {
+    List<JadwalDokter> filteredJadwal = jadwalDokterProvider.data_Jadwal_dokter
+        .where((jadwal) => jadwal.hari == _getDayName(pickedDate?.weekday ?? 0))
+        .toList();
+
+    List<String> waktuMulai = filteredJadwal.map((jadwal) => jadwal.waktu_mulai).toList();
+    List<String> waktuBerakhir = filteredJadwal.map((jadwal) => jadwal.waktu_berakhir).toList();
+
+    waktuGabung.clear();
+    for (int i = 0; i < waktuMulai.length; i++) {
+      waktuGabung.add("${waktuMulai[i]} - ${waktuBerakhir[i]}");
+    }
+
+    if (waktuGabung.isNotEmpty) {
+      selectedTime = waktuGabung[0];
+      timeController.text = selectedTime!;
+    } else {
+      selectedTime = null;
+      timeController.text = "";
+    }
+  }
+
+  void showTimePickerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Pilih Waktu"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              DropdownButtonFormField<String>(
+                value: selectedTime,
+                onChanged: (value) {
+                  setState(() {
+                    selectedTime = value;
+                    timeController.text = value!;
+                  });
+                  Navigator.of(context).pop();
+                },
+                items: waktuGabung.map((String waktu) {
+                  return DropdownMenuItem<String>(
+                    value: waktu,
+                    child: Text(waktu),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  String _formatDate(DateTime? date) {
+    if (date == null) {
+      return 'Belum dipilih';
+    }
+    return "${_getDayName(date.weekday)}, ${date.day} ${_getMonthName(date.month)} ${date.year}";
+  }
+
+  String _getDayName(int day) {
+    switch (day) {
+      case 1:
+        return "Senin";
+      case 2:
+        return "Selasa";
+      case 3:
+        return "Rabu";
+      case 4:
+        return "Kamis";
+      case 5:
+        return "Jumat";
+      case 6:
+        return "Sabtu";
+      case 7:
+        return "Minggu";
+      default:
+        return "";
+    }
+  }
+
+  String _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return "Januari";
+      case 2:
+        return "Februari";
+      case 3:
+        return "Maret";
+      case 4:
+        return "April";
+      case 5:
+        return "Mei";
+      case 6:
+        return "Juni";
+      case 7:
+        return "Juli";
+      case 8:
+        return "Agustus";
+      case 9:
+        return "September";
+      case 10:
+        return "Oktober";
+      case 11:
+        return "November";
+      case 12:
+        return "Desember";
+      default:
+        return "";
+    }
   }
 }
