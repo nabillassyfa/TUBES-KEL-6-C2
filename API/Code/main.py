@@ -126,10 +126,10 @@ def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
 def read_jadwal(dokter_id:int, rs_id:int, hari:str, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter_by_hari(db=db, dokter_id=dokter_id, rs_id=rs_id, hari=hari)
 
-## Jadwal Dokter by Hari
-@app.get("/jadwal_dokter_by_hari_jam/{waktu}/{rs_id}/{hari}")
-def read_jadwal(waktu:str, rs_id:int, hari:str, db: Session = Depends(get_db)):
-    return crud.get_jadwal_dokter_by_hari_jam(db=db, waktu=waktu, rs_id=rs_id, hari=hari)
+## Jadwal Dokter by Hari dan Jam
+@app.get("/jadwal_dokter_by_hari_jam/{waktu}/{rs_id}/{hari}/{spesialis}")
+def read_jadwal(waktu:str, rs_id:int, hari:str, spesialis:int, db: Session = Depends(get_db)):
+    return crud.get_jadwal_dokter_by_hari_jam(db=db, waktu=waktu, rs_id=rs_id, hari=hari, spesialis=spesialis)
 
 path_image = "../img/dokter/"
 @app.get("/dokter_image/{dokter_id}")
@@ -264,14 +264,14 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
 
 
 # Pembayaran
-@app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
-def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
-    return pembayaran_list
+# @app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
+# def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+#     pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
+#     return pembayaran_list
 
-@app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
-def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
-    db_pembayaran = db.query(models.Pembayaran).filter(models.Pembayaran.id == pembayaran_id).first()
-    if db_pembayaran is None:
-        raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
-    return db_pembayaran
+# @app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
+# def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
+#     db_pembayaran = db.query(models.Pembayaran).filter(models.Pembayaran.id == pembayaran_id).first()
+#     if db_pembayaran is None:
+#         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
+#     return db_pembayaran

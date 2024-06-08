@@ -263,10 +263,12 @@ def get_rating_dokter(db: Session, dokter_id: int):
     return rating_dokter_list
 
 # Jadwal Dokter
+
+# Jadwal Dokter
 def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
     results = (
         db.query(
-            models.JadwalDokter,
+            models.JadwalDokter, models.Dokter.nama.label("nama_dokter")
         )
         .filter(models.JadwalDokter.id_dokter == dokter_id,
                 models.JadwalDokter.id_RS == rs_id)
@@ -274,7 +276,7 @@ def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
     )
 
     jadwal_dokter_list = []
-    for jadwal_dokter in results:
+    for jadwal_dokter, nama_dokter in results:
         jadwal_dokter_dict = {
             "id": jadwal_dokter.id,
             "hari": jadwal_dokter.hari,
@@ -282,6 +284,7 @@ def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
             "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
             "id_dokter": jadwal_dokter.id_dokter,
             "id_RS": jadwal_dokter.id_RS,
+            "nama_dokter" : nama_dokter,
         }
         jadwal_dokter_list.append(jadwal_dokter_dict)
 
@@ -290,7 +293,7 @@ def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
 def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str):
     results = (
         db.query(
-            models.JadwalDokter,
+            models.JadwalDokter, models.Dokter.nama.label("nama_dokter")
         )
         .filter(models.JadwalDokter.id_dokter == dokter_id,
                 models.JadwalDokter.id_RS == rs_id,
@@ -299,7 +302,7 @@ def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str
     )
 
     jadwal_dokter_list = []
-    for jadwal_dokter in results:
+    for jadwal_dokter, nama_dokter in results:
         jadwal_dokter_dict = {
             "id": jadwal_dokter.id,
             "hari": jadwal_dokter.hari,
@@ -307,25 +310,32 @@ def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str
             "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
             "id_dokter": jadwal_dokter.id_dokter,
             "id_RS": jadwal_dokter.id_RS,
+            "nama_dokter" : nama_dokter,
         }
         jadwal_dokter_list.append(jadwal_dokter_dict)
 
     return jadwal_dokter_list
 
 
-def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str):
+def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str, spesialis:int):
+    try:
+        hari, _ = hari.split(", ")
+    except ValueError:
+        raise ValueError("Format input tidak valid. Harap gunakan format: 'Hari, DD MMMM YYYY'")
+    
     results = (
-        db.query(models.JadwalDokter)
+        db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
         .filter(
             models.JadwalDokter.id_RS == rs_id,
             models.JadwalDokter.hari == hari,
             models.JadwalDokter.waktu_mulai == waktu,
+            models.Dokter.id_spesialis == spesialis,
         )
         .all()
     )
 
     jadwal_dokter_list = []
-    for jadwal_dokter in results:
+    for jadwal_dokter, nama_dokter in results:
         jadwal_dokter_dict = {
             "id": jadwal_dokter.id,
             "hari": jadwal_dokter.hari,
@@ -333,10 +343,12 @@ def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str
             "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
             "id_dokter": jadwal_dokter.id_dokter,
             "id_RS": jadwal_dokter.id_RS,
+            "nama_dokter" : nama_dokter,
         }
         jadwal_dokter_list.append(jadwal_dokter_dict)
 
     return jadwal_dokter_list
+
 
 
 # InfoUser
@@ -425,27 +437,27 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     return status_rawat_jalan_list
 
 ## pembayaran
-def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
-    results = (
-        db.query(
-            models.Pembayaran,
-            models.User.nama.label("nama_user")
-        )
-        .join(models.User, models.Pembayaran.id_user == models.User.id)
-        .offset(skip).limit(limit)
-        .all()
-    )
+# def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
+#     results = (
+#         db.query(
+#             models.Pembayaran,
+#             models.User.nama.label("nama_user")
+#         )
+#         .join(models.User, models.Pembayaran.id_user == models.User.id)
+#         .offset(skip).limit(limit)
+#         .all()
+#     )
     
-    pembayaran_list = []
-    for pembayaran, nama_user in results:
-        pembayaran_dict = {
-            "id": pembayaran.id,
-            "id_user": pembayaran.id_user,
-            "waktu_pembayaran": pembayaran.waktu_pembayaran,
-            "metode_pembayaran": pembayaran.metode_pembayaran,
-            "total_pembayaran": pembayaran.total_pembayaran,
-            "status": pembayaran.status
-        }
-        pembayaran_list.append(pembayaran_dict)
+#     pembayaran_list = []
+#     for pembayaran, nama_user in results:
+#         pembayaran_dict = {
+#             "id": pembayaran.id,
+#             "id_user": pembayaran.id_user,
+#             "waktu_pembayaran": pembayaran.waktu_pembayaran,
+#             "metode_pembayaran": pembayaran.metode_pembayaran,
+#             "total_pembayaran": pembayaran.total_pembayaran,
+#             "status": pembayaran.status
+#         }
+#         pembayaran_list.append(pembayaran_dict)
     
-    return pembayaran_list
+#     return pembayaran_list
