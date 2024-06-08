@@ -43,6 +43,8 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
         final formattedWaktuMulai = formatWaktu(waktuMulai);
         final formattedWaktuBerakhir = formatWaktu(waktuBerakhir);
 
+        final imageUrl = 'http://127.0.0.1:8000/dokter_image/${jadwal.id_dokter}';
+
         return Container(
           width: double.infinity,
           margin: const EdgeInsets.all(20),
@@ -90,9 +92,7 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: AssetImage(
-                            "assets/images/dokter2.png",
-                          ),
+                          backgroundImage: NetworkImage(imageUrl),
                           radius: 30,
                         ),
                         SizedBox(width: 5),

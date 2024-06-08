@@ -13,6 +13,7 @@ class JadwalJanjiTemu {
     required this.id_jadwal_dokter,
     required this.tanggal,
     required this.durasi,
+    required this.id_dokter,
     required this.nama_dokter,
     required this.nama_spesialis,
     required this.nama_RS,
@@ -25,6 +26,7 @@ class JadwalJanjiTemu {
   final int id_jadwal_dokter;
   final DateTime tanggal;
   final int durasi;
+  final int id_dokter;
   final String nama_dokter;
   final String nama_spesialis;
   final String nama_RS;
@@ -37,6 +39,7 @@ class JadwalJanjiTemu {
         id_jadwal_dokter: json["id_jadwal_dokter"],
         tanggal: DateTime.parse(json["tanggal"]),
         durasi: json["durasi"],
+        id_dokter: json["id_dokter"],
         nama_dokter: json["nama_dokter"],
         nama_spesialis: json["nama_spesialis"],
         nama_RS: json["nama_RS"],

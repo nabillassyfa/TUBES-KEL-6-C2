@@ -119,6 +119,7 @@ class User(BaseDB):
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="user")
     status_rawatJalan = relationship("StatusRawatJalan", back_populates="user")
     pembayaran = relationship("Pembayaran", back_populates="user")
+    jadwal_obat = relationship("JadwalObat", back_populates="user")
 
 class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
@@ -165,3 +166,33 @@ class Pembayaran(BaseDB):
     status = Column(String, index=True)
      
     user = relationship("User", back_populates="pembayaran")
+
+
+class Obat(BaseDB):
+    __tablename__ = "obat"
+    id = Column(Integer, primary_key=True)
+    nama = Column(String, index=True)
+    harga = Column(Integer, index=True)
+    keterangan = Column(String, index=True)
+
+    jadwal_obat = relationship("JadwalObat", back_populates="obat")
+
+class JadwalObat(BaseDB):
+    __tablename__ = "jadwal_obat"
+    id = Column(Integer, primary_key=True)
+    id_obat = Column(Integer, ForeignKey('obat.id'))
+    kondisi_makan = Column(String, index=True)
+    takaran = Column(String, index=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+
+    user = relationship("User", back_populates="jadwal_obat")
+    obat = relationship("Obat", back_populates="jadwal_obat")
+    jadwal_obat_konsumsi = relationship("JadwalObatKonsumsi", back_populates="jadwal_obat")
+
+class JadwalObatKonsumsi(BaseDB):
+    __tablename__ = "jadwal_obat_konsumsi"
+    id = Column(Integer, primary_key=True)
+    id_jadwal_obat = Column(Integer, ForeignKey('jadwal_obat.id'))
+    waktu = Column(Time, index=True)
+
+    jadwal_obat = relationship("JadwalObat", back_populates="jadwal_obat_konsumsi")

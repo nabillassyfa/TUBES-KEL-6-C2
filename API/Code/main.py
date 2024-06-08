@@ -287,3 +287,9 @@ def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
     if db_pembayaran is None:
         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
     return db_pembayaran
+
+# Jadwal Obat
+@app.get("/jadwal_obat/{user_id}")
+def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
+    jadwal_obat_list = crud.get_jadwal_obat_by_user(db=db, user_id=user_id)
+    return jadwal_obat_list

@@ -176,3 +176,37 @@ class Pembayaran(PembayaranBase):
     
     class Config:
      orm_mode = True
+
+# Obat
+class ObatBase(BaseModel):
+    nama: str
+    harga: int
+    keterangan: str
+
+class Obat(ObatBase):
+    id: int
+    
+    class Config:
+     orm_mode = True
+
+class JadwalObatBase(BaseModel):
+    id_obat: int
+    kondisi_makan: str
+    takaran: str
+    id_user: int
+
+class JadwalObat(JadwalObatBase):
+    id: int
+    
+    class Config:
+     orm_mode = True
+
+class JadwalObatKonsumsiBase(BaseModel):
+    id_jadwal_obat: int
+    waktu: time
+
+class JadwalObatKonsumsi(JadwalObatKonsumsiBase):
+    id: int
+    
+    class Config:
+     orm_mode = True
