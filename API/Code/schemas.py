@@ -172,7 +172,7 @@ class PembayaranBase(BaseModel):
     waktu_pembayaran: datetime
     metode_pembayaran: str
     total_pembayaran: int
-    statys: str
+    status: str
         
 class Pembayaran(PembayaranBase):
     id: int
