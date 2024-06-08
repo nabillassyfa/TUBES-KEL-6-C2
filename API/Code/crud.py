@@ -349,7 +349,37 @@ def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str
 
     return jadwal_dokter_list
 
+## Get Jadwal berdasarkan waktu, hari, dan spesialis
+def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
+    try:
+        hari, _ = hari.split(", ")
+    except ValueError:
+        raise ValueError("Format input tidak valid. Harap gunakan format: 'Hari, DD MMMM YYYY'")
+    
+    results = (
+        db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
+        .filter(
+            models.JadwalDokter.hari == hari,
+            models.JadwalDokter.waktu_mulai == waktu,
+            models.Dokter.id_spesialis == spesialis,
+        )
+        .all()
+    )
 
+    jadwal_dokter_list = []
+    for jadwal_dokter, nama_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "id_RS": jadwal_dokter.id_RS,
+            "nama_dokter" : nama_dokter,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
 
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
@@ -436,7 +466,7 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
 
     return status_rawat_jalan_list
 
-## pembayaran
+# # pembayaran
 # def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
 #     results = (
 #         db.query(
