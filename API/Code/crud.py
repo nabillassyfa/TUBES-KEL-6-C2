@@ -313,6 +313,32 @@ def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str
     return jadwal_dokter_list
 
 
+def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str):
+    results = (
+        db.query(models.JadwalDokter)
+        .filter(
+            models.JadwalDokter.id_RS == rs_id,
+            models.JadwalDokter.hari == hari,
+            models.JadwalDokter.waktu_mulai == waktu,
+        )
+        .all()
+    )
+
+    jadwal_dokter_list = []
+    for jadwal_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "id_RS": jadwal_dokter.id_RS,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
     return db.query(models.InfoUser)\

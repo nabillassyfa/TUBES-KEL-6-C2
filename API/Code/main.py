@@ -126,6 +126,10 @@ def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
 def read_jadwal(dokter_id:int, rs_id:int, hari:str, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter_by_hari(db=db, dokter_id=dokter_id, rs_id=rs_id, hari=hari)
 
+## Jadwal Dokter by Hari
+@app.get("/jadwal_dokter_by_hari_jam/{waktu}/{rs_id}/{hari}")
+def read_jadwal(waktu:str, rs_id:int, hari:str, db: Session = Depends(get_db)):
+    return crud.get_jadwal_dokter_by_hari_jam(db=db, waktu=waktu, rs_id=rs_id, hari=hari)
 
 path_image = "../img/dokter/"
 @app.get("/dokter_image/{dokter_id}")
