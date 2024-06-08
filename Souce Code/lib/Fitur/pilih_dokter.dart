@@ -82,11 +82,12 @@ class _PilihDokterState extends State<PilihDokter> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16),
                 const Text(
                   'Pilih Jadwal',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                SizedBox(height: 4),
               ],
             ),
           ),
@@ -96,11 +97,16 @@ class _PilihDokterState extends State<PilihDokter> {
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                  color: Colors.grey.withOpacity(0.5),
+                  width: 2.0), // Added gray border
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 5,
+                  color:
+                      Colors.grey.withOpacity(0.3), // Reduced opacity of shadow
+                  spreadRadius: 2, // Reduced spread radius
+                  blurRadius: 4, // Reduced blur radius
+                  offset: Offset(0, 2), // Moved shadow slightly downwards
                 ),
               ],
               color: Colors.white,
@@ -112,6 +118,7 @@ class _PilihDokterState extends State<PilihDokter> {
                   'Pilih Hari',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -120,7 +127,7 @@ class _PilihDokterState extends State<PilihDokter> {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    childAspectRatio: (1 / .4),
+                    childAspectRatio: (1 / .25),
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0,
                   ),
