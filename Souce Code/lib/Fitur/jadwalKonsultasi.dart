@@ -18,12 +18,13 @@ class JadwalKonsultasi extends StatefulWidget {
 }
 
 class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
-
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<JadwalJanjiTemuProvider>(context, listen: false);
-    provider.getdataJadwalJanjiTemuByUser(); // Contoh ID user, ganti dengan yang sesuai
+    final provider =
+        Provider.of<JadwalJanjiTemuProvider>(context, listen: false);
+    provider
+        .getdataJadwalJanjiTemuByUser(); // Contoh ID user, ganti dengan yang sesuai
   }
 
   @override
@@ -38,7 +39,9 @@ class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
               child: Row(
                 children: [
                   const Text('Notifikasi'),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Switch(
                     splashRadius: 0,
                     value: widget.notifkonsul,
@@ -48,15 +51,18 @@ class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            provider.isLoading 
-              ? CircularProgressIndicator()
-              : provider.data_JadwalJanjiTemu.isEmpty
-                ? Text('Saat ini Anda tidak memiliki jadwal apapun')
-                : WidgetJadwalJanjiTemu(jadwalJanjiTemu: provider.data_JadwalJanjiTemu),
+
+            provider.isLoading
+                ? CircularProgressIndicator()
+                : provider.data_JadwalJanjiTemu.isEmpty
+                    ? Text('Saat ini Anda tidak memiliki jadwal apapun')
+                    : WidgetJadwalJanjiTemu(
+                        jadwalJanjiTemu: provider.data_JadwalJanjiTemu),
             // WidgetJadwalPanggilDokter(),
             // WidgetJadwalVideoCall(),
-            SizedBox(height: 20,)
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
