@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/jadwalDokter.dart';
-import 'dart:convert';
 
 
 class JadwalDokterProvider extends ChangeNotifier {
@@ -66,6 +65,28 @@ class JadwalDokterProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
+
+  Future<void> getJadwalDaring(String day, String time, int SpesialisId) async {
+    _setLoading(true);
+    print('day: $day');
+    print('time: $time');
+
+    try {
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_dokter_daring/$time/$day/$SpesialisId/'));
+      if (response.statusCode == 200) {
+        data_Jadwal_dokter = JadwalDokterFromJson(response.body);
+        
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // Handle network or parsing error
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
+
 
    void _setLoading(bool value) {
     isLoading = value;

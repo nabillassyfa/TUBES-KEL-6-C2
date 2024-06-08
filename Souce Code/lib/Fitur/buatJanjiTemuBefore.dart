@@ -138,50 +138,84 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                controller: dateController,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 365)),
-                  );
-                  if (pickedDate != null) {
-                    setState(() {
-                      selectedDay = _formatDate(pickedDate);
-                      dateController.text = selectedDay!;
-                       _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
-                    });
-                  }
-                },
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'Pilih Tanggal',
-                  border: OutlineInputBorder(),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Pilih Tanggal",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                  ),
+                  SizedBox(height: 5), // Jarak antara judul dan kotak tanggal
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: dateController,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            );
+                            if (pickedDate != null) {
+                              setState(() {
+                                selectedDay = _formatDate(pickedDate);
+                                dateController.text = selectedDay!;
+                                _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                              });
+                            }
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'Pilih Tanggal',
+                            suffixIcon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252),), // Icon kalender
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               SizedBox(height: 10),
-              TextFormField(
-                controller: timeController,
-                onTap: () async {
-                  TimeOfDay? pickedTime = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.now(),
-                  );
-                  if (pickedTime != null) {
-                    setState(() {
-                      selectedTime = "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
-                      timeController.text = selectedTime!;
-                       _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
-                    });
-                  }
-                },
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'Pilih Waktu',
-                  border: OutlineInputBorder(),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Pilih Waktu",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                  ),
+                  SizedBox(height: 5), // Jarak antara judul dan kotak waktu
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: timeController,
+                          onTap: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                            );
+                            if (pickedTime != null) {
+                              setState(() {
+                                selectedTime = "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
+                                timeController.text = selectedTime!;
+                                _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                              });
+                            }
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'Pilih Waktu',
+                            suffixIcon: Icon(Icons.access_time, color: Color.fromARGB(255, 1, 101, 252),), // Icon waktu
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               SizedBox(height: 10),
               Consumer<JadwalDokterProvider>(
@@ -215,10 +249,31 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Pembayaran()),
+                    if (selectedRSId != null && selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Pembayaran()),
+                      );
+                    } else {
+                      // Tampilkan peringatan jika ada variabel yang kosong
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Peringatan"),
+                            content: Text("Silakan lengkapi semua informasi sebelum melanjutkan."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Tutup dialog
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
                     );
+                    }
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
