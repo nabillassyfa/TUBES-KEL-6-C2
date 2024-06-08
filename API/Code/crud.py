@@ -319,7 +319,7 @@ def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str
     return jadwal_dokter_list
 
 
-def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str, spesialis:int):
+def get_jadwal_dokter_by_hari_jam(db: Session, waktu: time, rs_id: int, hari: str, spesialis:int):
     try:
         hari, _ = hari.split(", ")
     except ValueError:
@@ -327,10 +327,12 @@ def get_jadwal_dokter_by_hari_jam(db: Session, waktu: str, rs_id: int, hari: str
     
     results = (
         db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
+        .join(models.Dokter, models.JadwalDokter.id_dokter == models.Dokter.id)
         .filter(
             models.JadwalDokter.id_RS == rs_id,
             models.JadwalDokter.hari == hari,
-            models.JadwalDokter.waktu_mulai == waktu,
+            models.JadwalDokter.waktu_mulai <= waktu,
+            models.JadwalDokter.waktu_berakhir > waktu,
             models.Dokter.id_spesialis == spesialis,
         )
         .all()
@@ -447,6 +449,7 @@ def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
 def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
     results = (
         db.query(models.JadwalJanjiTemu,
+                 models.Dokter.id.label("id_dokter"),
                  models.Dokter.nama.label("nama_dokter"),
                  models.Spesialis.spesialis.label("nama_spesialis"),
                  models.RS.nama.label("nama_RS"),
@@ -465,13 +468,14 @@ def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
     )
 
     jadwal_janji_temu_list = []
-    for jadwal_janji_temu, nama_dokter, nama_spesialis, nama_RS, waktu_mulai, waktu_berakhir in results:
+    for jadwal_janji_temu, id_dokter, nama_dokter, nama_spesialis, nama_RS, waktu_mulai, waktu_berakhir in results:
         jadwal_janji_temu_dict = {
             "id": jadwal_janji_temu.id,
             "id_user": jadwal_janji_temu.id_user,
             "id_jadwal_dokter": jadwal_janji_temu.id_jadwal_dokter,
             "tanggal": jadwal_janji_temu.tanggal,
             "durasi": jadwal_janji_temu.durasi,
+            "id_dokter": id_dokter,
             "nama_dokter": nama_dokter,
             "nama_spesialis": nama_spesialis,
             "nama_RS": nama_RS,
@@ -532,3 +536,42 @@ def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
         pembayaran_list.append(pembayaran_dict)
     
     return pembayaran_list
+
+## Obat
+def get_jadwal_obat_by_user(db:Session, user_id:int):
+    results = (
+        db.query(models.JadwalObat,
+                 models.Obat.nama.label("nama_obat"),
+                 models.JadwalObatKonsumsi.waktu.label("waktu_konsumsi")
+                 )
+        .join(models.Obat, models.JadwalObat.id_obat == models.Obat.id)
+        .join(models.JadwalObatKonsumsi, models.JadwalObat.id == models.JadwalObatKonsumsi.id_jadwal_obat)
+        .filter(
+            models.JadwalObat.id_user == user_id,
+        )
+        .order_by(models.JadwalObat.id, models.JadwalObatKonsumsi.waktu)
+        .all()
+    )
+
+        # Dictionary untuk menyimpan jadwal obat dan waktu konsumsinya
+    jadwal_obat_dict = {}
+
+    for jadwal_obat, nama_obat, waktu_konsumsi in results:
+        if jadwal_obat.id not in jadwal_obat_dict:
+            jadwal_obat_dict[jadwal_obat.id] = {
+                "id": jadwal_obat.id,
+                "id_obat": jadwal_obat.id_obat,
+                "id_user": jadwal_obat.id_user,
+                "nama_obat": nama_obat,
+                "kondisi_makan": jadwal_obat.kondisi_makan,
+                "takaran": jadwal_obat.takaran,
+                "waktu_konsumsi": []
+            }
+        
+        # Tambahkan waktu konsumsi ke dalam list waktu_konsumsi
+        jadwal_obat_dict[jadwal_obat.id]["waktu_konsumsi"].append(waktu_konsumsi.strftime("%H:%M"))
+
+    # Konversi dictionary ke dalam bentuk list
+    jadwal_obat_list = list(jadwal_obat_dict.values())
+
+    return jadwal_obat_list
