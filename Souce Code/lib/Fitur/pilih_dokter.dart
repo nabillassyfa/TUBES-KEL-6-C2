@@ -42,10 +42,12 @@ class _PilihDokterState extends State<PilihDokter> {
     if (selectedDay.isEmpty) {
       print(widget.dataRS.id);
       print(widget.idSpesialis);
-      dokterProvider.getdataDokterbyRSSpesialis(widget.dataRS.id, widget.idSpesialis);
+      dokterProvider.getdataDokterbyRSSpesialis(
+          widget.dataRS.id, widget.idSpesialis);
     } else {
       print(selectedDay);
-      dokterProvider.getdataDokterbyJadwal(widget.dataRS.id, widget.idSpesialis, selectedDay);
+      dokterProvider.getdataDokterbyJadwal(
+          widget.dataRS.id, widget.idSpesialis, selectedDay);
     }
   }
 
@@ -177,35 +179,73 @@ class _PilihDokterState extends State<PilihDokter> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DetailDokter(
-                              dokter: dokter
-                              ),
+                            builder: (context) => DetailDokter(dokter: dokter),
                           ),
                         );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: Card(
+                          elevation: 4.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            side: BorderSide(
+                              color: Colors.grey.withOpacity(0.5),
+                              width: 1.0,
+                            ),
+                          ),
                           child: Container(
                             padding: EdgeInsets.all(8.0),
-                            child: Row(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    dokter.imageUrl,
-                                    width: 60.0,
-                                    height: 80,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(width: 12.0),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
                                   children: [
-                                    Text(dokter.nama),
-                                    SizedBox(height: 4.0),
-                                    Text(dokter.namaSpesialis),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        dokter.imageUrl,
+                                        width: 60.0,
+                                        height: 80.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(width: 12.0),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            dokter.nama,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(dokter.namaSpesialis),
+                                          SizedBox(height: 8.0),
+                                          Row(
+                                            children: [
+                                              Icon(Icons.star,
+                                                  color: Colors.yellow),
+                                              Icon(Icons.star,
+                                                  color: Colors.yellow),
+                                              Icon(Icons.star,
+                                                  color: Colors.yellow),
+                                              Icon(Icons.star,
+                                                  color: Colors.yellow),
+                                              Icon(Icons.star_border,
+                                                  color: Colors.yellow),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
