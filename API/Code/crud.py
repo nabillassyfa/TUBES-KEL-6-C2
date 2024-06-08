@@ -78,9 +78,10 @@ def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
         db.query(
             models.Dokter,
             models.Spesialis.spesialis.label("spesialis_name"),
-            # models.RS.nama.label("rs_name"),
+            models.RS.nama.label("rs_name"),
         )
         .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .join(models.RS, models.JadwalDokter.id_RS == models.RS.id)
         .join(models.JadwalDokter, models.Dokter.id == models.JadwalDokter.id_dokter)
         .filter(models.Spesialis.id == id_spesialis, 
                 models.JadwalDokter.id_RS == id_rs)
@@ -88,7 +89,7 @@ def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
     )
 
     dokter_list = []
-    for dokter, spesialis_name in results:
+    for dokter, spesialis_name, rs_name in results:
         dokter_dict = {
             "id": dokter.id,
             "nama": dokter.nama,
@@ -97,7 +98,8 @@ def get_dokter_by_rs_spesialis(db: Session, id_spesialis: int, id_rs: int):
             "informasi": dokter.informasi,
             "pengalaman": dokter.pengalaman,
             "namaSpesialis": spesialis_name,
-            "id_rs": id_rs
+            "id_rs": id_rs,
+            "namaRs": rs_name
         }
         dokter_list.append(dokter_dict)
 
@@ -108,9 +110,10 @@ def get_dokter_by_rs_spesialis_jadwal(db: Session, id_spesialis: int, id_rs: int
         db.query(
             models.Dokter,
             models.Spesialis.spesialis.label("spesialis_name"),
-            # models.RS.nama.label("rs_name"),
+            models.RS.nama.label("rs_name"),
         )
         .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .join(models.RS, models.JadwalDokter.id_RS == models.RS.id)
         .join(models.JadwalDokter, models.Dokter.id == models.JadwalDokter.id_dokter)
         .filter(models.Spesialis.id == id_spesialis, 
                 models.JadwalDokter.id_RS == id_rs,
@@ -120,7 +123,7 @@ def get_dokter_by_rs_spesialis_jadwal(db: Session, id_spesialis: int, id_rs: int
     )
 
     dokter_list = []
-    for dokter, spesialis_name in results:
+    for dokter, spesialis_name, rs_name in results:
         dokter_dict = {
             "id": dokter.id,
             "nama": dokter.nama,
@@ -129,7 +132,8 @@ def get_dokter_by_rs_spesialis_jadwal(db: Session, id_spesialis: int, id_rs: int
             "informasi": dokter.informasi,
             "pengalaman": dokter.pengalaman,
             "namaSpesialis": spesialis_name,
-            "id_rs": id_rs
+            "id_rs": id_rs,
+            "namaRs": rs_name
         }
         dokter_list.append(dokter_dict)
 
@@ -266,6 +270,31 @@ def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
         )
         .filter(models.JadwalDokter.id_dokter == dokter_id,
                 models.JadwalDokter.id_RS == rs_id)
+        .all()
+    )
+
+    jadwal_dokter_list = []
+    for jadwal_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "id_RS": jadwal_dokter.id_RS,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+def get_jadwal_dokter_by_hari(db: Session, dokter_id: int, rs_id: int, hari: str):
+    results = (
+        db.query(
+            models.JadwalDokter,
+        )
+        .filter(models.JadwalDokter.id_dokter == dokter_id,
+                models.JadwalDokter.id_RS == rs_id,
+                models.JadwalDokter.hari==hari)
         .all()
     )
 
