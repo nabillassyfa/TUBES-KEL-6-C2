@@ -15,10 +15,7 @@ class RS(BaseDB):
     fasilitas = Column(String,nullable=False)
     img = Column(String)
 
-    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="RS")
-    
     daftarRS = relationship("DaftarRS", back_populates="RS")
-    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="RS")
     jadwal_dokter = relationship("JadwalDokter", back_populates="RS")
     
 class Dokter(BaseDB):
@@ -33,7 +30,6 @@ class Dokter(BaseDB):
     spesialis = relationship("Spesialis", back_populates="dokter")
     rekam_medis = relationship("RekamMedis", back_populates="dokter")
     rating = relationship("Rating", back_populates="dokter")
-    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="dokter")
     jadwal_dokter = relationship("JadwalDokter", back_populates="dokter")
     
 class RekamMedis(BaseDB):
@@ -57,7 +53,6 @@ class Spesialis(BaseDB):
     icon = Column(String, index=True)
     
     dokter = relationship("Dokter", back_populates="spesialis")
-    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="spesialis")
     daftarRS = relationship("DaftarRS", back_populates="spesialis")
 
        
@@ -128,17 +123,12 @@ class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey('user.id'))
-    id_dokter = Column(Integer, ForeignKey('dokter.id'))
-    id_rs = Column(Integer, ForeignKey('RS.id'))
-    id_spesialis = Column(Integer, ForeignKey('spesialis.id'))
+    id_jadwal_dokter = Column(Integer, ForeignKey('jadwal_dokter.id'))
     tanggal = Column(Date, nullable=False, index=True)
-    waktu = Column(Time, nullable=False)
     durasi = Column(Integer, index=True)
 
-    dokter = relationship("Dokter", back_populates="jadwal_janji_temu")
     user = relationship("User", back_populates="jadwal_janji_temu")
-    RS = relationship("RS", back_populates="jadwal_janji_temu")
-    spesialis = relationship("Spesialis", back_populates="jadwal_janji_temu")
+    jadwal_dokter = relationship("JadwalDokter", back_populates="jadwal_janji_temu")
     
 
 class StatusRawatJalan(BaseDB):
@@ -162,4 +152,5 @@ class JadwalDokter(BaseDB):
     
     dokter = relationship("Dokter", back_populates="jadwal_dokter")
     RS = relationship("RS", back_populates="jadwal_dokter")
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="jadwal_dokter")
     

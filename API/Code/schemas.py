@@ -126,11 +126,8 @@ class UserL(UserBase):
 # Janji Temu
 class JadwalJanjiTemuBase(BaseModel):
     id_user: int
-    id_dokter: int
-    id_rs: int
-    id_spesialis: int
+    id_jadwal_dokter: int
     tanggal: date
-    waktu: time
     durasi: int
 
 class JadwalJanjiTemuCreate(JadwalJanjiTemuBase):
