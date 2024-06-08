@@ -423,3 +423,29 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
         status_rawat_jalan_list.append(status_rawat_jalan_dict)
 
     return status_rawat_jalan_list
+
+## pembayaran
+def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
+    results = (
+        db.query(
+            models.Pembayaran,
+            models.User.nama.label("nama_user")
+        )
+        .join(models.User, models.Pembayaran.id_user == models.User.id)
+        .offset(skip).limit(limit)
+        .all()
+    )
+    
+    pembayaran_list = []
+    for pembayaran, nama_user in results:
+        pembayaran_dict = {
+            "id": pembayaran.id,
+            "id_user": pembayaran.id_user,
+            "waktu_pembayaran": pembayaran.waktu_pembayaran,
+            "metode_pembayaran": pembayaran.metode_pembayaran,
+            "total_pembayaran": pembayaran.total_pembayaran,
+            "status": pembayaran.status
+        }
+        pembayaran_list.append(pembayaran_dict)
+    
+    return pembayaran_list

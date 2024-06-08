@@ -261,3 +261,17 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
     if db_status_rawat_jalan is None:
         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
     return db_status_rawat_jalan
+
+
+# Pembayaran
+@app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
+def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
+    return pembayaran_list
+
+@app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
+def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
+    db_pembayaran = db.query(models.Pembayaran).filter(models.Pembayaran.id == pembayaran_id).first()
+    if db_pembayaran is None:
+        raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
+    return db_pembayaran
