@@ -3,11 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:tp2/provider/p_RS.dart';
 import 'package:tp2/provider/p_dokter.dart';
 import 'package:tp2/provider/p_jadwalDokter.dart';
+import 'package:tp2/provider/p_jadwalJanjiTemu.dart';
 import 'package:tp2/provider/p_spesialis.dart';
 import 'package:tp2/provider/p_user.dart';
 import 'Fitur/landingPage1.dart';
+import 'package:intl/date_symbol_data_local.dart'; // Import untuk inisialisasi data lokal
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting(); // Inisialisasi data lokal untuk DateFormat
   runApp(
     MultiProvider(
       providers: [
@@ -16,6 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => RSProvider()),
         ChangeNotifierProvider(create: (_) => DokterProvider()),
         ChangeNotifierProvider(create: (_) => JadwalDokterProvider()),
+        ChangeNotifierProvider(create: (_) => JadwalJanjiTemuProvider()),
       ],            
       child: const MyApp(), 
     ) 

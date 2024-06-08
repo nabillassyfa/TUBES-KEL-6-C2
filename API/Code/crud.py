@@ -268,8 +268,10 @@ def get_rating_dokter(db: Session, dokter_id: int):
 def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
     results = (
         db.query(
-            models.JadwalDokter, models.Dokter.nama.label("nama_dokter")
+            models.JadwalDokter, 
+            models.Dokter.nama.label("nama_dokter")
         )
+        .join(models.Dokter, models.JadwalDokter.id_dokter == models.Dokter.id)
         .filter(models.JadwalDokter.id_dokter == dokter_id,
                 models.JadwalDokter.id_RS == rs_id)
         .all()
@@ -420,6 +422,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
+# Jadwal Janji Temu
 def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate):
     db_jadwal = models.JadwalJanjiTemu(
         id_user=jadwal.id_user,
@@ -440,6 +443,44 @@ def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
 
 def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
     return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
+
+def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
+    results = (
+        db.query(models.JadwalJanjiTemu,
+                 models.Dokter.nama.label("nama_dokter"),
+                 models.Spesialis.spesialis.label("nama_spesialis"),
+                 models.RS.nama.label("nama_RS"),
+                 models.JadwalDokter.waktu_mulai.label("waktu_mulai"),
+                 models.JadwalDokter.waktu_berakhir.label("waktu_berakhir"),
+                 )
+        .join(models.User, models.JadwalJanjiTemu.id_user == models.User.id)
+        .join(models.JadwalDokter, models.JadwalJanjiTemu.id_jadwal_dokter == models.JadwalDokter.id)
+        .join(models.Dokter, models.JadwalDokter.id_dokter == models.Dokter.id)
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .join(models.RS, models.JadwalDokter.id_RS == models.RS.id)
+        .filter(
+            models.JadwalJanjiTemu.id_user == user_id,
+        )
+        .all()
+    )
+
+    jadwal_janji_temu_list = []
+    for jadwal_janji_temu, nama_dokter, nama_spesialis, nama_RS, waktu_mulai, waktu_berakhir in results:
+        jadwal_janji_temu_dict = {
+            "id": jadwal_janji_temu.id,
+            "id_user": jadwal_janji_temu.id_user,
+            "id_jadwal_dokter": jadwal_janji_temu.id_jadwal_dokter,
+            "tanggal": jadwal_janji_temu.tanggal,
+            "durasi": jadwal_janji_temu.durasi,
+            "nama_dokter": nama_dokter,
+            "nama_spesialis": nama_spesialis,
+            "nama_RS": nama_RS,
+            "waktu_mulai": waktu_mulai,
+            "waktu_berakhir": waktu_berakhir,
+        }
+        jadwal_janji_temu_list.append(jadwal_janji_temu_dict)
+
+    return jadwal_janji_temu_list
 
 ## Status Rawat Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
@@ -466,28 +507,28 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
 
     return status_rawat_jalan_list
 
-# # pembayaran
-# def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
-#     results = (
-#         db.query(
-#             models.Pembayaran,
-#             models.User.nama.label("nama_user")
-#         )
-#         .join(models.User, models.Pembayaran.id_user == models.User.id)
-#         .offset(skip).limit(limit)
-#         .all()
-#     )
+# pembayaran
+def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
+    results = (
+        db.query(
+            models.Pembayaran,
+            models.User.nama.label("nama_user")
+        )
+        .join(models.User, models.Pembayaran.id_user == models.User.id)
+        .offset(skip).limit(limit)
+        .all()
+    )
     
-#     pembayaran_list = []
-#     for pembayaran, nama_user in results:
-#         pembayaran_dict = {
-#             "id": pembayaran.id,
-#             "id_user": pembayaran.id_user,
-#             "waktu_pembayaran": pembayaran.waktu_pembayaran,
-#             "metode_pembayaran": pembayaran.metode_pembayaran,
-#             "total_pembayaran": pembayaran.total_pembayaran,
-#             "status": pembayaran.status
-#         }
-#         pembayaran_list.append(pembayaran_dict)
+    pembayaran_list = []
+    for pembayaran, nama_user in results:
+        pembayaran_dict = {
+            "id": pembayaran.id,
+            "id_user": pembayaran.id_user,
+            "waktu_pembayaran": pembayaran.waktu_pembayaran,
+            "metode_pembayaran": pembayaran.metode_pembayaran,
+            "total_pembayaran": pembayaran.total_pembayaran,
+            "status": pembayaran.status
+        }
+        pembayaran_list.append(pembayaran_dict)
     
-#     return pembayaran_list
+    return pembayaran_list

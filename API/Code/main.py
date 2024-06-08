@@ -239,17 +239,24 @@ def authenticate(db,user: schemas.UserCreate):
         return False    
     
 # Jadwal Janji Temu
-@app.post("/jadwal/", response_model=schemas.JadwalJanjiTemu)
+@app.post("/jadwal_janji_temu/", response_model=schemas.JadwalJanjiTemu)
 def create_jadwal(jadwal: schemas.JadwalJanjiTemuCreate, db: Session = Depends(get_db)):
     return crud.create_jadwal_janji_temu(db=db, jadwal=jadwal)
 
-@app.get("/jadwal/", response_model=List[schemas.JadwalJanjiTemu])
+@app.get("/jadwal_janji_temu/", response_model=List[schemas.JadwalJanjiTemu])
 def read_jadwal(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_jadwal_janji_temu(db=db, skip=skip, limit=limit)
 
-@app.get("/jadwal/{jadwal_id}", response_model=schemas.JadwalJanjiTemu)
+@app.get("/jadwal_janji_temu_by_id/{jadwal_id}", response_model=schemas.JadwalJanjiTemu)
 def read_jadwal_by_id(jadwal_id: int, db: Session = Depends(get_db)):
     db_jadwal = crud.get_jadwal_janji_temu_by_id(db, jadwal_id=jadwal_id)
+    if db_jadwal is None:
+        raise HTTPException(status_code=404, detail="Jadwal not found")
+    return db_jadwal
+
+@app.get("/jadwal_janji_temu_by_user/{user_id}")
+def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
+    db_jadwal = crud.get_jadwal_janji_temu_by_idUser(db, user_id=user_id)
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
@@ -269,14 +276,14 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
 
 
 # Pembayaran
-# @app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
-# def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
-#     return pembayaran_list
+@app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
+def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
+    return pembayaran_list
 
-# @app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
-# def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
-#     db_pembayaran = db.query(models.Pembayaran).filter(models.Pembayaran.id == pembayaran_id).first()
-#     if db_pembayaran is None:
-#         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
-#     return db_pembayaran
+@app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
+def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
+    db_pembayaran = db.query(models.Pembayaran).filter(models.Pembayaran.id == pembayaran_id).first()
+    if db_pembayaran is None:
+        raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
+    return db_pembayaran
