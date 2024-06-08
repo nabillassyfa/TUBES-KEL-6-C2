@@ -242,6 +242,18 @@ def read_jadwal(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 def read_jadwal_by_id(jadwal_id: int, db: Session = Depends(get_db)):
     db_jadwal = crud.get_jadwal_janji_temu_by_id(db, jadwal_id=jadwal_id)
     if db_jadwal is None:
-        raise HTTPException(status_code=404, detail="Jadwal tidak ditemukan")
-    return db_jadwal 
+        raise HTTPException(status_code=404, detail="Jadwal not found")
+    return db_jadwal
     
+# Status Rawat Jalan
+@app.get("/status_rawat_jalan/", response_model=List[schemas.StatusRawatJalan])
+def read_status_rawat_jalan(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    status_rawat_jalan_list = crud.get_status_rawat_jalan(db, skip=skip, limit=limit)
+    return status_rawat_jalan_list
+
+@app.get("/status_rawat_jalan/{status_rawat_jalan_id}", response_model=schemas.StatusRawatJalan)
+def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depends(get_db)):
+    db_status_rawat_jalan = db.query(models.StatusRawatJalan).filter(models.StatusRawatJalan.id_status == status_rawat_jalan_id).first()
+    if db_status_rawat_jalan is None:
+        raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
+    return db_status_rawat_jalan

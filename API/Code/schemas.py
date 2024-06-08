@@ -161,7 +161,7 @@ class JadwalDokterBase(BaseModel):
     id_dokter: int
     id_RS: int
         
-class StatusRawatJalan(JadwalDokterBase):
+class JadwalDokter(JadwalDokterBase):
     id: int
     
     class Config:

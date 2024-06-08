@@ -370,8 +370,10 @@ def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate)
 def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.JadwalJanjiTemu).offset(skip).limit(limit).all()
 
+def get_jadwal_janji_temu_by_id(db: Session, jadwal_id: int):
+    return db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == jadwal_id).first()
 
-## Status Rawatb Jalan
+## Status Rawat Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     results = (
         db.query(
@@ -386,8 +388,8 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     status_rawat_jalan_list = []
     for status_rawat_jalan, nama_user in results:
         status_rawat_jalan_dict = {
-            "id": status_rawat_jalan.id_status,
-            "keterangan": status_rawat_jalan.keterangan_status,
+            "id_status": status_rawat_jalan.id_status,
+            "keterangan_status": status_rawat_jalan.keterangan_status,
             "deskripsi": status_rawat_jalan.deskripsi,
             "id_user": status_rawat_jalan.id_user,
             "nama_user": nama_user,
