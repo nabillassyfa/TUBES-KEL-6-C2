@@ -24,9 +24,9 @@ class Emergency extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(
-              Icons.arrow_circle_left_outlined,
-              size: 40,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
               color: Colors.black,
             ),
           ),
@@ -60,35 +60,87 @@ class Emergency extends StatelessWidget {
                           const SizedBox(height: 10),
                           Text(
                             'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: 16),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 90),
+                    const SizedBox(height: 24),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          TextField(
-                            readOnly: true, // Make the TextField read-only
-                            decoration: InputDecoration(
-                              hintText:
-                                  emergencyNumber, // Display emergency number
-                              labelText: '1-12345-123',
-                              border: OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                color: Colors.red,
-                                onPressed: () {},
-                                icon: Icon(Icons.call),
-                              ),
+                          Text(
+                            'Hubungi Kami',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  width: 1.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                              color: Colors.white,
                             ),
-                            keyboardType: TextInputType.phone,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    emergencyNumber,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.call,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.0),
+                                        Text(
+                                          'Hubungi',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
                     Container(
                       height: MediaQuery.of(context).size.height -
                           kToolbarHeight -
