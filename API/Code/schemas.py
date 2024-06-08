@@ -126,11 +126,8 @@ class UserL(UserBase):
 # Janji Temu
 class JadwalJanjiTemuBase(BaseModel):
     id_user: int
-    id_dokter: int
-    id_rs: int
-    id_spesialis: int
+    id_jadwal_dokter: int
     tanggal: date
-    waktu: time
     durasi: int
 
 class JadwalJanjiTemuCreate(JadwalJanjiTemuBase):
@@ -167,15 +164,15 @@ class JadwalDokter(JadwalDokterBase):
     class Config:
         orm_mode = True
 
-# class PembayaranBase(BaseModel):
-#     id_user: int
-#     waktu_pembayaran: datetime
-#     metode_pembayaran: str
-#     total_pembayaran: int
-#     status: str
+class PembayaranBase(BaseModel):
+    id_user: int
+    waktu_pembayaran: datetime
+    metode_pembayaran: str
+    total_pembayaran: int
+    status: str
         
-# class Pembayaran(PembayaranBase):
-#     id: int
+class Pembayaran(PembayaranBase):
+    id: int
     
-#     class Config:
-#      orm_mode = True
+    class Config:
+     orm_mode = True
