@@ -51,7 +51,6 @@ class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
                 ],
               ),
             ),
-
             provider.isLoading
                 ? CircularProgressIndicator()
                 : provider.data_JadwalJanjiTemu.isEmpty

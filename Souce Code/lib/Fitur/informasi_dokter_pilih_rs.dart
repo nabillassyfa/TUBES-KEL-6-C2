@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tp2/models/spesialis.dart';
 import '../widget/Rs_widget.dart';
 import '../provider/p_rs.dart';
 
@@ -7,30 +8,35 @@ class SpecializationPageSelectRS extends StatefulWidget {
   const SpecializationPageSelectRS({
     Key? key,
     required this.idSpesialis,
+    required this.dataSpesialis,
   }) : super(key: key);
 
   final int idSpesialis;
+  final Spesialis dataSpesialis;
 
   @override
-  State<SpecializationPageSelectRS> createState() => _SpecializationPageSelectRSState();
+  State<SpecializationPageSelectRS> createState() =>
+      _SpecializationPageSelectRSState();
 }
 
-class _SpecializationPageSelectRSState extends State<SpecializationPageSelectRS> {
-  
+class _SpecializationPageSelectRSState
+    extends State<SpecializationPageSelectRS> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => RSProvider()..getdataRSbySpesialis(widget.idSpesialis),
+      create: (context) =>
+          RSProvider()..getdataRSbySpesialis(widget.idSpesialis),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Pilih Rumah Sakit'),
+          title: Text(widget.dataSpesialis.nama),
         ),
         body: Consumer<RSProvider>(
           builder: (context, value, child) {
             if (value.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (value.dataRS.isEmpty) {
-              return const Center(child: Text('Tidak ada data rumah sakit yang tersedia.'));
+              return const Center(
+                  child: Text('Tidak ada data rumah sakit yang tersedia.'));
             } else {
               return SingleChildScrollView(
                 child: Column(
@@ -44,7 +50,8 @@ class _SpecializationPageSelectRSState extends State<SpecializationPageSelectRS>
                     const SizedBox(height: 12),
                     const Text(
                       'Pilih Rumah Sakit',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const Text(
                       'Berikut Rumah Sakit yang tersedia Spesialis tersebut',

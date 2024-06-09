@@ -9,6 +9,7 @@ import '../Fitur/bottomNavBar.dart';
 import '../Fitur/emergency.dart';
 import '../Fitur/chat_dokter.dart';
 import '../Fitur/informasi_dokter.dart';
+import '../Fitur/pemeriksaanLab.dart';
 import '../Fitur/buatJanjiKonsulBefore.dart';
 import '../Fitur/buatJanjiTemuBefore.dart';
 import '../widget/Artikel_widget.dart';
@@ -335,6 +336,12 @@ class _BerandaState extends State<Beranda> {
                                             );
                                             break;
                                           case 3:
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PemeriksaanLab()),
+                                            );
                                             break;
                                           case 4:
                                             Navigator.push(

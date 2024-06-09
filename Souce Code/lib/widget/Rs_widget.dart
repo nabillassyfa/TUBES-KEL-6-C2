@@ -5,12 +5,9 @@ import 'package:tp2/Fitur/pilih_dokter.dart';
 import '../models/dataRS.dart';
 
 class RSWidget extends StatelessWidget {
-  const RSWidget({
-    Key? key,
-    required this.data,
-    required this.asal,
-    this.idPrev = 0
-  }) : super(key: key);
+  const RSWidget(
+      {Key? key, required this.data, required this.asal, this.idPrev = 0})
+      : super(key: key);
   final RS data;
   final String asal;
   final int idPrev;
