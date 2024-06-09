@@ -11,12 +11,13 @@ class RS(BaseDB):
     id = Column(Integer, primary_key=True)
     nama = Column(String, index=True)
     deskripsi = Column(String, index=True)
-    lokasi = Column(String,nullable=False)
-    fasilitas = Column(String,nullable=False)
+    lokasi = Column(String, nullable=False)
+    fasilitas = Column(String, nullable=False)
     img = Column(String)
 
     daftarRS = relationship("DaftarRS", back_populates="RS")
     jadwal_dokter = relationship("JadwalDokter", back_populates="RS")
+    pemeriksaan_lab = relationship("Jadwal_Lab", back_populates="RS")
     
 class Dokter(BaseDB):
     __tablename__ = "dokter"
@@ -228,3 +229,26 @@ class MetodePembayaran(BaseDB):
     __tablename__ = "metode_pembayaran"
     id = Column(Integer, primary_key=True)
     nama_pembayaran = Column(String, index=True)
+    
+## Lab
+class Lab(BaseDB):
+    __tablename__ = "pemeriksaan_lab"
+    id = Column(Integer, primary_key=True)
+    nama = Column(String, index=True)
+    kategori = Column(String, index=True)
+    harga = Column(String, index=True)
+    deskripsi = Column(String, index=True)
+    
+    Jadwal_Lab = relationship("Jadwal_Lab", back_populates="Lab")
+
+class Jadwal_Lab(BaseDB):
+    __tablename__ = "jadwal_pemeriksaan_lab"
+    id = Column(Integer, primary_key=True)
+    id_rs = Column(Integer, ForeignKey('RS.id'))
+    id_lab = Column(Integer, ForeignKey('pemeriksaan_lab.id'))
+    hari = Column(String, index=True)
+    waktu_mulai = Column(Time, index=True)
+    waktu_berakhir = Column(Time, index=True)
+    
+    RS = relationship("RS", back_populates="pemeriksaan_lab")
+    Lab = relationship("Lab", back_populates="Jadwal_Lab")

@@ -316,3 +316,14 @@ def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
 def read_metode_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     metode_list = crud.get_metode_pembayaran(db, skip=skip, limit=limit)
     return metode_list
+
+# Lab
+@app.get("/daftar_lab/")
+def read_lab(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    lab_list = crud.get_Lab(db, skip=skip, limit=limit)
+    return lab_list
+
+@app.get("/jadwal_lab_by_idrs/{rs_id}/{id_lab}")
+def read_items(id_lab: int ,rs_id: int, db: Session = Depends(get_db)):
+    data = crud.get_jadwal_lab_by_idrs(db, id_lab=id_lab, rs_id=rs_id)
+    return data

@@ -237,3 +237,29 @@ class JadwalObatKonsumsi(JadwalObatKonsumsiBase):
     
     class Config:
      orm_mode = True
+     
+# Lab
+class LabBase(BaseModel):
+    nama: str
+    kategori : str
+    deskripsi : str
+    harga : str
+        
+class Lab(JadwalDokterBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+        
+class JadwalLabBase(BaseModel):
+    hari: str
+    waktu_mulai: time
+    waktu_berakhir: time
+    id_lab: int
+    id_rs: int
+        
+class JadwalLab(JadwalDokterBase):
+    id: int
+    
+    class Config:
+        orm_mode = True

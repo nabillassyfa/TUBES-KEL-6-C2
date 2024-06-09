@@ -696,3 +696,35 @@ def get_jadwal_obat_by_user(db:Session, user_id:int):
 
 def get_metode_pembayaran(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.MetodePembayaran).offset(skip).limit(limit).all()
+
+# Lab
+def get_Lab(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Lab).offset(skip).limit(limit).all()
+
+def get_jadwal_lab_by_idrs(db: Session, rs_id: int, id_lab: int):
+    results = (
+        db.query(models.Jadwal_Lab, models.Lab)
+        .join(models.Lab, models.Jadwal_Lab.id_lab == models.Lab.id)
+        .filter(
+            models.Jadwal_Lab.id_rs == rs_id,
+            models.Jadwal_Lab.id_lab == id_lab,
+        )
+        .all()
+    )
+
+    jadwal_lab_list = []
+    for jadwal_lab, lab in results:
+        jadwal_lab_dict = {
+            "id": jadwal_lab.id,
+            "hari": jadwal_lab.hari,
+            "waktu_mulai": jadwal_lab.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_lab.waktu_berakhir.strftime("%H:%M"),
+            "id_RS": jadwal_lab.id_rs,
+            "nama_lab": lab.nama,
+            "kategori": lab.kategori,
+            "harga": lab.harga,
+            "deskripsi": lab.deskripsi,
+        }
+        jadwal_lab_list.append(jadwal_lab_dict)
+
+    return jadwal_lab_list
