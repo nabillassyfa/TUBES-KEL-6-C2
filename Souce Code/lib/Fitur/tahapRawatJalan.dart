@@ -693,11 +693,11 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                               minWidth: 380,
                               height: 50,
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => indeks == 6 ? DoctorAddReviewsPage() : Pembayaran()),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => indeks == 6 ? DoctorAddReviewsPage() : Pembayaran()),
+                                // );
                               },
                               color: Color.fromARGB(255, 1, 101, 252),
                               elevation: 0,

@@ -90,7 +90,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                   SizedBox(height: 5),
                   inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey, controller: dateController),
                   SizedBox(height: 5),
-                  pickedDate != null ? inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey, controller: timeController) : Container(),
+                  pickedDate != null ? inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey, controller: timeController) : Text('Silahkan pilih tanggal'),
                 ],
               ),
               SizedBox(height: 40),
@@ -102,13 +102,27 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Pembayaran()),
-                    );
-                  },
-                  color: Color.fromARGB(255, 1, 101, 252),
+                  onPressed: pickedDate != null && selectedTime != null
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pembayaran(
+                                itemNama: widget.dokter.nama,
+                                itemDeskripsi: widget.dokter.namaSpesialis,
+                                itemDeskripsi2: widget.dokter.namaRs,
+                                itemLayanan: 'Janji Temu',
+                                biaya: 400000,
+                                tanggal: _formatDate(pickedDate),
+                                waktu: selectedTime,
+                              ),
+                            ),
+                          );
+                        }
+                      : null,
+                  color: pickedDate != null && selectedTime != null
+                      ? Color.fromARGB(255, 1, 101, 252)
+                      : Colors.grey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),

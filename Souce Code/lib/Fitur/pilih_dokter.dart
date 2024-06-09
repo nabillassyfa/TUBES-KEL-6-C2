@@ -64,10 +64,6 @@ class _PilihDokterState extends State<PilihDokter> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Dokter Spesialis ...',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
                 Row(
                   children: [
                     Icon(
@@ -78,7 +74,7 @@ class _PilihDokterState extends State<PilihDokter> {
                     Text(
                       widget.dataRS.nama,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -127,7 +123,7 @@ class _PilihDokterState extends State<PilihDokter> {
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
-                    childAspectRatio: (1 / .25),
+                    childAspectRatio: (0.75 / .25),
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0,
                   ),
