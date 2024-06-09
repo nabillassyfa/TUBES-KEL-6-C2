@@ -140,8 +140,8 @@ class _BerandaState extends State<Beranda> {
                                       ),
                                       Text(
                                         user.jenis_kelamin == 'Laki-laki'
-                                            ? 'Pria'
-                                            : 'Wanita',
+                                            ? 'Laki-laki'
+                                            : 'Perempuan',
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 14,

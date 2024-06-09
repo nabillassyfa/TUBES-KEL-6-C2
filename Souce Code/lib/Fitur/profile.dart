@@ -181,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         context,
                                         MaterialPageRoute<void>(
                                             builder: (context) =>
-                                                EditBiodataPage()));
+                                                EditBiodataPage(data: user)));
                                   },
                                 ),
                               ),
@@ -242,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                   Text(
-                                    user.umur.toString() + 'Tahun',
+                                    user.umur.toString() + ' Tahun',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(height: 20),

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'profile.dart';
+import '../models/infoUser.dart';
 
 class EditBiodataPage extends StatefulWidget {
-  final String name = 'Celine Rodriguez';
-  final String address =
-      'Jln. Geger Kalong Girang, Gg. Cempaka, Kec. Sukasari, Bandung';
-  final String phoneNumber = '081234567890';
-  final String gender = 'Wanita';
-  final int age = 35;
-  final String bloodType = 'A+';
-  final DateTime dateOfBirth = DateTime(1989, 8, 12);
-  final double weight = 56.2;
-  final double height = 154.7;
+  const EditBiodataPage({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  final InfoUser data;
 
   @override
   _EditBiodataPageState createState() => _EditBiodataPageState();
@@ -31,16 +28,19 @@ class _EditBiodataPageState extends State<EditBiodataPage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.name);
-    _addressController = TextEditingController(text: widget.address);
-    _phoneNumberController = TextEditingController(text: widget.phoneNumber);
-    _genderController = TextEditingController(text: widget.gender);
-    _ageController = TextEditingController(text: widget.age.toString());
-    _bloodTypeController = TextEditingController(text: widget.bloodType);
+    _nameController = TextEditingController(text: widget.data.nama_lengkap);
+    _addressController = TextEditingController(text: widget.data.alamat);
+    _phoneNumberController = TextEditingController(text: widget.data.no_telp);
+    _genderController = TextEditingController(text: widget.data.jenis_kelamin);
+    _ageController = TextEditingController(text: widget.data.umur.toString());
+    _bloodTypeController =
+        TextEditingController(text: widget.data.golongan_darah);
     _dateOfBirthController =
-        TextEditingController(text: widget.dateOfBirth.toString());
-    _weightController = TextEditingController(text: widget.weight.toString());
-    _heightController = TextEditingController(text: widget.height.toString());
+        TextEditingController(text: widget.data.tanggal_lahir.toString());
+    _weightController =
+        TextEditingController(text: widget.data.berat_badan.toString());
+    _heightController =
+        TextEditingController(text: widget.data.tinggi_badan.toString());
   }
 
   @override
@@ -61,7 +61,34 @@ class _EditBiodataPageState extends State<EditBiodataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Biodata'),
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            SizedBox(width: 8.0),
+            Text(
+              'Profil Saya',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ],
+        ),
         backgroundColor: Color(0xff0165fc),
       ),
       body: SingleChildScrollView(
@@ -88,6 +115,7 @@ class _EditBiodataPageState extends State<EditBiodataPage> {
                     icon: Icon(Icons.photo),
                     label: Text('Ganti Foto'),
                     style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
                       backgroundColor: Color(0xff0165fc),
                     ),
                     onPressed: () {},
@@ -187,10 +215,17 @@ class _EditBiodataPageState extends State<EditBiodataPage> {
               ),
               SizedBox(height: 16.0),
               Container(
-                height: 40,
+                height: 60,
                 child: ElevatedButton(
-                  child: Text('Simpan Perubahan'),
+                  child: Text(
+                    'Simpan Perubahan',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
                     backgroundColor: Color(0xff0165fc),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
