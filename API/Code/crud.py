@@ -364,8 +364,7 @@ def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
         db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
         .filter(
             models.JadwalDokter.hari == hari,
-            models.JadwalDokter.waktu_mulai <= waktu,
-            models.JadwalDokter.waktu_berakhir > waktu,
+            models.JadwalDokter.waktu_mulai == waktu,
             models.Dokter.id_spesialis == spesialis,
         )
         .all()
@@ -576,3 +575,6 @@ def get_jadwal_obat_by_user(db:Session, user_id:int):
     jadwal_obat_list = list(jadwal_obat_dict.values())
 
     return jadwal_obat_list
+
+def get_metode_pembayaran(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.MetodePembayaran).offset(skip).limit(limit).all()

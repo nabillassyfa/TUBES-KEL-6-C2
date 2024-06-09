@@ -231,10 +231,16 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                   height: 60,
                   onPressed: () {
                     if (selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Pembayaran()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => Pembayaran(
+                      //     itemNama: namaDokter,
+                      //     itemDeskripsi: 'spesialisDokter',
+                      //     itemLayanan: 'Janji Konsultasi Online',
+                      //     biaya: 120000,
+                      //     )),
+                      // );
                     } else {
                       // Tampilkan peringatan jika ada variabel yang kosong
                       showDialog(

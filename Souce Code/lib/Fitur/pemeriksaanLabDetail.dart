@@ -106,12 +106,12 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Pembayaran(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => Pembayaran(),
+                    //   ),
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 1, 101, 252),
