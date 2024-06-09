@@ -6,6 +6,7 @@ import 'package:tp2/Fitur/tahapRawatJalan.dart';
 import 'package:tp2/Fitur/panggilDokter.dart';
 import 'package:tp2/models/artikel.dart';
 import 'package:tp2/models/infoUser.dart';
+import 'package:tp2/models/jadwalJanjiTemu.dart';
 import '../Fitur/bottomNavBar.dart';
 import '../Fitur/emergency.dart';
 import '../Fitur/chat_dokter.dart';
@@ -16,6 +17,7 @@ import '../Fitur/buatJanjiTemuBefore.dart';
 import '../widget/Artikel_widget.dart';
 import '../provider/P_Artikel.dart';
 import '../provider/p_infoUser.dart';
+import '../provider/p_jadwalJanjiTemu.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -28,12 +30,36 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> {
   late InfoUserProvider infoUserProvider;
+  late JadwalJanjiTemuProvider jadwalJanjiTemuProvider;
+
+  TimeOfDay parseTimeOfDay(String timeString) {
+    final parts = timeString.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  String formatTanggal(DateTime dateTime) {
+    return DateFormat.yMMMMEEEEd('id_ID').format(
+        dateTime); // Format tanggal hari, tanggal-bulan-tahun (Bahasa Indonesia)
+  }
+
+  String formatWaktu(TimeOfDay timeOfDay) {
+    final formattedHour = timeOfDay.hour.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan jam jika hanya satu digit
+    final formattedMinute = timeOfDay.minute.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan menit jika hanya satu digit
+    return '$formattedHour:$formattedMinute'; // Menggabungkan jam dan menit dalam format 24 jam
+  }
 
   @override
   void initState() {
     super.initState();
     infoUserProvider = Provider.of<InfoUserProvider>(context, listen: false);
     infoUserProvider.getdataInfoUser();
+    jadwalJanjiTemuProvider =
+        Provider.of<JadwalJanjiTemuProvider>(context, listen: false);
+    jadwalJanjiTemuProvider.getdataJadwalJanjiTemuByUser();
   }
 
   @override
@@ -401,181 +427,202 @@ class _BerandaState extends State<Beranda> {
                 //Teks anda memiliki janji temu
                 padding: EdgeInsets.only(bottom: 5, top: 10),
                 child: Text(
-                  "Anda memiliki janji temu!",
+                  "Jadwal janji temu",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Container(
-                //Card janji temu
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 1, 101, 252),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 16,
-                          offset: const Offset(0, 11)),
-                    ],
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
-                child: Column(children: [
-                  Row(children: [
-                    //profil dokter
-                    Container(
-                      //poto dokter
-                      width: 60,
-                      height: 60,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: Image.network(
-                          "https://picsum.photos/250?image=1",
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Column(
-                      //nama, spesialis, asal RS
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'dr. Muhammad Rifky Afandi, SpKj',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 16,
+              Consumer<JadwalJanjiTemuProvider>(
+                builder: (context, jadwalJanjiTemuProvider, child) {
+                  if (jadwalJanjiTemuProvider.isLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (jadwalJanjiTemuProvider.dataJadwalJanjiTemu.isEmpty) {
+                    return Text("Tidak ada Jadwal");
+                  }
+                  final JadwalJanjiTemu jadwal =
+                      jadwalJanjiTemuProvider.dataJadwalJanjiTemu.first;
+                  final waktuMulai = parseTimeOfDay(jadwal.waktu_mulai);
+                  final waktuBerakhir = parseTimeOfDay(jadwal.waktu_berakhir);
+                  final formattedTanggal = formatTanggal(jadwal.tanggal);
+                  final formattedWaktuMulai = formatWaktu(waktuMulai);
+                  final formattedWaktuBerakhir = formatWaktu(waktuBerakhir);
+                  return Container(
+                    //Card janji temu
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 1, 101, 252),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 16,
+                              offset: const Offset(0, 11)),
+                        ],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12))),
+                    child: Column(children: [
+                      Row(children: [
+                        //profil dokter
+                        Container(
+                          //poto dokter
+                          width: 60,
+                          height: 60,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
                           ),
-                        ),
-                        Text(
-                          'Psikiatri - Spesialis Jiwa',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 12,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.pin_drop_sharp,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              size: 20,
+                          child: ClipOval(
+                            child: Image.network(
+                              'http://127.0.0.1:8000/dokter_image/${jadwal.id_dokter}',
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Rumah Sakit Doa Ibu B',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 12,
-                                ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          //nama, spesialis, asal RS
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              jadwal.nama_dokter,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 16,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ]),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                    //Waktu Konsultasi
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, top: 5, bottom: 5),
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 8, 88, 209),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.calendar_month,
-                              color: Colors.white,
+                            Text(
+                              jadwal.nama_spesialis,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 12,
+                              ),
                             ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  "Senin, 18 Maret",
-                                  style: TextStyle(
-                                    color: Colors.white,
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.pin_drop_sharp,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  size: 20,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    jadwal.nama_RS,
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      fontSize: 12,
+                                    ),
                                   ),
-                                ))
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          //garis tengah
-                          height: 25,
-                          child: VerticalDivider(
-                              thickness: 2,
-                              color: Color.fromARGB(255, 41, 111, 215)),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.access_time_filled,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(
-                                  "08.00-08.30",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Material(
-                    //lihat detail, direct ke halaman jadwal
-                    type: MaterialType.transparency,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TahapRawatJalan(),
-                              barrierDismissible:
-                                  true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Lihat detail',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            color: Colors.white,
-                          )
-                        ],
+                      ]),
+                      const SizedBox(
+                        height: 12,
                       ),
-                    ),
-                  ),
-                ]),
+                      Container(
+                        //Waktu Konsultasi
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.only(
+                            left: 8, right: 8, top: 5, bottom: 5),
+                        decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 8, 88, 209),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.calendar_month,
+                                  color: Colors.white,
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      formattedTanggal,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                            SizedBox(
+                              //garis tengah
+                              height: 25,
+                              child: VerticalDivider(
+                                  thickness: 2,
+                                  color: Color.fromARGB(255, 41, 111, 215)),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.access_time_filled,
+                                  color: Colors.white,
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      '$formattedWaktuMulai - $formattedWaktuBerakhir',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Material(
+                        //lihat detail, direct ke halaman jadwal
+                        type: MaterialType.transparency,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TahapRawatJalan(),
+                                  barrierDismissible:
+                                      true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
+                            );
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Lihat detail',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_right,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+                  );
+                },
               ),
               const SizedBox(
                 height: 16,
