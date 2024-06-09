@@ -19,6 +19,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
   DateTime? pickedDate;
   String? selectedTime;
   List<String> waktuGabung = [];
+  int? selectedJadwalId;
 
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -104,6 +105,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                   height: 60,
                   onPressed: pickedDate != null && selectedTime != null
                       ? () {
+                          print(selectedJadwalId);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -115,6 +117,9 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                                 biaya: 400000,
                                 tanggal: _formatDate(pickedDate),
                                 waktu: selectedTime,
+                                id_jadwal: selectedJadwalId!, // Kirim ID jadwal dokter yang dipilih
+                                unformattedDate: '${pickedDate}',
+                                durasi: 30,
                               ),
                             ),
                           );
@@ -137,7 +142,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                   ),
                 ),
               ),
-              SizedBox(height: 20), // Tambahkan SizedBox untuk menambahkan jarak
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -145,7 +150,6 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
     );
   }
 
-  // Widget untuk input field
   Widget inputFile({
     required BuildContext context,
     required String label,
@@ -183,7 +187,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
           readOnly: true,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(color: hintTextColor), // Atur warna hintText
+            hintStyle: TextStyle(color: hintTextColor),
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
@@ -219,7 +223,7 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
   }
 
   void _updateWaktuGabung() {
-    List<JadwalDokter> filteredJadwal = jadwalDokterProvider.data_Jadwal_dokter
+    List<JadwalDokter> filteredJadwal = jadwalDokterProvider.dataJadwalDokter
         .where((jadwal) => jadwal.hari == _getDayName(pickedDate?.weekday ?? 0))
         .toList();
 
@@ -233,9 +237,11 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
 
     if (waktuGabung.isNotEmpty) {
       selectedTime = waktuGabung[0];
+      selectedJadwalId = filteredJadwal[0].id;
       timeController.text = selectedTime!;
     } else {
       selectedTime = null;
+      selectedJadwalId = null;
       timeController.text = "";
     }
   }
@@ -254,7 +260,9 @@ class _BuatJanjiTemuAfterState extends State<BuatJanjiTemuAfter> {
                 onChanged: (value) {
                   setState(() {
                     selectedTime = value;
-                    timeController.text = value!;
+                    int index = waktuGabung.indexOf(value!);
+                    selectedJadwalId = jadwalDokterProvider.dataJadwalDokter[index].id;
+                    timeController.text = value;
                   });
                   Navigator.of(context).pop();
                 },

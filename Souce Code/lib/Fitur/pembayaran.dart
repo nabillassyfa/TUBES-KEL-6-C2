@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tp2/models/metodePembayaran.dart';
 import 'package:tp2/provider/p_infoUser.dart';
+import 'package:tp2/provider/p_jadwalJanjiTemu.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
 import 'package:tp2/provider/p_pembayaran.dart';
 import 'pembayaranSukses.dart';
@@ -15,6 +16,9 @@ class Pembayaran extends StatefulWidget {
   String? tanggal;
   String? waktu;
   final int biaya;
+  int? id_jadwal;
+  String? unformattedDate;
+  int? durasi;
 
   Pembayaran({
     super.key,
@@ -25,6 +29,9 @@ class Pembayaran extends StatefulWidget {
     this.tanggal,
     this.waktu,
     required this.biaya,
+    this.id_jadwal,
+    this.unformattedDate,
+    this.durasi
   });
 
   @override
@@ -33,7 +40,7 @@ class Pembayaran extends StatefulWidget {
 
 class _PembayaranState extends State<Pembayaran> {
   InfoUserProvider? infoUserProvider;
-  String? namaPasien;
+  String namaPasien = "";
   MetodePembayaranProvider? metodePembayaranProvider;
   MetodePembayaran? selectedMetodePembayaran;
   bool isProcessing = false; // State to track loading state
@@ -331,22 +338,43 @@ class _PembayaranState extends State<Pembayaran> {
             ),
             selectedMetodePembayaran != null ?
             isProcessing // Display loading indicator if processing
-                ? CircularProgressIndicator()
+               
+            ? CircularProgressIndicator()
                 : MaterialButton(
-                  minWidth: 380,
-                  height: 50,
+                    minWidth: 380,
+                    height: 50,
                     onPressed: () async {
                       if (selectedMetodePembayaran != null) {
                         setState(() {
                           isProcessing = true;
                         });
                         try {
+                          // Post data pembayaran
                           await Provider.of<PembayaranProvider>(context, listen: false)
                               .postdataPembayaran(selectedMetodePembayaran!.nama_pembayaran, widget.biaya, widget.itemNama);
+                          
+                          // Post data jadwal janji temu
+                          if (widget.id_jadwal != null && widget.unformattedDate != null && widget.waktu != null) {
+                            if(widget.itemLayanan == "Janji Temu"){
+                              await Provider.of<JadwalJanjiTemuProvider>(context, listen: false)
+                                  .postdataJadwaljanjitemu(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!); // Durasi janji temu diset ke 60 menit, sesuaikan dengan kebutuhan
+                            }
+                          }
+
+                          // Navigate to success screen
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PembayaranSukses(),
+                              builder: (context) => PembayaranSukses(
+                                itemNama: widget.itemNama,
+                                itemDeskripsi: widget.itemDeskripsi,
+                                itemDeskripsi2: widget.itemDeskripsi2,
+                                itemLayanan: widget.itemLayanan,
+                                biaya: widget.biaya,
+                                pasien: namaPasien,
+                                tanggal: widget.tanggal,
+                                waktu: widget.waktu,
+                              ),
                             ),
                             (Route<dynamic> route) => false,
                           );
