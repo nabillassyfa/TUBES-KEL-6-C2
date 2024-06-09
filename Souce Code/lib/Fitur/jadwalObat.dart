@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-class JadwalObat extends StatelessWidget {
+import 'package:provider/provider.dart';
+import 'package:tp2/provider/p_jadwalObat.dart';
+
+class JadwalObat extends StatefulWidget {
   final bool notifobat;
   final Function(bool) onNotifChanged;
 
@@ -10,249 +13,146 @@ class JadwalObat extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _JadwalObatState createState() => _JadwalObatState();
+}
+
+class _JadwalObatState extends State<JadwalObat> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<JadwalObatProvider>(context, listen: false)
+            .getdataJadwalObatByUser());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<JadwalObatProvider>(context);
     return SingleChildScrollView(
       child: Container(
+        padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  const Text(
-                    'Notifikasi',
-                  ),
-                  const SizedBox(width: 10,),
-                  Switch(
-                    splashRadius: 0,
-                    value: notifobat,
-                    activeColor: Color.fromARGB(255, 1, 101, 252),
-                    onChanged: onNotifChanged,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 2
+            Row(
+              children: [
+                const Text('Notifikasi'),
+                const SizedBox(width: 10),
+                Switch(
+                  splashRadius: 0,
+                  value: widget.notifobat,
+                  activeColor: Color.fromARGB(255, 1, 101, 252),
+                  onChanged: widget.onNotifChanged,
                 ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [ BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 1)
-                )]
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 1, 101, 252),
-                      
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-                     
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.medication_liquid,
+              ],
+            ),
+            provider.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : provider.dataJadwalObat.isEmpty ? Text('Saat ini tidak memiliki jadwal minum obat') :
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: provider.dataJadwalObat.length,
+                    itemBuilder: (context, index) {
+                      final jadwal = provider.dataJadwalObat[index];
+                      return Container(
+                        margin: EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
                           color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset: Offset(0, 1),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 20,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            Text(
-                              'Obat tablet',
-                              style: TextStyle(
-                                color: Colors.white,
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 1, 101, 252),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.medication_liquid,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 20),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        jadwal.nama_obat,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            jadwal.kondisi_makan,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          Text(
+                                            ' - ',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          Text(
+                                            jadwal.takaran,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Setelah makan',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  ' - ',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '2 tablet',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  const Text(
-                    'Jadwal konsumsi',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
-                    
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    color: Colors.black,
-                    indent: 120,
-                    endIndent: 120,
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    margin: EdgeInsets.only(left: 25, right: 25),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          '08.00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        Text(
-                          '13.00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        Text(
-                          '19.00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 2
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [ BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 1)
-                )]
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 1, 101, 252),
-                      
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.medication_liquid,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 20,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                            SizedBox(height: 10),
                             Text(
-                              'Obat antibiotik',
-                              style: TextStyle(
-                                color: Colors.white,
+                              'Jadwal konsumsi',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Colors.black,
+                              indent: 120,
+                              endIndent: 120,
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 25),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: jadwal.waktu_konsumsi
+                                    .map(
+                                      (waktu) => Text(
+                                        waktu,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Setelah makan',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  ' - ',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  '2 sendok maakan',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            )
+                            SizedBox(height: 10),
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  const Text(
-                    'Jadwal konsumsi',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
-                    
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    color: Colors.black,
-                    indent: 120,
-                    endIndent: 120,
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    margin: EdgeInsets.only(left: 25, right: 25),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          '08.00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
                         ),
-                        Text(
-                          '19.00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                  SizedBox(height: 10,),
-                ],
-              ),
-            )
           ],
         ),
       ),
