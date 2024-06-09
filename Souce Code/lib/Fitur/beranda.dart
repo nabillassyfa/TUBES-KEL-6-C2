@@ -110,6 +110,11 @@ class _BerandaState extends State<Beranda> {
                           const SizedBox(width: 8),
                           Consumer<InfoUserProvider>(
                             builder: (context, infoUserProvider, child) {
+                              if (infoUserProvider.isLoading) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
                               final InfoUser user =
                                   infoUserProvider.dataInfoUser.single;
                               return Column(
@@ -587,6 +592,9 @@ class _BerandaState extends State<Beranda> {
               ),
               Consumer<ArtikelProvider>(
                 builder: (context, value, child) {
+                  if (value.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
                   return Container(
                     height: 200,
                     margin: const EdgeInsets.only(right: 10),
