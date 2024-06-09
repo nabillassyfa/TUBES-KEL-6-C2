@@ -415,7 +415,8 @@ def get_jadwal_dokter_Online(db: Session, dokter_id: int):
     return jadwal_dokter_list
 
 
-def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
+def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int):
+    
     try:
         hari, _ = hari.split(", ")
     except ValueError:
@@ -428,6 +429,8 @@ def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
             models.JadwalPanggilDokter.hari == hari,
             models.JadwalPanggilDokter.waktu_mulai <= waktu,
             models.JadwalPanggilDokter.waktu_selesai > waktu,
+            models.Dokter.id_spesialis == spesialis,
+           
         )
         .all()
     )
