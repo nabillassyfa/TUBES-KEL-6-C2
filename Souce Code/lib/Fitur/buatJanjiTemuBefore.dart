@@ -250,10 +250,23 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                   height: 60,
                   onPressed: () {
                     if (selectedRSId != null && selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Pembayaran()),
-                      // );
+                      final selectedDokter = Provider.of<JadwalDokterProvider>(context, listen: false).data_Jadwal_dokter.firstWhere((dokter) => dokter.id == selectedDokterId);
+                      final selectedSpesialis = Provider.of<SpesialisProvider>(context, listen: false).dataSpesialis.firstWhere((spesialis) => spesialis.id == selectedSpesialisId);
+                      final selectedRS = Provider.of<RSProvider>(context, listen: false).data_RS.firstWhere((RS) => RS.id == selectedRSId);
+                      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pembayaran(
+                                itemNama: selectedDokter.nama,
+                                itemDeskripsi: selectedSpesialis.nama,
+                                itemDeskripsi2: selectedRS.nama,
+                                itemLayanan: 'Janji Temu',
+                                biaya: 400000,
+                                tanggal:selectedDay,
+                                waktu: selectedTime,
+                              ),
+                            ),
+                          );
                     } else {
                       // Tampilkan peringatan jika ada variabel yang kosong
                       showDialog(
