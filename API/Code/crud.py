@@ -415,7 +415,8 @@ def get_jadwal_dokter_Online(db: Session, dokter_id: int):
     return jadwal_dokter_list
 
 
-def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
+def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int):
+    
     try:
         hari, _ = hari.split(", ")
     except ValueError:
@@ -428,6 +429,8 @@ def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
             models.JadwalPanggilDokter.hari == hari,
             models.JadwalPanggilDokter.waktu_mulai <= waktu,
             models.JadwalPanggilDokter.waktu_selesai > waktu,
+            models.Dokter.id_spesialis == spesialis,
+           
         )
         .all()
     )
@@ -530,14 +533,11 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 # Jadwal Janji Temu
-def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate):
+def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuBase):
     db_jadwal = models.JadwalJanjiTemu(
         id_user=jadwal.id_user,
-        id_dokter=jadwal.id_dokter,
-        id_rs=jadwal.id_rs,
-        id_spesialis=jadwal.id_spesialis,
+        id_jadwal_dokter=jadwal.id_jadwal_dokter,
         tanggal=jadwal.tanggal,
-        waktu=jadwal.waktu,
         durasi=jadwal.durasi
     )
     db.add(db_jadwal)
@@ -641,6 +641,19 @@ def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
         pembayaran_list.append(pembayaran_dict)
     
     return pembayaran_list
+
+def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
+    db_pembayaran = models.Pembayaran(
+        id_user = pembayaran.id_user, 
+        waktu_pembayaran = pembayaran.waktu_pembayaran, 
+        metode_pembayaran = pembayaran.metode_pembayaran, 
+        total_pembayaran = pembayaran.total_pembayaran, 
+        status = pembayaran.status, 
+        item = pembayaran.item)
+    db.add(db_pembayaran)
+    db.commit()
+    db.refresh(db_pembayaran)
+    return db_pembayaran
 
 ## Obat
 def get_jadwal_obat_by_user(db:Session, user_id:int):

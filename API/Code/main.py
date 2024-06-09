@@ -126,9 +126,12 @@ def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
 def read_jadwal(dokter_id:int, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter_Online(db=db, dokter_id=dokter_id)
 
-@app.get("/jadwal_panggil_dokter/{waktu}/{hari}")
-def read_jadwal(waktu:str, hari:str, db: Session = Depends(get_db)):
-    return crud.get_jadwal_panggil_dokter(db=db, waktu=waktu, hari=hari)
+@app.get("/jadwal_panggil_dokter/{waktu}/{hari}/{spesialis}")
+def read_jadwal(waktu:str, hari:str, spesialis:int, db: Session = Depends(get_db)):
+    print (hari)
+    print (spesialis)
+    print (waktu)
+    return crud.get_jadwal_panggil_dokter(db=db, waktu=waktu, hari=hari, spesialis=spesialis)
 
 
 ## Jadwal Dokter by Hari
@@ -250,7 +253,7 @@ def authenticate(db,user: schemas.UserCreate):
     
 # Jadwal Janji Temu
 @app.post("/jadwal_janji_temu/", response_model=schemas.JadwalJanjiTemu)
-def create_jadwal(jadwal: schemas.JadwalJanjiTemuCreate, db: Session = Depends(get_db)):
+def create_jadwal(jadwal: schemas.JadwalJanjiTemuBase, db: Session = Depends(get_db)):
     return crud.create_jadwal_janji_temu(db=db, jadwal=jadwal)
 
 @app.get("/jadwal_janji_temu/", response_model=List[schemas.JadwalJanjiTemu])
@@ -290,6 +293,10 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
 def read_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     pembayaran_list = crud.get_pembayaran(db, skip=skip, limit=limit)
     return pembayaran_list
+
+@app.post("/create_pembayaran/", response_model=schemas.Pembayaran)
+def create_pembayaran(pembayaran: schemas.PembayaranBase, db: Session = Depends(get_db)):
+    return crud.create_pembayaran(db=db, pembayaran=pembayaran)
 
 @app.get("/pembayaran/{pembayaran_id}", response_model=schemas.Pembayaran)
 def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):

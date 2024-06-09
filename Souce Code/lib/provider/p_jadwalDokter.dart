@@ -47,12 +47,13 @@ class JadwalDokterProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getdataJadwalPanggilDokter(String day, String time) async {
+  Future<void> getdataJadwalPanggilDokter(String day, String time, int spesialis) async {
     _setLoading(true);
+    print ("panggil dokter");
     print (day);
     print (time);
     try {
-      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_panggil_dokter/$day/$time'));
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_panggil_dokter/$time/$day/$spesialis/'));
       if (response.statusCode == 200) {
         data_Jadwal_dokter_Daring = JadwalDokterDaringFromJson(response.body);
       } else {

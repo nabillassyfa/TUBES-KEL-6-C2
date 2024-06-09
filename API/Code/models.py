@@ -190,6 +190,7 @@ class Pembayaran(BaseDB):
     metode_pembayaran = Column(String, index=True)
     total_pembayaran = Column(Integer, index=True)
     status = Column(String, index=True)
+    item = Column(String, index=True)
      
     user = relationship("User", back_populates="pembayaran")
 
