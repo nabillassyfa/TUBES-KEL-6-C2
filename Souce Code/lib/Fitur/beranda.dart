@@ -295,96 +295,90 @@ class _BerandaState extends State<Beranda> {
                             physics: const ScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: menuImage.length,
-                            itemBuilder: (BuildContext context, index) {
-                              var item = menuImage[index];
-                              return Column(
-                                children: [
-                                  Expanded(
-                                    //atur icon
-                                    child: IconButton(
-                                      icon: Icon(
+                            itemBuilder: (BuildContext context, int index) {
+                              final item = menuImage[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  // Implement navigation logic here
+                                  switch (index) {
+                                    case 0:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BuatJanjiTemuBefore()),
+                                      );
+                                      break;
+                                    case 1:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => InfoRS()),
+                                      );
+                                      break;
+                                    case 2:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SpecializationPage()),
+                                      );
+                                      break;
+                                    case 3:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PemeriksaanLab()),
+                                      );
+                                      break;
+                                    case 4:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BuatJanjiKonsulBefore()),
+                                      );
+                                      break;
+                                    case 5:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage()),
+                                      );
+                                      break;
+                                    case 6:
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PanggilDokter()),
+                                      );
+                                      break;
+                                    // Add cases for other menu items
+                                  }
+                                },
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Icon(
                                         item["icon"],
                                         size: 40,
-                                        color: const Color.fromARGB(255, 1, 101,
-                                            252), // Atur warna ikon
+                                        color: const Color.fromARGB(
+                                            255, 1, 101, 252),
                                       ),
-                                      onPressed: () {
-                                        // Tambahkan kode aksi yang ingin dilakukan saat ikon diklik di sini
-                                        switch (index) {
-                                          case 0:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BuatJanjiTemuBefore()),
-                                            );
-                                            break;
-                                          case 1:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InfoRS()),
-                                            );
-                                            break;
-                                          case 2:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SpecializationPage()),
-                                            );
-                                            break;
-                                          case 3:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PemeriksaanLab()),
-                                            );
-                                            break;
-                                          case 4:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BuatJanjiKonsulBefore()),
-                                            );
-                                            break;
-                                          case 5:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ChatPage()),
-                                            );
-                                            break;
-                                          case 6:
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PanggilDokter()),
-                                            );
-                                            break;
-                                          // Tambahkan case untuk ikon lainnya sesuai kebutuhan
-                                        }
-                                      },
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    //atur label
-                                    item["label"],
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w800,
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      item["label"],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w800,
+                                      ),
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               );
                             },
                           );

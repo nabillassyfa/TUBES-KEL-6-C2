@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Fitur/pembayaran.dart';
 
 class PemeriksaanLabDetail extends StatefulWidget {
   final Map<String, dynamic> labExam;
@@ -11,6 +12,8 @@ class PemeriksaanLabDetail extends StatefulWidget {
 }
 
 class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
+  String selectedHospital = 'Hospital A';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +53,31 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
               ),
             ),
             const Spacer(),
+            DropdownButtonFormField<String>(
+              value: selectedHospital,
+              onChanged: (value) {
+                setState(() {
+                  selectedHospital = value!;
+                });
+              },
+              items: const [
+                DropdownMenuItem<String>(
+                  value: 'Hospital A',
+                  child: Text('Hospital A'),
+                ),
+              ],
+              decoration: const InputDecoration(
+                labelText: 'Pilih Rumah Sakit',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 4,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,9 +90,21 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle 'Beli' button press
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Pembayaran(),
+                      ),
+                    );
                   },
-                  child: const Text('Beli'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 1, 101, 252),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Text('Pesan'),
                 ),
               ],
             ),
