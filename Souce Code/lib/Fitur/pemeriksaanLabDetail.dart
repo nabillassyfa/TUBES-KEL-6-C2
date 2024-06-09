@@ -106,12 +106,17 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => Pembayaran(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Pembayaran(
+                          itemNama: widget.labExam['name'],
+                          itemDeskripsi: widget.labExam['deskripsi'],
+                          itemLayanan: widget.labExam['category'],
+                          biaya: widget.labExam['price'],
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 1, 101, 252),
