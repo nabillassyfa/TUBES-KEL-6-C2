@@ -164,6 +164,31 @@ class JadwalDokter(JadwalDokterBase):
     class Config:
         orm_mode = True
 
+# Jadwal Dokter Online
+class JadwalDokterOnlineBase(BaseModel):
+    hari: str
+    waktu_mulai: time
+    waktu_berakhir: time
+    id_dokter: int
+        
+class JadwalDokterOnline(JadwalDokterOnlineBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+        
+class JadwalPanggilDokterBase(BaseModel):
+    hari: str
+    waktu_mulai: time
+    waktu_selesai: time
+    id_dokter: int
+        
+class JadwalPanggilDokter(JadwalPanggilDokterBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+        
 class PembayaranBase(BaseModel):
     id_user: int
     waktu_pembayaran: datetime

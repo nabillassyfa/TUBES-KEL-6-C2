@@ -121,6 +121,15 @@ def read_items(spesialis_id: int ,rs_id: int, hari: str, db: Session = Depends(g
 def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter(db=db, dokter_id=dokter_id, rs_id=rs_id)
 
+
+@app.get("/jadwal_dokter_online/{dokter_id}")
+def read_jadwal(dokter_id:int, db: Session = Depends(get_db)):
+    return crud.get_jadwal_dokter_Online(db=db, dokter_id=dokter_id)
+
+@app.get("/jadwal_panggil_dokter/{waktu}/{hari}")
+def read_jadwal(waktu:str, hari:str, db: Session = Depends(get_db)):
+    return crud.get_jadwal_panggil_dokter(db=db, waktu=waktu, hari=hari)
+
 ## Jadwal Dokter by Hari
 @app.get("/jadwal_dokter_by_hari/{dokter_id}/{rs_id}/{hari}")
 def read_jadwal(dokter_id:int, rs_id:int, hari:str, db: Session = Depends(get_db)):

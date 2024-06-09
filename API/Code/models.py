@@ -31,6 +31,9 @@ class Dokter(BaseDB):
     rekam_medis = relationship("RekamMedis", back_populates="dokter")
     rating = relationship("Rating", back_populates="dokter")
     jadwal_dokter = relationship("JadwalDokter", back_populates="dokter")
+    jadwal_dokter_online = relationship("JadwalDokterOnline", back_populates="dokter")
+    jadwal_dokter_panggil_dokter = relationship("JadwalPanggilDokter", back_populates="dokter")
+    
     
 class RekamMedis(BaseDB):
     __tablename__ = "rekam_medis"
@@ -156,6 +159,28 @@ class JadwalDokter(BaseDB):
     RS = relationship("RS", back_populates="jadwal_dokter")
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="jadwal_dokter")
 
+class JadwalDokterOnline(BaseDB):
+    __tablename__ = "jadwal_dokter_online"
+    id = Column(Integer, primary_key=True)
+    hari = Column(String, index=True)
+    waktu_mulai = Column(Time, index=True)
+    waktu_berakhir = Column(Time, index=True)
+    id_dokter = Column(Integer, ForeignKey('dokter.id'))
+    
+    dokter = relationship("Dokter", back_populates="jadwal_dokter_online")
+    
+
+class JadwalPanggilDokter(BaseDB):
+    __tablename__ = "jadwal_dokter_panggil_dokter"
+
+    id = Column(Integer, primary_key=True, index=True)
+    hari = Column(String, index=True)
+    waktu_mulai = Column(Time)
+    waktu_selesai = Column(Time)
+    id_dokter = Column(Integer, ForeignKey('dokter.id'))
+
+    dokter = relationship("Dokter", back_populates="jadwal_dokter_panggil_dokter")
+    
 class Pembayaran(BaseDB):
     __tablename__ = "pembayaran"
     id = Column(Integer, primary_key=True)

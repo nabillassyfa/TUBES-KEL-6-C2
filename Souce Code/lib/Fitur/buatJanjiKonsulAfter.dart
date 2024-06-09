@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
 import 'package:tp2/models/dokter.dart';
 import 'package:tp2/models/jadwalDokter.dart';
+import 'package:tp2/models/jadwalDokterOnline.dart';
 import 'package:tp2/provider/p_jadwalDokter.dart';
 
 class BuatJanjiKonsulAfter extends StatefulWidget {
@@ -27,7 +28,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     jadwalDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
-    jadwalDokterProvider.getdataJadwalDokterByDokterRS(widget.dokter.id, widget.dokter.id_rs);
+    jadwalDokterProvider.getdataJadwalDokterByDokter(widget.dokter.id);
   }
 
   @override
@@ -110,7 +111,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                           biaya: 120000,
                           tanggal: _formatDate(pickedDate),
                           waktu: selectedTime,
-                        )
+                        ),
                       ),
                     );
                   },
@@ -160,7 +161,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
           controller: controller,
           onTap: () async {
             if (label == "Pilih Tanggal") {
-              pickedDate = await _selectDate(context, jadwalDokterProvider.dataJadwalDokter);
+              pickedDate = await _selectDate(context, jadwalDokterProvider.dataJadwalDokterDaring);
               if (pickedDate != null) {
                 setState(() {
                   controller?.text = "${_formatDate(pickedDate)}";
@@ -194,7 +195,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
     );
   }
 
-  Future<DateTime?> _selectDate(BuildContext context, List<JadwalDokter> jadwalDokter) async {
+  Future<DateTime?> _selectDate(BuildContext context, List<JadwalDokterDaring> jadwalDokter) async {
     DateTime? pickedDate;
     pickedDate = await showDatePicker(
       context: context,
@@ -210,7 +211,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
   }
 
   void _updateWaktuGabung() {
-    List<JadwalDokter> filteredJadwal = jadwalDokterProvider.data_Jadwal_dokter
+    List<JadwalDokterDaring> filteredJadwal = jadwalDokterProvider.data_Jadwal_dokter_Daring
         .where((jadwal) => jadwal.hari == _getDayName(pickedDate?.weekday ?? 0))
         .toList();
 

@@ -262,7 +262,6 @@ def get_rating_dokter(db: Session, dokter_id: int):
 
     return rating_dokter_list
 
-# Jadwal Dokter
 
 # Jadwal Dokter
 def get_jadwal_dokter(db: Session, dokter_id: int, rs_id:int):
@@ -353,6 +352,7 @@ def get_jadwal_dokter_by_hari_jam(db: Session, waktu: time, rs_id: int, hari: st
 
     return jadwal_dokter_list
 
+
 ## Get Jadwal berdasarkan waktu, hari, dan spesialis
 def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
     try:
@@ -361,11 +361,14 @@ def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
         raise ValueError("Format input tidak valid. Harap gunakan format: 'Hari, DD MMMM YYYY'")
     
     results = (
-        db.query(models.JadwalDokter, models.Dokter.nama.label("nama_dokter"))
+        db.query(models.JadwalDokterOnline, models.Dokter.nama.label("nama_dokter"))
+        .join(models.Dokter, models.JadwalDokterOnline.id_dokter == models.Dokter.id)
         .filter(
-            models.JadwalDokter.hari == hari,
-            models.JadwalDokter.waktu_mulai == waktu,
+            models.JadwalDokterOnline.hari == hari,
+            models.JadwalDokterOnline.waktu_mulai <= waktu,
+            models.JadwalDokterOnline.waktu_berakhir > waktu,
             models.Dokter.id_spesialis == spesialis,
+           
         )
         .all()
     )
@@ -378,7 +381,65 @@ def get_jadwal_dokter_daring(db: Session, waktu: str, hari: str, spesialis:int):
             "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
             "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
             "id_dokter": jadwal_dokter.id_dokter,
-            "id_RS": jadwal_dokter.id_RS,
+            "nama_dokter" : nama_dokter,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+
+def get_jadwal_dokter_Online(db: Session, dokter_id: int):
+    results = (
+        db.query(
+            models.JadwalDokterOnline, 
+            models.Dokter.nama.label("nama_dokter")
+        )
+        .join(models.Dokter, models.JadwalDokterOnline.id_dokter == models.Dokter.id)
+        .filter(models.JadwalDokterOnline.id_dokter == dokter_id)
+        .all()
+    )
+
+    jadwal_dokter_list = []
+    for jadwal_dokter, nama_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "nama_dokter" : nama_dokter,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+
+
+def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
+    try:
+        hari, _ = hari.split(", ")
+    except ValueError:
+        raise ValueError("Format input tidak valid. Harap gunakan format: 'Hari, DD MMMM YYYY'")
+    
+    results = (
+        db.query(models.JadwalPanggilDokter, models.Dokter.nama.label("nama_dokter"))
+        .join(models.Dokter, models.JadwalPanggilDokter.id_dokter == models.Dokter.id)
+        .filter(
+            models.JadwalPanggilDokter.hari == hari,
+            models.JadwalPanggilDokter.waktu_mulai <= waktu,
+            models.JadwalPanggilDokter.waktu_selesai > waktu,
+        )
+        .all()
+    )
+
+    jadwal_dokter_list = []
+    for jadwal_dokter, nama_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_selesai.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
             "nama_dokter" : nama_dokter,
         }
         jadwal_dokter_list.append(jadwal_dokter_dict)
