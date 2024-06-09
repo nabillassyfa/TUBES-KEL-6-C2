@@ -53,8 +53,5 @@ class JadwalJanjiTemu {
         "id_jadwal_dokter": id_jadwal_dokter,
         "tanggal": tanggal.toIso8601String(),
         "durasi": durasi,
-        "nama_dokter": nama_dokter,
-        "nama_spesialis": nama_spesialis,
-        "nama_RS": nama_RS,
       };
 }

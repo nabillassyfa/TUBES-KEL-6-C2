@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tp2/Fitur/bottomNavBar.dart';
 
 
 class PembayaranSukses extends StatefulWidget {
-  const PembayaranSukses({super.key});
+  final String itemNama;
+  final String itemDeskripsi;
+  String? itemDeskripsi2;
+  final String itemLayanan;
+  String? tanggal;
+  String? waktu;
+  final int biaya;
+  final String pasien;
 
+  PembayaranSukses({
+    super.key,
+    required this.itemNama,
+    required this.itemDeskripsi,
+    this.itemDeskripsi2,
+    required this.itemLayanan,
+    this.tanggal,
+    this.waktu,
+    required this.biaya,
+    required this.pasien,
+  });
   @override
   State<PembayaranSukses> createState() => _PembayaranSuksesState();
 }
@@ -14,7 +33,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -67,7 +86,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               height: 10,
             ),
             Text(
-              'dr. Muhammad Rifky Afandi, SpKj',
+              widget.itemNama,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -96,7 +115,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                             width: 5,
                           ),
                           Text(
-                            'Celine Redriguez',
+                            widget.pasien,
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold
@@ -118,7 +137,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                             width: 5,
                           ),
                           Text(
-                            'Kamis, 26 Agustus 2023',
+                            '${widget.tanggal}',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold
@@ -129,6 +148,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                       SizedBox(
                         height: 20,
                       ),
+                      widget.itemDeskripsi2 != null ?
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -140,14 +160,14 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                             width: 5,
                           ),
                           Text(
-                            'Rumah Sakit Doa Ibu A',
+                            '${widget.itemDeskripsi2}',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold
                             ),
                           )
                         ],
-                      ),
+                      ) : Container(),
                       
                     ],
                   ),
@@ -165,7 +185,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                             width: 5,
                           ),
                           Text(
-                            'Rp. 120.000,00',
+                            '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold
@@ -187,7 +207,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                             width: 5,
                           ),
                           Text(
-                            '19.00 - 21.00',
+                            '${widget.waktu}',
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold

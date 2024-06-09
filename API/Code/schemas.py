@@ -131,8 +131,6 @@ class JadwalJanjiTemuBase(BaseModel):
     tanggal: date
     durasi: int
 
-class JadwalJanjiTemuCreate(JadwalJanjiTemuBase):
-    pass
 class JadwalJanjiTemu(JadwalJanjiTemuBase):
     id: int
 
