@@ -171,6 +171,7 @@ class PembayaranBase(BaseModel):
     metode_pembayaran: str
     total_pembayaran: int
     status: str
+    item: str
         
 class Pembayaran(PembayaranBase):
     id: int

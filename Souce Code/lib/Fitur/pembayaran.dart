@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tp2/models/metodePembayaran.dart';
 import 'package:tp2/provider/p_infoUser.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
+import 'package:tp2/provider/p_pembayaran.dart';
 import 'pembayaranSukses.dart';
 
 class Pembayaran extends StatefulWidget {
@@ -35,6 +36,7 @@ class _PembayaranState extends State<Pembayaran> {
   String? namaPasien;
   MetodePembayaranProvider? metodePembayaranProvider;
   MetodePembayaran? selectedMetodePembayaran;
+  bool isProcessing = false; // State to track loading state
 
   @override
   void initState() {
@@ -42,8 +44,8 @@ class _PembayaranState extends State<Pembayaran> {
     infoUserProvider = Provider.of<InfoUserProvider>(context, listen: false);
     infoUserProvider!.getdataInfoUser().then((_) {
       setState(() {
-          namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap;
-          print(namaPasien);
+        namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap;
+        print(namaPasien);
       });
     });
     metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
@@ -328,32 +330,48 @@ class _PembayaranState extends State<Pembayaran> {
               ),
             ),
             selectedMetodePembayaran != null ?
-            MaterialButton(
-              minWidth: 380,
-              height: 50,
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PembayaranSukses(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              color: Color.fromARGB(255, 1, 101, 252),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Text(
-                "Konfirmasi",
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
-            ) : Text('Silahkan pilih metode pembayaran')
+            isProcessing // Display loading indicator if processing
+                ? CircularProgressIndicator()
+                : MaterialButton(
+                  minWidth: 380,
+                  height: 50,
+                    onPressed: () async {
+                      if (selectedMetodePembayaran != null) {
+                        setState(() {
+                          isProcessing = true;
+                        });
+                        try {
+                          await Provider.of<PembayaranProvider>(context, listen: false)
+                              .postdataPembayaran(selectedMetodePembayaran!.nama_pembayaran, widget.biaya, widget.itemNama);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PembayaranSukses(),
+                            ),
+                            (Route<dynamic> route) => false,
+                          );
+                        } catch (e) {
+                          // Handle error
+                        } finally {
+                          setState(() {
+                            isProcessing = false;
+                          });
+                        }
+                      } 
+                    },
+                    color: Color.fromARGB(255, 1, 101, 252),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Text(
+                      "Konfirmasi",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ) : Text('Silahkan pilih metode pembayaran')
           ],
         ),
       ),
