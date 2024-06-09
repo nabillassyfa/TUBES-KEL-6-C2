@@ -76,12 +76,12 @@ class _EditBiodataPageState extends State<EditBiodataPage> {
         title: Row(
           children: [
             Icon(
-              Icons.person,
+              Icons.edit,
               color: Colors.white,
             ),
             SizedBox(width: 8.0),
             Text(
-              'Profil Saya',
+              'Edit Biodata',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

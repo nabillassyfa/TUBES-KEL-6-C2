@@ -80,11 +80,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: CircleAvatar(
                                 radius: 38,
                                 backgroundImage: NetworkImage(
-                                    'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+                                    'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=1460&h=750&dpr=1'),
                               ),
                             ),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 4),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 user.nama_lengkap,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 24,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -108,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     user.no_telp,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     user.alamat,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -139,7 +139,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       margin: EdgeInsetsDirectional.only(
                         start: 16,
                         end: 16,
-                        top: 4,
                       ),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -187,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ],
                           ),
-                          Divider(thickness: 2, height: 24),
+                          Divider(thickness: 2, height: 14),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -197,37 +196,37 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Text(
                                     'Gender : ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.jenis_kelamin.toString(),
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 4),
                                   Text(
                                     'Berat Badan: ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.berat_badan.toString() + ' Kg',
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 4),
                                   Text(
                                     'Tinggi Badan: ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.tinggi_badan.toString() + 'Cm',
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -237,37 +236,37 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Text(
                                     'Umur : ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.umur.toString() + ' Tahun',
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 4),
                                   Text(
                                     'Tanggal Lahir: ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.tanggal_lahir.toString(),
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 4),
                                   Text(
                                     'Golongan Darah : ',
                                     style: TextStyle(
-                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   Text(
                                     user.golongan_darah.toString(),
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -291,7 +290,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: InkWell(
                               child: const Column(
                                 children: [
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -300,24 +299,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Icon(
                                             Icons.settings,
-                                            size: 32,
+                                            size: 24,
                                             color: Color(0xff0165fc),
                                           ),
-                                          SizedBox(width: 16),
+                                          SizedBox(width: 8),
                                           Text(
                                             'Pengaturan',
-                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       ),
                                       Icon(
                                         Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                        size: 24,
                                         color: Colors.grey,
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                               onTap: () {
@@ -329,13 +327,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                          Divider(thickness: 2),
+                          Divider(),
                           Material(
                             type: MaterialType.transparency,
                             child: InkWell(
                               child: const Column(
                                 children: [
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -344,24 +342,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Icon(
                                             Icons.text_snippet,
-                                            size: 32,
+                                            size: 24,
                                             color: Color(0xff0165fc),
                                           ),
-                                          SizedBox(width: 16),
+                                          SizedBox(width: 8),
                                           Text(
                                             'Syarat & Ketentuan',
-                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       ),
                                       Icon(
                                         Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                        size: 24,
                                         color: Colors.grey,
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                               onTap: () {
@@ -373,13 +370,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                          Divider(thickness: 2),
+                          Divider(),
                           Material(
                             type: MaterialType.transparency,
                             child: InkWell(
                               child: const Column(
                                 children: [
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -388,24 +385,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Icon(
                                             Icons.info,
-                                            size: 32,
+                                            size: 24,
                                             color: Color(0xff0165fc),
                                           ),
-                                          SizedBox(width: 16),
+                                          SizedBox(width: 8),
                                           Text(
                                             'Kebijakan Privasi',
-                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       ),
                                       Icon(
                                         Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                        size: 24,
                                         color: Colors.grey,
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                               onTap: () {
@@ -417,13 +413,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                          Divider(thickness: 2),
+                          Divider(),
                           Material(
                             type: MaterialType.transparency,
                             child: InkWell(
                               child: const Column(
                                 children: [
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -432,24 +428,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Icon(
                                             Icons.help,
-                                            size: 32,
+                                            size: 24,
                                             color: Color(0xff0165fc),
                                           ),
-                                          SizedBox(width: 16),
+                                          SizedBox(width: 8),
                                           Text(
                                             'Pusat Bantuan',
-                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       ),
                                       Icon(
                                         Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                        size: 24,
                                         color: Colors.grey,
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                               onTap: () {
@@ -461,13 +456,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                          Divider(thickness: 2),
+                          Divider(),
                           Material(
                             type: MaterialType.transparency,
                             child: InkWell(
                               child: const Column(
                                 children: [
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -476,24 +471,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           Icon(
                                             Icons.logout,
-                                            size: 32,
+                                            size: 24,
                                             color: Colors.red,
                                           ),
-                                          SizedBox(width: 16),
+                                          SizedBox(width: 8),
                                           Text(
                                             'Keluar',
-                                            style: TextStyle(fontSize: 18),
                                           ),
                                         ],
                                       ),
                                       Icon(
                                         Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                        size: 24,
                                         color: Colors.grey,
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  SizedBox(height: 4),
                                 ],
                               ),
                               onTap: () {
