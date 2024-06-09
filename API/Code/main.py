@@ -126,9 +126,12 @@ def read_jadwal(dokter_id:int, rs_id:int, db: Session = Depends(get_db)):
 def read_jadwal(dokter_id:int, db: Session = Depends(get_db)):
     return crud.get_jadwal_dokter_Online(db=db, dokter_id=dokter_id)
 
-@app.get("/jadwal_panggil_dokter/{waktu}/{hari}")
-def read_jadwal(waktu:str, hari:str, db: Session = Depends(get_db)):
-    return crud.get_jadwal_panggil_dokter(db=db, waktu=waktu, hari=hari)
+@app.get("/jadwal_panggil_dokter/{waktu}/{hari}/{spesialis}")
+def read_jadwal(waktu:str, hari:str, spesialis:int, db: Session = Depends(get_db)):
+    print (hari)
+    print (spesialis)
+    print (waktu)
+    return crud.get_jadwal_panggil_dokter(db=db, waktu=waktu, hari=hari, spesialis=spesialis)
 
 
 ## Jadwal Dokter by Hari

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
+import 'package:tp2/provider/p_jadwalDokter.dart';  
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:tp2/provider/p_spesialis.dart';
+import 'package:provider/provider.dart';
 
 class PanggilDokter extends StatefulWidget {
   @override
@@ -7,6 +11,28 @@ class PanggilDokter extends StatefulWidget {
 }
 
 class PanggilDokterState extends State<PanggilDokter> {
+  int? selectedSpesialisId;
+  String? selectedDay;
+  String? selectedTime;
+  int? selectedDokterId;
+
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting('id_ID', null).then((_) {
+      Provider.of<SpesialisProvider>(context, listen: false).getdataSpesialis();
+    });
+  }
+
+  void _fetchFilteredDokters(String? selectedDay, String? selectedTime, int? selectedSpesialisId) {
+    if (selectedDay != null && selectedTime != null && selectedSpesialisId != null) {
+      Provider.of<JadwalDokterProvider>(context, listen: false).getdataJadwalPanggilDokter(selectedDay, selectedTime, selectedSpesialisId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,61 +64,159 @@ class PanggilDokterState extends State<PanggilDokter> {
               Column(
                 children: <Widget>[
                   Text(
-                    "Panggil Dokter",
+                    "Video Call Dokter",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
+                  Center(
+                    // Center the text
+                    child: Text(
+                      "Buat janji konsultasi online berdasarkan spesialis dan waktu yang Anda inginkan.",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[700],
+                      ),
+                      textAlign: TextAlign.center, // Center align the text
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 40), // Add spacing here
+              Consumer<SpesialisProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  if (provider.dataSpesialis.isEmpty) {
+                    return Text("No Spesialis found");
+                  }
+                  return dropdownInput(
+                    context: context,
+                    label: "Pilih Spesialis",
+                    hintText: "Semua Spesialis",
+                    items: provider.dataSpesialis.map((spesialis) => spesialis.nama).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSpesialisId = provider.dataSpesialis.firstWhere((spesialis) => spesialis.nama == value).id;
+                        selectedDay = null;
+                        selectedTime = null;
+                        selectedDokterId = null;
+                        dateController.clear();
+                        timeController.clear();
+                         _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                      });
+                    },
+                  );
+                },
+              ),
+               SizedBox(height: 10),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  dropdownInput(
-                      context: context,
-                      label: "Pilih Spesialis",
-                      hintText: "Semua Spesialis", // Add different hint text
-                      items: [
-                        "Spesialis Jantung",
-                        "Spesialis Kulit",
-                        "Spesialis Kandungan",
-                        "Spesialis Anak",
-                        "Spesialis Saraf",
-                        "Spesialis Mata",
-                        "Spesialis Ortopedi",
-                        "Spesialis Jiwa",
-                        "Spesialis Urologi",
-                        "Spesialis THT",
-                        "Spesialis Kanker",
-                        "Spesialis Endokrin",
-                      ]),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(
-                    context: context,
-                    label: "Pilih Tanggal",
-                    hintText: "Hari, Tgl - Bln - Thn", // Add different hint text
+                  Text(
+                    "Pilih Tanggal",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
                   ),
-                  SizedBox(height: 10), // Add spacing here
-                  inputFile(
-                    context: context,
-                    label: "Pilih Waktu",
-                    hintText: "00:00", // Add different hint text
+                  SizedBox(height: 10), // Jarak antara judul dan kotak tanggal
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: dateController,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 365)),
+                            );
+                            if (pickedDate != null) {
+                              setState(() {
+                                selectedDay = _formatDate(pickedDate);
+                                dateController.text = selectedDay!;
+                                _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                              });
+                            }
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'Pilih Tanggal',
+                            suffixIcon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252),), // Icon kalender
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10), // Add spacing here
-                  dropdownInput(
-                      context: context,
-                      label: "Pilih Dokter",
-                      hintText: "Pilih Dokter", // Add different hint text
-                      items: [
-                        "Dr. John Doe",
-                        "Dr. Jane Smith",
-                        "Dr. Rifky Afandi",
-                      ]),
                 ],
               ),
-              SizedBox(height: 80), // Add spacing here
+              SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Pilih Waktu",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                  ),
+                  SizedBox(height: 10), // Jarak antara judul dan kotak waktu
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          controller: timeController,
+                          onTap: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                            );
+                            if (pickedTime != null) {
+                              setState(() {
+                                selectedTime = "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
+                                timeController.text = selectedTime!;
+                                _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                              });
+                            }
+                          },
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: 'Pilih Waktu',
+                            suffixIcon: Icon(Icons.access_time, color: Color.fromARGB(255, 1, 101, 252),), // Icon waktu
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 10),
+              Consumer<JadwalDokterProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  if (provider.data_Jadwal_dokter_Daring.isEmpty) {
+                    return Text("No Dokters found");
+                  }
+                  return dropdownInput(
+                    context: context,
+                    label: "Pilih Dokter",
+                    hintText: "Pilih dokter",
+                    items: provider.data_Jadwal_dokter_Daring.map((dokter) => dokter.nama).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDokterId = provider.data_Jadwal_dokter_Daring.firstWhere((dokter) => dokter.nama == value).id;
+                      });
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+                // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -102,11 +226,42 @@ class PanggilDokterState extends State<PanggilDokter> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    // Navigasi ke halaman baru ketika tombol diklik
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => Pembayaran()),
-                    // );
+                    if (selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
+                     final selectedDokter = Provider.of<JadwalDokterProvider>(context, listen: false).data_Jadwal_dokter_Daring.firstWhere((dokter) => dokter.id == selectedDokterId);
+                      final selectedSpesialis = Provider.of<SpesialisProvider>(context, listen: false).dataSpesialis.firstWhere((spesialis) => spesialis.id == selectedSpesialisId);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Pembayaran(
+                            itemNama: selectedDokter.nama,
+                            itemDeskripsi: selectedSpesialis.nama,
+                            itemLayanan: 'Konsultasi Online',
+                            biaya: 120000,
+                            tanggal: selectedDay!,
+                            waktu: selectedTime!,
+                          ),
+                        ),
+                      );
+                    } else {
+                      // Tampilkan peringatan jika ada variabel yang kosong
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Peringatan"),
+                            content: Text("Silakan lengkapi semua informasi sebelum melanjutkan."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Tutup dialog
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                    );
+                    }
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,
@@ -114,9 +269,9 @@ class PanggilDokterState extends State<PanggilDokter> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    "Panggil Dokter",
+                    "Buat Janji Konsultasi Online",
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       fontSize: 18,
                       color: Colors.white,
                     ),
@@ -132,35 +287,34 @@ class PanggilDokterState extends State<PanggilDokter> {
 }
 
 // Widget untuk dropdown input
-Widget dropdownInput(
-    {required BuildContext context,
-    required String label,
-    required String hintText, // Add parameter hintText
-    required List<String> items}) {
+Widget dropdownInput({
+  required BuildContext context,
+  required String label,
+  required String hintText,
+  required List<String> items,
+  void Function(String?)? onChanged,
+}) {
+  String? selectedValue;
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
-      SizedBox(height: 1),
-      DropdownButtonFormField(
-        value: null,
-        hint: Text(hintText), // Use hintText for the hint
-        items: items.map((String value) {
-          return DropdownMenuItem(
+      SizedBox(height: 5),
+      DropdownButtonFormField<String>(
+        isExpanded: true,
+        value: selectedValue,
+        hint: Text(hintText),
+        onChanged: onChanged,
+        items: items.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
           );
         }).toList(),
-        onChanged: (value) {
-          // Handle dropdown value change
-        },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
             vertical: 8,
@@ -174,77 +328,6 @@ Widget dropdownInput(
           ),
         ),
       ),
-      SizedBox(height: 1),
-    ],
-  );
-}
-
-// Widget untuk input field
-Widget inputFile({
-  required BuildContext context,
-  required String label,
-  required String hintText, // Add parameter hintText
-  obscureText = false,
-}) {
-  TextEditingController timeController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
-        ),
-      ),
-      SizedBox(height: 1),
-      TextFormField(
-        controller: label == "Pilih Tanggal" ? dateController : timeController,
-        obscureText: obscureText,
-        onTap: () async {
-          if (label == "Pilih Tanggal") {
-            DateTime? pickedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(Duration(days: 365)),
-            );
-            if (pickedDate != null) {
-              dateController.text = "${_formatDate(pickedDate)}";
-            }
-          } else if (label == "Pilih Waktu") {
-            TimeOfDay? pickedTime = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.now(),
-            );
-            if (pickedTime != null) {
-              timeController.text =
-                  "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
-            }
-          }
-        },
-        readOnly: true,
-        decoration: InputDecoration(
-          hintText: hintText, // Use hintText for the hint
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          suffixIcon: label == "Pilih Tanggal"
-              ? Icon(Icons.calendar_today,
-                  color: Color.fromARGB(255, 1, 101, 252))
-              : (label == "Pilih Waktu"
-                  ? Icon(Icons.access_time_filled_rounded,
-                      color: Color.fromARGB(255, 1, 101, 252))
-                  : null),
-        ),
-      ),
-      SizedBox(height: 1),
     ],
   );
 }
