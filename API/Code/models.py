@@ -196,3 +196,8 @@ class JadwalObatKonsumsi(BaseDB):
     waktu = Column(Time, index=True)
 
     jadwal_obat = relationship("JadwalObat", back_populates="jadwal_obat_konsumsi")
+
+class MetodePembayaran(BaseDB):
+    __tablename__ = "metode_pembayaran"
+    id = Column(Integer, primary_key=True)
+    nama_pembayaran = Column(String, index=True)

@@ -293,3 +293,9 @@ def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
 def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
     jadwal_obat_list = crud.get_jadwal_obat_by_user(db=db, user_id=user_id)
     return jadwal_obat_list
+
+# Metode Pembayaran
+@app.get("/metode_pembayaran/")
+def read_metode_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    metode_list = crud.get_metode_pembayaran(db, skip=skip, limit=limit)
+    return metode_list

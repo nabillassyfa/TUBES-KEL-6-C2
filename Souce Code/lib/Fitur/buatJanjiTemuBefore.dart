@@ -250,10 +250,10 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                   height: 60,
                   onPressed: () {
                     if (selectedRSId != null && selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Pembayaran()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => Pembayaran()),
+                      // );
                     } else {
                       // Tampilkan peringatan jika ada variabel yang kosong
                       showDialog(

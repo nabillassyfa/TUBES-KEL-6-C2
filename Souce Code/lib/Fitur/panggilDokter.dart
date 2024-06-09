@@ -103,10 +103,10 @@ class PanggilDokterState extends State<PanggilDokter> {
                   height: 60,
                   onPressed: () {
                     // Navigasi ke halaman baru ketika tombol diklik
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Pembayaran()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => Pembayaran()),
+                    // );
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
                   elevation: 0,

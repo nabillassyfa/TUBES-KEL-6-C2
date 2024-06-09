@@ -1,15 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:tp2/models/metodePembayaran.dart';
+import 'package:tp2/provider/p_metodePembayaran.dart';
 import 'pembayaranSukses.dart';
 
 
 class Pembayaran extends StatefulWidget {
-  const Pembayaran({super.key});
+  final String itemNama;
+  final String itemDeskripsi;
+  String? itemDeskripsi2;
+  final String itemLayanan;
+  String? tanggal;
+  String? waktu;
+  final int biaya;
+
+  Pembayaran({
+    super.key,
+    required this.itemNama,
+    required this.itemDeskripsi,
+    this.itemDeskripsi2,
+    required this.itemLayanan,
+    this.tanggal,
+    this.waktu,
+    required this.biaya,
+  });
 
   @override
   State<Pembayaran> createState() => _PembayaranState();
 }
-
 class _PembayaranState extends State<Pembayaran> {
+  MetodePembayaranProvider? metodePembayaranProvider;
+  MetodePembayaran? selectedMetodePembayaran;
+
+  @override
+  void initState() {
+    super.initState();
+    metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
+    metodePembayaranProvider!.getdataMetodePembayaran();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +66,9 @@ class _PembayaranState extends State<Pembayaran> {
                 'Pembayaran',
                 style: TextStyle(
                   fontSize: 40,
-                  fontWeight: FontWeight.bold
-                ),),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -58,12 +89,14 @@ class _PembayaranState extends State<Pembayaran> {
                   color: Color.fromARGB(255, 1, 101, 252),
                 ),
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Warna bayangan
-                  spreadRadius: 2, // Lebar bayangan
-                  blurRadius: 5, // Kekaburan bayangan
-                  offset: Offset(0, 5),
-                )]
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), // Warna bayangan
+                    spreadRadius: 2, // Lebar bayangan
+                    blurRadius: 5, // Kekaburan bayangan
+                    offset: Offset(0, 5),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
@@ -71,16 +104,12 @@ class _PembayaranState extends State<Pembayaran> {
                     children: [
                       Text(
                         'Nama Pasien:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        'Celine Rodriguez'
-                      )
+                      Text('Celine Rodriguez'),
                     ],
                   ),
                   const SizedBox(
@@ -93,7 +122,7 @@ class _PembayaranState extends State<Pembayaran> {
                       ),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -116,18 +145,41 @@ class _PembayaranState extends State<Pembayaran> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'dr. Muhammad Rifky Afandi, SpKj',
+                                widget.itemNama,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                'Psikiater - Spesialis Jiwa',
+                                widget.itemDeskripsi2 != null
+                                    ? '${widget.itemDeskripsi} - ${widget.itemDeskripsi2}'
+                                    : widget.itemDeskripsi,
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 10,
                                 ),
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              widget.tanggal != null
+                                  ? Text(
+                                      'Tanggal : ${widget.tanggal}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 10,
+                                      ),
+                                    )
+                                  : Container(),
+                              widget.waktu != null
+                                  ? Text(
+                                      'Waktu   : ${widget.waktu}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 10,
+                                      ),
+                                    )
+                                  : Container(),
                               SizedBox(
                                 height: 20,
                               ),
@@ -141,7 +193,7 @@ class _PembayaranState extends State<Pembayaran> {
                                     ),
                                   ),
                                   Text(
-                                    'Janji temu',
+                                    widget.itemLayanan,
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 10,
@@ -163,7 +215,7 @@ class _PembayaranState extends State<Pembayaran> {
                                     ),
                                   ),
                                   Text(
-                                    'Rp. 120.000,00',
+                                    '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 10,
@@ -185,7 +237,7 @@ class _PembayaranState extends State<Pembayaran> {
                                     ),
                                   ),
                                   Text(
-                                    'Rp. 120.000,00',
+                                    '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 10,
@@ -204,7 +256,8 @@ class _PembayaranState extends State<Pembayaran> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 15),
-                    decoration:BoxDecoration(
+                    height: 40,
+                    decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 1, 101, 252),
                       ),
@@ -212,19 +265,51 @@ class _PembayaranState extends State<Pembayaran> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Consumer<MetodePembayaranProvider>(
+                              builder: (context, provider, child) {
+                                if (provider.isLoading) {
+                                  return Center(child: CircularProgressIndicator());
+                                } else {
+                                  return ListView.builder(
+                                    itemCount: provider.dataMetodePembayaran.length,
+                                    itemBuilder: (context, index) {
+                                      MetodePembayaran metode = provider.dataMetodePembayaran[index];
+                                      return ListTile(
+                                        title: Text(metode.nama_pembayaran),
+                                        onTap: () {
+                                          setState(() {
+                                            selectedMetodePembayaran = metode;
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Pilih Metode Pembayaran',
+                          Text(
+                            selectedMetodePembayaran != null
+                                ? selectedMetodePembayaran!.nama_pembayaran
+                                : 'Pilih Metode Pembayaran',
                             style: TextStyle(
-                              color: Colors.grey
+                              color: const Color.fromARGB(255, 92, 92, 92),
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios, color: Colors.grey,size: 16,),
-                            
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[900],
+                            size: 16,
+                          ),
                         ],
                       ),
                     ),
@@ -232,13 +317,17 @@ class _PembayaranState extends State<Pembayaran> {
                 ],
               ),
             ),
+            selectedMetodePembayaran != null ?
             MaterialButton(
               minWidth: 380,
               height: 50,
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const PembayaranSukses()), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                  MaterialPageRoute(
+                    builder: (context) => PembayaranSukses(
+                      
+                  )), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
                   (Route<dynamic> route) => false,
                 );
               },
@@ -247,15 +336,15 @@ class _PembayaranState extends State<Pembayaran> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
-              child: const Text(
-                "Bayar Sekarang",
+              child: Text(
+                "Konfirmasi",
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 16,
                   color: Colors.white,
                 ),
               ),
-            ),
+            ) : Text('Silahkan pilih metode pembayaran')
           ],
         ),
       ),

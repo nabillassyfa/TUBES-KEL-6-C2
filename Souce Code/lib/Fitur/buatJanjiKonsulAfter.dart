@@ -102,7 +102,16 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Pembayaran()),
+                      MaterialPageRoute(
+                        builder: (context) => Pembayaran(
+                          itemNama: widget.dokter.nama,
+                          itemDeskripsi: widget.dokter.namaSpesialis,
+                          itemLayanan: 'Konsultasi Online',
+                          biaya: 120000,
+                          tanggal: _formatDate(pickedDate),
+                          waktu: selectedTime,
+                        )
+                      ),
                     );
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
