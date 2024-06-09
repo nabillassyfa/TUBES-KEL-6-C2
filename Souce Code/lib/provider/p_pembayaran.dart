@@ -50,7 +50,7 @@ class PembayaranProvider extends ChangeNotifier {
         status = "Belum lunas";
       } else {
         status = "Lunas";
-        await Future.delayed(Duration(seconds: 3));
+        await Future.delayed(Duration(seconds: 2));
       }
 
       if (userId != null) {
