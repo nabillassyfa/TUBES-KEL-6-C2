@@ -6,6 +6,7 @@ import 'package:tp2/provider/p_infoUser.dart';
 import 'package:tp2/provider/p_jadwalDokter.dart';
 import 'package:tp2/provider/p_jadwalJanjiTemu.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
+import 'package:tp2/provider/p_pembayaran.dart';
 import 'package:tp2/provider/p_spesialis.dart';
 import 'package:tp2/provider/p_user.dart';
 import 'package:tp2/provider/p_statusRawatJalan.dart';
@@ -27,6 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => JadwalJanjiTemuProvider()),
         ChangeNotifierProvider(create: (_) => InfoUserProvider()),
         ChangeNotifierProvider(create: (_) => MetodePembayaranProvider()),
+        ChangeNotifierProvider(create: (_) => PembayaranProvider()),
       ],            
       child: const MyApp(), 
     ) 
