@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tp2/provider/p_RS.dart';
 import 'package:tp2/provider/p_dokter.dart';
+import 'package:tp2/provider/p_infoUser.dart';
 import 'package:tp2/provider/p_jadwalDokter.dart';
 import 'package:tp2/provider/p_jadwalJanjiTemu.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
@@ -24,6 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => DokterProvider()),
         ChangeNotifierProvider(create: (_) => JadwalDokterProvider()),
         ChangeNotifierProvider(create: (_) => JadwalJanjiTemuProvider()),
+        ChangeNotifierProvider(create: (_) => InfoUserProvider()),
         ChangeNotifierProvider(create: (_) => MetodePembayaranProvider()),
       ],            
       child: const MyApp(), 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tp2/models/metodePembayaran.dart';
+import 'package:tp2/provider/p_infoUser.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
 import 'pembayaranSukses.dart';
-
 
 class Pembayaran extends StatefulWidget {
   final String itemNama;
@@ -29,13 +29,23 @@ class Pembayaran extends StatefulWidget {
   @override
   State<Pembayaran> createState() => _PembayaranState();
 }
+
 class _PembayaranState extends State<Pembayaran> {
+  InfoUserProvider? infoUserProvider;
+  String? namaPasien;
   MetodePembayaranProvider? metodePembayaranProvider;
   MetodePembayaran? selectedMetodePembayaran;
 
   @override
   void initState() {
     super.initState();
+    infoUserProvider = Provider.of<InfoUserProvider>(context, listen: false);
+    infoUserProvider!.getdataInfoUser().then((_) {
+      setState(() {
+          namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap;
+          print(namaPasien);
+      });
+    });
     metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
     metodePembayaranProvider!.getdataMetodePembayaran();
   }
@@ -74,8 +84,8 @@ class _PembayaranState extends State<Pembayaran> {
               height: 20,
             ),
             const Divider(
-              color: Color.fromARGB(255, 1, 101, 252), // Atur warna garis sesuai keinginan
-              thickness: 2, // Atur ketebalan garis
+              color: Color.fromARGB(255, 1, 101, 252),
+              thickness: 2,
             ),
             const SizedBox(
               height: 10,
@@ -91,16 +101,16 @@ class _PembayaranState extends State<Pembayaran> {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5), // Warna bayangan
-                    spreadRadius: 2, // Lebar bayangan
-                    blurRadius: 5, // Kekaburan bayangan
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
                     offset: Offset(0, 5),
                   ),
                 ],
               ),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
                         'Nama Pasien:',
@@ -109,7 +119,7 @@ class _PembayaranState extends State<Pembayaran> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text('Celine Rodriguez'),
+                      Text(namaPasien ?? 'Loading...'),
                     ],
                   ),
                   const SizedBox(
@@ -325,9 +335,8 @@ class _PembayaranState extends State<Pembayaran> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PembayaranSukses(
-                      
-                  )), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                    builder: (context) => PembayaranSukses(),
+                  ),
                   (Route<dynamic> route) => false,
                 );
               },

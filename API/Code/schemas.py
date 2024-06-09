@@ -90,10 +90,11 @@ class InfoUserBase(BaseModel):
     tanggal_lahir: date | None = None
     tinggi_badan: int | None = None
     golongan: str | None = None
-    id_pengguna:int
+    id_user:int
+    alamat:str
 
 class InfoUser(InfoUserBase):
-    id_user: int
+    id: int
     class Config:
         orm_mode = True
              
