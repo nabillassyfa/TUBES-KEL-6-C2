@@ -81,8 +81,9 @@ class InfoUser(BaseDB):
     tinggi_badan = Column(Integer, index=True)
     golongan_darah = Column(String, index=True)
     id_user = Column(Integer, ForeignKey('user.id'))  # Foreign key ke user
+    alamat = Column(String, index=True)
 
-    user = relationship("User", back_populates="infoUser")
+    user = relationship("User", back_populates="infoUser", uselist=False)
 
     
 class DaftarRS(BaseDB):
@@ -118,7 +119,7 @@ class User(BaseDB):
     
     rekam_medis = relationship("RekamMedis", back_populates="user")
     rating = relationship("Rating", back_populates="user")
-    infoUser = relationship("InfoUser", back_populates="user")
+    infoUser = relationship("InfoUser", back_populates="user", uselist=False)
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="user")
     status_rawatJalan = relationship("StatusRawatJalan", back_populates="user")
     pembayaran = relationship("Pembayaran", back_populates="user")

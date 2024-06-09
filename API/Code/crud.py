@@ -3,6 +3,7 @@ import models, schemas
 import bcrypt
 from datetime import time
 from sqlalchemy import desc
+from datetime import datetime
 
 SALT = b'$2b$12$rX.6REj.knvtNtaqkPT1cu'
 
@@ -448,10 +449,36 @@ def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str):
 
 # InfoUser
 def get_infoUser(db: Session, user_id: int):
-    return db.query(models.InfoUser)\
-             .join(models.User, models.InfoUser.id_user == models.User.id)\
-             .filter(models.InfoUser.id_user == user_id)\
-             .all()
+    results = (
+        db.query(models.InfoUser,
+                 models.User.nama.label('nama_lengkap'),
+                 models.User.username.label('username'),
+                 models.User.no_telp.label('no_telp')
+                 )
+        .join(models.User, models.InfoUser.id_user == models.User.id)
+        .filter(models.InfoUser.id_user == user_id)
+        .all()
+    )
+
+    info_user_list = []
+    for info_user, nama_lengkap, username, no_telp in results:
+        info_user_dict = {
+            "id": info_user.id,
+            "jenis_kelamin": info_user.jenis_kelamin,
+            "umur": info_user.umur,
+            "berat_badan": info_user.berat_badan,
+            "tanggal_lahir": info_user.tanggal_lahir.strftime('%Y-%m-%d') if info_user.tanggal_lahir else None,
+            "tinggi_badan": info_user.tinggi_badan,
+            "golongan_darah": info_user.golongan_darah,
+            "id_user": info_user.id_user,
+            "alamat": info_user.alamat,
+            "nama_lengkap": nama_lengkap,
+            "username": username,
+            "no_telp": no_telp,
+        }
+        info_user_list.append(info_user_dict)
+
+    return info_user_list
 
 
 # User ###########
@@ -476,14 +503,32 @@ def hashPassword(passwd: str):
     pwd_hash = bcrypt.hashpw(bytePwd, SALT)
     return pwd_hash
 
+
 # Create user (Sign up)
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = hashPassword(user.password)
-    db_user = models.User(nama=user.nama,username=user.username, password=hashed_password, email=user.email, no_telp=user.no_telp)
+    db_user = models.User(nama=user.nama, username=user.username, password=hashed_password, email=user.email, no_telp=user.no_telp)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    # Buat record InfoUser baru yang terhubung dengan user yang baru saja dibuat
+    default_info_user_values = {
+        "jenis_kelamin": "",
+        "umur": 0,
+        "berat_badan": 0,
+        "tanggal_lahir": datetime.now(),
+        "tinggi_badan": 0,
+        "golongan_darah": "",
+        "alamat": ""
+    }
+    db_info_user = models.InfoUser(id_user=db_user.id, **default_info_user_values)
+    db.add(db_info_user)
+    db.commit()
+    db.refresh(db_info_user)
+
     return db_user
+
 
 # Jadwal Janji Temu
 def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuCreate):
