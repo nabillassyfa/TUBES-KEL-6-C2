@@ -20,178 +20,199 @@ class DetailDokter extends StatefulWidget {
 
 class DetailDokterState extends State<DetailDokter> {
   @override
-    void initState() {
+  void initState() {
     super.initState();
     // Panggil method untuk mengambil data jadwal dokter
-    final jadwalDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
-    jadwalDokterProvider.getdataJadwalDokterByDokterRS(widget.dokter.id, widget.dokter.id_rs);
+    final jadwalDokterProvider =
+        Provider.of<JadwalDokterProvider>(context, listen: false);
+    jadwalDokterProvider.getdataJadwalDokterByDokterRS(
+        widget.dokter.id, widget.dokter.id_rs);
 
-    final jadwalDokterOnlineProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
+    final jadwalDokterOnlineProvider =
+        Provider.of<JadwalDokterProvider>(context, listen: false);
     jadwalDokterProvider.getdataJadwalDokterByDokter(widget.dokter.id);
-    
-    final jadwalDokterPanggilDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
+
+    final jadwalDokterPanggilDokterProvider =
+        Provider.of<JadwalDokterProvider>(context, listen: false);
     jadwalDokterProvider.getdataJadwalPanggilDokterByDokter(widget.dokter.id);
   }
-  
+
   Widget build(BuildContext context) {
     final dokter = widget.dokter;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('dokter Detail'),
+        title: Text('Detail Dokter'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              height: 400,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                color: Color(0xffd3e6ff),
-                border: Border.all(
-                  color: const Color(0xff0165fc),
+        child: Expanded(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Color(0xffd3e6ff),
+                  border: Border.all(
+                    color: const Color(0xff0165fc),
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                dokter.imageUrl,
-                                width: 80.0,
-                                height: 100.0,
-                                fit: BoxFit.cover,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  dokter.imageUrl,
+                                  width: 80.0,
+                                  height: 100.0,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 16.0),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              SizedBox(width: 16.0),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      dokter.nama,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.medical_services,
+                                          size: 16.0,
+                                          color: Color(0xff0165fc),
+                                        ),
+                                        SizedBox(width: 4.0),
+                                        Text(
+                                          dokter.namaSpesialis,
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.access_time,
+                                          size: 16.0,
+                                          color: Color(0xff0165fc),
+                                        ),
+                                        SizedBox(width: 4.0),
+                                        Text(
+                                          '${dokter.pengalaman} Thn Pengalaman',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                    // SizedBox(height: 8.0),
+                                    // Text(
+                                    //   '${dokter.hospitalAddress}',
+                                    //   style: TextStyle(
+                                    //     fontSize: 16.0,
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 16.0),
+                            ],
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
                                 children: [
                                   Text(
-                                    dokter.nama,
+                                    '4.5' + '  |',
                                     style: TextStyle(
-                                      fontSize: 20.0,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 8.0),
-                                  Text(
-                                    dokter.namaSpesialis,
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Text(
-                                    '${dokter.pengalaman} Tahun',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                  // SizedBox(height: 8.0),
-                                  // Text(
-                                  //   '${dokter.hospitalAddress}',
-                                  //   style: TextStyle(
-                                  //     fontSize: 16.0,
-                                  //   ),
-                                  // ),
+                                  SizedBox(width: 4.0),
+                                  Icon(Icons.star, color: Colors.yellow),
+                                  SizedBox(width: 4.0),
+                                  Icon(Icons.star, color: Colors.yellow),
+                                  SizedBox(width: 4.0),
+                                  Icon(Icons.star, color: Colors.yellow),
+                                  SizedBox(width: 4.0),
+                                  Icon(Icons.star, color: Colors.yellow),
+                                  SizedBox(width: 4.0),
+                                  Icon(Icons.star, color: Colors.yellow),
                                 ],
                               ),
-                            ),
-                            SizedBox(width: 16.0),
-                          ],
-                        ),
-                        SizedBox(height: 8.0),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  '4.5' + '  |',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              VerticalDivider(
+                                thickness: 2,
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xff0165fc),
                                 ),
-                                SizedBox(width: 4.0),
-                                Icon(Icons.star, color: Colors.yellow),
-                                SizedBox(width: 4.0),
-                                Icon(Icons.star, color: Colors.yellow),
-                                SizedBox(width: 4.0),
-                                Icon(Icons.star, color: Colors.yellow),
-                                SizedBox(width: 4.0),
-                                Icon(Icons.star, color: Colors.yellow),
-                                SizedBox(width: 4.0),
-                                Icon(Icons.star, color: Colors.yellow),
-                              ],
-                            ),
-                            VerticalDivider(
-                              thickness: 2,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xff0165fc),
+                                onPressed: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           dokterReviewsPage()
+                                  //           ),
+                                  // );
+                                },
+                                child: Text(
+                                  'Lihat Review',
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.white),
+                                ),
                               ),
-                              onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           dokterReviewsPage()
-                                //           ),
-                                // );
-                              },
-                              child: Text(
-                                'Lihat Review',
-                                style: TextStyle(
-                                    fontSize: 12.0, color: Colors.white),
-                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.0),
+                          Text(
+                            'Deskripsi:',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 16.0),
-                        Text(
-                          'Description:',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          dokter.informasi,
-                          style: TextStyle(
-                            fontSize: 16.0,
+                          SizedBox(height: 8.0),
+                          Text(
+                            dokter.informasi,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Consumer<JadwalDokterProvider>(
-              builder: (context, jadwalDokterProvider, child) {
+              Consumer<JadwalDokterProvider>(
+                  builder: (context, jadwalDokterProvider, child) {
                 if (jadwalDokterProvider.isLoading) {
                   return Center(child: CircularProgressIndicator());
                 }
 
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  height: 260,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
                     color: Color(0xffd3e6ff),
@@ -222,28 +243,31 @@ class DetailDokterState extends State<DetailDokter> {
                               ),
                             ),
                             SizedBox(height: 16.0),
-                            ...jadwalDokterProvider.dataJadwalDokter.map((jadwal) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    jadwal.hari,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                            ...jadwalDokterProvider.dataJadwalDokter
+                                .map((jadwal) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            jadwal.hari,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
                             SizedBox(height: 16.0),
                             Container(
                               height: 40,
@@ -268,30 +292,30 @@ class DetailDokterState extends State<DetailDokter> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BuatJanjiTemuAfter(
-                                          dokter: dokter,
-                                        )),
+                                        builder: (context) =>
+                                            BuatJanjiTemuAfter(
+                                              dokter: dokter,
+                                            )),
                                   );
                                 },
                               ),
                             ),
+                            SizedBox(height: 16.0),
                           ],
                         ),
                       ),
                     ],
                   ),
                 );
-              }
-            ),
-            Consumer<JadwalDokterProvider>(
-              builder: (context, jadwalDokterOnlineProvider, child) {
+              }),
+              Consumer<JadwalDokterProvider>(
+                  builder: (context, jadwalDokterOnlineProvider, child) {
                 if (jadwalDokterOnlineProvider.isLoading) {
                   return Center(child: CircularProgressIndicator());
                 }
 
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  height: 260,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
                     color: Color(0xffd3e6ff),
@@ -322,28 +346,31 @@ class DetailDokterState extends State<DetailDokter> {
                               ),
                             ),
                             SizedBox(height: 16.0),
-                            ...jadwalDokterOnlineProvider.dataJadwalDokterDaring.map((jadwal) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    jadwal.hari,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                            ...jadwalDokterOnlineProvider.dataJadwalDokterDaring
+                                .map((jadwal) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            jadwal.hari,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
                             SizedBox(height: 16.0),
                             Container(
                               height: 40,
@@ -368,30 +395,30 @@ class DetailDokterState extends State<DetailDokter> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BuatJanjiKonsulAfter(
-                                          dokter: dokter,
-                                        )),
+                                        builder: (context) =>
+                                            BuatJanjiKonsulAfter(
+                                              dokter: dokter,
+                                            )),
                                   );
                                 },
                               ),
                             ),
+                            SizedBox(height: 16.0),
                           ],
                         ),
                       ),
                     ],
                   ),
                 );
-              }
-            ),
-            Consumer<JadwalDokterProvider>(
-              builder: (context, jadwalDokterPanggilDokterProvider, child) {
+              }),
+              Consumer<JadwalDokterProvider>(
+                  builder: (context, jadwalDokterPanggilDokterProvider, child) {
                 if (jadwalDokterPanggilDokterProvider.isLoading) {
                   return Center(child: CircularProgressIndicator());
                 }
 
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  height: 260,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
                     color: Color(0xffd3e6ff),
@@ -422,28 +449,32 @@ class DetailDokterState extends State<DetailDokter> {
                               ),
                             ),
                             SizedBox(height: 16.0),
-                            ...jadwalDokterPanggilDokterProvider.data_Jadwal_dokter_panggil_dokter.map((jadwal) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    jadwal.hari,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                            ...jadwalDokterPanggilDokterProvider
+                                .data_Jadwal_dokter_panggil_dokter
+                                .map((jadwal) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            jadwal.hari,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
                             SizedBox(height: 16.0),
                             Container(
                               height: 40,
@@ -468,25 +499,26 @@ class DetailDokterState extends State<DetailDokter> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => panggilDokterAfter(
-                                          dokter: dokter,
-                                        )),
+                                        builder: (context) =>
+                                            panggilDokterAfter(
+                                              dokter: dokter,
+                                            )),
                                   );
                                 },
                               ),
                             ),
+                            SizedBox(height: 16.0),
                           ],
                         ),
                       ),
                     ],
                   ),
                 );
-              }
-            ),
-          ],
+              }),
+            ],
+          ),
         ),
       ),
     );
   }
-  
 }

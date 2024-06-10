@@ -43,22 +43,22 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
         final formattedWaktuMulai = formatWaktu(waktuMulai);
         final formattedWaktuBerakhir = formatWaktu(waktuBerakhir);
 
-        final imageUrl = 'http://127.0.0.1:8000/dokter_image/${jadwal.id_dokter}';
+        final imageUrl =
+            'http://127.0.0.1:8000/dokter_image/${jadwal.id_dokter}';
 
         return Container(
           width: double.infinity,
           margin: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Color.fromARGB(
-                250, 206, 222, 245), // Latar belakang chat berwarna biru
+            color: Color(0xffd3e6ff), // Latar belakang chat berwarna biru
             border: Border.all(
-              color: Colors.grey,
-              width: 2,
+              color: Colors.black,
+              width: 1,
             ),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                color: Colors.grey.withOpacity(0.5), // Warna bayangan
                 blurRadius: 2,
                 spreadRadius: 2,
                 offset: Offset(0, 2),
@@ -74,8 +74,8 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: const Border(
                     bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 2,
+                      color: Colors.black,
+                      width: 1,
                     ),
                   ),
                   borderRadius: BorderRadius.circular(12),
@@ -215,8 +215,7 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                     Container(
                       width: double.infinity, // Lebar maksimum
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(
-                            255, 1, 101, 252), // Warna latar belakang biru
+                        color: Color(0xff0165fc), // Warna latar belakang biru
                         borderRadius: BorderRadius.circular(
                             50), // Ubah ke sudut bulat jika diinginkan
                       ),
@@ -231,8 +230,8 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors
-                              .transparent), // Ubah warna latar belakang tombol menjadi transparan
+                          backgroundColor: MaterialStateProperty.all<Color>(Color(
+                              0xff0165fc)), // Ubah warna latar belakang tombol menjadi transparan
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(

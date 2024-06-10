@@ -94,8 +94,7 @@ class _PilihDokterState extends State<PilihDokter> {
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(
-                  color: Colors.grey.withOpacity(0.5),
-                  width: 2.0), // Added gray border
+                  color: Colors.grey, width: 1.0), // Added gray border
               boxShadow: [
                 BoxShadow(
                   color:
@@ -193,7 +192,7 @@ class _PilihDokterState extends State<PilihDokter> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             side: BorderSide(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey,
                               width: 1.0,
                             ),
                           ),
