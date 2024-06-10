@@ -616,6 +616,109 @@ def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
 
     return jadwal_janji_temu_list
 
+
+# Jadwal Konsul Online
+def create_jadwal_konsul_online(db: Session, jadwal: schemas.JadwalkonsulOnlineBase):
+    db_jadwal = models.JadwalKonsulOnline(
+        id_user=jadwal.id_user,
+        tanggal=jadwal.tanggal,
+        durasi=jadwal.durasi,
+        link_video_call=jadwal.link_video_call,
+        id_jadwal_dokter_online=jadwal.id_jadwal_dokter_online,
+    )
+    db.add(db_jadwal)
+    db.commit()
+    db.refresh(db_jadwal)
+    return db_jadwal
+
+def get_jadwal_konsul_online_by_idUser(db: Session, user_id: int):
+    results = (
+        db.query(models.JadwalKonsulOnline,
+                 models.Dokter.id.label("id_dokter"),
+                 models.Dokter.nama.label("nama_dokter"),
+                 models.Spesialis.spesialis.label("nama_spesialis"),
+                 models.JadwalDokterOnline.waktu_mulai.label("waktu_mulai"),
+                 models.JadwalDokterOnline.waktu_berakhir.label("waktu_berakhir"),
+                 )
+        .join(models.User, models.JadwalKonsulOnline.id_user == models.User.id)
+        .join(models.JadwalDokterOnline, models.JadwalKonsulOnline.id_jadwal_dokter_online == models.JadwalDokterOnline.id)
+        .join(models.Dokter, models.JadwalDokterOnline.id_dokter == models.Dokter.id)
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .filter(
+            models.JadwalKonsulOnline.id_user == user_id,
+        )
+        .all()
+    )
+
+    jadwal_konsul_online_list = []
+    for jadwal_konsul_online, id_dokter, nama_dokter, nama_spesialis, waktu_mulai, waktu_berakhir in results:
+        jadwal_konsul_online_dict = {
+            "id": jadwal_konsul_online.id,
+            "id_user": jadwal_konsul_online.id_user,
+            "tanggal": jadwal_konsul_online.tanggal,
+            "durasi": jadwal_konsul_online.durasi,
+            "link_video_call": jadwal_konsul_online.link_video_call,
+            "id_jadwal_dokter_online": jadwal_konsul_online.id_jadwal_dokter_online,
+            "id_dokter": id_dokter,
+            "nama_dokter": nama_dokter,
+            "nama_spesialis": nama_spesialis,
+            "waktu_mulai": waktu_mulai,
+            "waktu_berakhir": waktu_berakhir,
+        }
+        jadwal_konsul_online_list.append(jadwal_konsul_online_dict)
+
+    return jadwal_konsul_online_list
+
+# Jadwal Panggil Dokter
+def create_jadwal_panggil_dokter(db: Session, jadwal: schemas.JadwalPanggilDokterBase):
+    db_jadwal = models.JadwalPanggilDokter(
+        id_user=jadwal.id_user,
+        tanggal=jadwal.tanggal,
+        id_jadwal_dokter_panggil_dokter=jadwal.id_jadwal_dokter_panggil_dokter,
+        alamat=jadwal.alamat,
+    )
+    db.add(db_jadwal)
+    db.commit()
+    db.refresh(db_jadwal)
+    return db_jadwal
+
+def get_jadwal_panggil_dokter_by_idUser(db: Session, user_id: int):
+    results = (
+        db.query(models.JadwalPanggilDokter,
+                 models.Dokter.id.label("id_dokter"),
+                 models.Dokter.nama.label("nama_dokter"),
+                 models.Spesialis.spesialis.label("nama_spesialis"),
+                 models.JadwalDokterPanggilDokter.waktu_mulai.label("waktu_mulai"),
+                 models.JadwalDokterPanggilDokter.waktu_berakhir.label("waktu_berakhir"),
+                 )
+        .join(models.User, models.JadwalPanggilDokter.id_user == models.User.id)
+        .join(models.JadwalDokterPanggilDokter, models.JadwalPanggilDokter.id_jadwal_dokter_panggil_dokter == models.JadwalDokterPanggilDokter.id)
+        .join(models.Dokter, models.JadwalDokterPanggilDokter.id_dokter == models.Dokter.id)
+        .join(models.Spesialis, models.Dokter.id_spesialis == models.Spesialis.id)
+        .filter(
+            models.JadwalPanggilDokter.id_user == user_id,
+        )
+        .all()
+    )
+
+    jadwal_panggil_dokter_list = []
+    for jadwal_panggil_dokter, id_dokter, nama_dokter, nama_spesialis, waktu_mulai, waktu_berakhir in results:
+        jadwal_panggil_dokter_dict = {
+            "id": jadwal_panggil_dokter.id,
+            "id_user": jadwal_panggil_dokter.id_user,
+            "tanggal": jadwal_panggil_dokter.tanggal,
+            "id_jadwal_dokter_panggil_dokter": jadwal_panggil_dokter.id_jadwal_dokter_panggil_dokter,
+            "alamat": jadwal_panggil_dokter.alamat,
+            "id_dokter": id_dokter,
+            "nama_dokter": nama_dokter,
+            "nama_spesialis": nama_spesialis,
+            "waktu_mulai": waktu_mulai,
+            "waktu_berakhir": waktu_berakhir,
+        }
+        jadwal_panggil_dokter_list.append(jadwal_panggil_dokter_dict)
+
+    return jadwal_panggil_dokter_list
+
 ## Status Rawat Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     results = (

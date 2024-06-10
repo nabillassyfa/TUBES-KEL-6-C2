@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timelines/timelines.dart';
 import 'dart:async';
+
+import 'package:tp2/models/jadwalPanggilDokter.dart';
 
 
 class WidgetJadwalPanggilDokter extends StatefulWidget {
 
-  WidgetJadwalPanggilDokter({Key? key}) : super(key: key);
+  final List<JadwalPanggilDokter> jadwalPanggilDokter;
 
+  WidgetJadwalPanggilDokter({Key? key, required this.jadwalPanggilDokter})
+      : super(key: key);
   @override
   _WidgetJadwalPanggilDokterState createState() => _WidgetJadwalPanggilDokterState();
 }
@@ -14,6 +19,26 @@ class WidgetJadwalPanggilDokter extends StatefulWidget {
 class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
   int indeks = 0;
   late Timer _timer;
+
+  TimeOfDay parseTimeOfDay(String timeString) {
+    final parts = timeString.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  String formatTanggal(DateTime dateTime) {
+    return DateFormat.yMMMMEEEEd('id_ID').format(
+        dateTime); // Format tanggal hari, tanggal-bulan-tahun (Bahasa Indonesia)
+  }
+
+  String formatWaktu(TimeOfDay timeOfDay) {
+    final formattedHour = timeOfDay.hour.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan jam jika hanya satu digit
+    final formattedMinute = timeOfDay.minute.toString().padLeft(2,
+        '0'); // Menggunakan padLeft untuk menambah nol di depan menit jika hanya satu digit
+    return '$formattedHour:$formattedMinute'; // Menggabungkan jam dan menit dalam format 24 jam
+  }
 
   @override
   void initState() {
@@ -38,204 +63,218 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
-        border: Border.all(
-          color: Colors.grey,
-          width: 2
-        ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(
-          color: Colors.grey.withOpacity(0.8), // Warna bayangan
-          blurRadius: 2,
-          spreadRadius: 2,
-          offset: Offset(0, 2),
-        )]
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.grey,
-                  width: 2
-                )
-              ),
-              borderRadius: BorderRadius.circular(12),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: widget.jadwalPanggilDokter.length,
+      itemBuilder: (context, index) {
+        final jadwal = widget.jadwalPanggilDokter[index];
+        final waktuMulai = parseTimeOfDay(jadwal.waktu_mulai);
+        final waktuBerakhir = parseTimeOfDay(jadwal.waktu_berakhir);
+        final formattedTanggal = formatTanggal(jadwal.tanggal);
+        final formattedWaktuMulai = formatWaktu(waktuMulai);
+        final formattedWaktuBerakhir = formatWaktu(waktuBerakhir);
+
+        final imageUrl = 'http://127.0.0.1:8000/dokter_image/${jadwal.id_dokter}';
+
+        return Container(
+          width: double.infinity,
+          margin: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+            border: Border.all(
+              color: Colors.grey,
+              width: 2
             ),
-            child: Text(
-              'Jadwal Panggil Dokter',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [BoxShadow(
+              color: Colors.grey.withOpacity(0.8), // Warna bayangan
+              blurRadius: 2,
+              spreadRadius: 2,
+              offset: Offset(0, 2),
+            )]
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: const Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                      width: 2
+                    )
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  'Jadwal Panggil Dokter',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
                   children: [
-                    const Row(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage(
-                            "assets/images/dokter2.png",
-                          ),
-                          radius: 30,
-                        ),
-                        SizedBox(width: 5,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                'dr. Muhammad Rifky Afandi, SpKj',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(imageUrl),
+                              radius: 30,
                             ),
-                            Text(
-                              'Spesialis Jiwa',
-                              style: TextStyle(
-                                fontSize: 10
-                              ),
-                            )
+                            SizedBox(width: 5,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    jadwal.nama_dokter,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  jadwal.nama_spesialis,
+                                  style: TextStyle(
+                                    fontSize: 10
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(255, 1, 101, 252),
+                          ),
+                          child: IconButton(
+                            color: Colors.white,
+                            onPressed: () {},
+                            icon: Icon(Icons.phone),
+                          ),
                         ),
                       ],
                     ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromARGB(255, 1, 101, 252),
-                      ),
-                      child: IconButton(
-                        color: Colors.white,
-                        onPressed: () {},
-                        icon: Icon(Icons.phone),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Hari & Tanggal',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    const Text(
-                      'Selasa, 13/02/2024',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Waktu',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    const Text(
-                      '08.00',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Alamat',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 240,
-                      child: Text(
-                        textAlign: TextAlign.end,
-                        'Jln. Geger Kalong Girang, Gg. Cempaka, Kec. Sukasari, Bandung',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 24,),
-                DoctorTimeline(),
-                Container(
-                  width: 1000,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                    borderRadius: indeks == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( indeks == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
-                    // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
-                  ),
-                  child: Text(
-                    _processes[indeks], // Mendapatkan teks untuk setiap poin
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Lihat Lokasi Dokter',
+                          'Hari & Tanggal',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 1, 101, 252)
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color.fromARGB(255, 1, 101, 252),
-                          size: 12,
+                        Text(
+                          formattedTanggal,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         )
                       ],
                     ),
-                  ),
-                )
-              ],
-            ),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Waktu',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          '$formattedWaktuMulai - $formattedWaktuBerakhir',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Alamat',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        SizedBox(
+                          width: 240,
+                          child: Text(
+                            textAlign: TextAlign.end,
+                            jadwal.alamat,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 24,),
+                    DoctorTimeline(),
+                    Container(
+                      width: 1000,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                        borderRadius: indeks == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( indeks == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
+                        // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
+                      ),
+                      child: Text(
+                        _processes[indeks], // Mendapatkan teks untuk setiap poin
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Lihat Lokasi Dokter',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 1, 101, 252)
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Color.fromARGB(255, 1, 101, 252),
+                              size: 12,
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 }

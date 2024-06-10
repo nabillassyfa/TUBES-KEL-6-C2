@@ -137,6 +137,33 @@ class JadwalJanjiTemu(JadwalJanjiTemuBase):
     class Config:
         orm_mode = True
         
+# Konsul Online
+class JadwalkonsulOnlineBase(BaseModel):
+    id_user: int
+    tanggal: date
+    durasi: int
+    link_video_call: str
+    id_jadwal_dokter_online: int
+
+class JadwalkonsulOnline(JadwalkonsulOnlineBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+        
+# Panggil dokter
+class JadwalPanggilDokterBase(BaseModel):
+    id_user: int
+    tanggal: date
+    id_jadwal_dokter_panggil_dokter: int
+    alamat: str
+
+class JadwalPanggilDokter(JadwalPanggilDokterBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+        
 # Status Rawat Jalan
 class StatusRawatJalanBase(BaseModel):
     id_user: int
