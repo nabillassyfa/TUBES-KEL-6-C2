@@ -121,13 +121,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Colors.white,
                                   ),
                                   SizedBox(width: 4),
-                                  Text(
-                                    user.alamat,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
+                                  if (user.alamat != '')
+                                    Text(
+                                      user.alamat,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
+                                  if (user.alamat == '')
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                    ),
                                 ],
                               ),
                             ],
@@ -200,10 +209,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    user.jenis_kelamin.toString(),
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                  if (user.jenis_kelamin != '')
+                                    Text(
+                                      user.jenis_kelamin.toString(),
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  if (user.jenis_kelamin == '')
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                   SizedBox(height: 4),
                                   Text(
                                     'Berat Badan: ',
@@ -212,10 +227,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    user.berat_badan.toString() + ' Kg',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                  if (user.berat_badan != 0)
+                                    Text(
+                                      user.berat_badan.toString() + ' Kg',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  if (user.berat_badan == 0)
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                   SizedBox(height: 4),
                                   Text(
                                     'Tinggi Badan: ',
@@ -224,10 +245,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    user.tinggi_badan.toString() + 'Cm',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                  if (user.tinggi_badan != 0)
+                                    Text(
+                                      user.tinggi_badan.toString() + ' Cm',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  if (user.tinggi_badan == 0)
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                 ],
                               ),
                               Column(
@@ -240,10 +267,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    user.umur.toString() + ' Tahun',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                  if (user.umur != 0)
+                                    Text(
+                                      user.umur.toString() + ' Tahun',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  if (user.umur == 0)
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                   SizedBox(height: 4),
                                   Text(
                                     'Tanggal Lahir: ',
@@ -264,10 +297,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 16,
                                     ),
                                   ),
-                                  Text(
-                                    user.golongan_darah.toString(),
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                  if (user.golongan_darah != '')
+                                    Text(
+                                      user.golongan_darah.toString(),
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  if (user.golongan_darah == '')
+                                    Text(
+                                      'Belum di set',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
                                 ],
                               ),
                             ],

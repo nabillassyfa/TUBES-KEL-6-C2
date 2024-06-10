@@ -156,23 +156,37 @@ class _BerandaState extends State<Beranda> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(
-                                        user.jenis_kelamin == 'Laki-laki'
-                                            ? Icons.male
-                                            : Icons.female,
-                                        color: user.jenis_kelamin == 'Laki-laki'
-                                            ? Colors.blue
-                                            : Colors.pink,
-                                      ),
-                                      Text(
-                                        user.jenis_kelamin == 'Laki-laki'
-                                            ? 'Laki-laki'
-                                            : 'Perempuan',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
+                                      if (user.jenis_kelamin == 'Laki-laki' ||
+                                          user.jenis_kelamin == 'Perempuan')
+                                        Icon(
+                                          user.jenis_kelamin == 'Laki-laki'
+                                              ? Icons.male
+                                              : Icons.female,
+                                          color:
+                                              user.jenis_kelamin == 'Laki-laki'
+                                                  ? Colors.blue
+                                                  : Colors.pink,
                                         ),
-                                      ),
+                                      if (user.jenis_kelamin == 'Laki-laki' ||
+                                          user.jenis_kelamin == 'Perempuan')
+                                        Text(
+                                          user.jenis_kelamin == 'Laki-laki'
+                                              ? 'Laki-laki'
+                                              : 'Perempuan',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      if (user.jenis_kelamin != 'Laki-laki' &&
+                                          user.jenis_kelamin != 'Perempuan')
+                                        const Text(
+                                          'Lengkapi biodata Anda!',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ],
@@ -427,7 +441,7 @@ class _BerandaState extends State<Beranda> {
                 //Teks anda memiliki janji temu
                 padding: EdgeInsets.only(bottom: 5, top: 10),
                 child: Text(
-                  "Jadwal janji temu",
+                  "Jadwal Janji Temu",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
