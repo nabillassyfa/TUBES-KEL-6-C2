@@ -169,6 +169,7 @@ def read_image(dokter_id:int,  db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="id tidak valid")
     nama_image =  FotoDokter.foto
     if not(path.exists(path_image+nama_image)):
+        print(path_image+nama_image)
         raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
     
     fr =  FileResponse(path_image+nama_image)
@@ -192,8 +193,28 @@ def read_info(user_id: int, db: Session = Depends(get_db)):
     infoUser = crud.get_infoUser(db, user_id)
     return infoUser
 
+path_imageU = "../img/user/"
+@app.get("/user_image/{infoUser_id}")
+def read_image(infoUser_id:int,  db: Session = Depends(get_db)):
+    
+    FotoUser = crud.get_infoUser_by_id(db,infoUser_id)
+    if not(FotoUser):
+        raise HTTPException(status_code=404, detail="id tidak valid")
+    nama_imageU =  FotoUser.foto
+    if not(path.exists(path_imageU+nama_imageU)):
+        raise HTTPException(status_code=404, detail="File dengan nama tersebut tidak ditemukan")
+    
+    fr =  FileResponse(path_imageU+nama_imageU)
+    return fr  
 
-# ## Spesialis
+@app.put("/infoUser/{user_id}", response_model= schemas.UpdateInfoUser)
+def update_info_user(user_id: int, user_data: schemas.UpdateInfoUser, db: Session = Depends(get_db)):
+    db_user = crud.get_infoUser_by_userId(db, user_id)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return crud.update_infoUser(db, user_id, user_data)
+
+## Spesialis
 @app.get("/spesialis/", response_model=list[schemas.Spesialis])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     data = crud.get_Spesialis(db, skip=skip, limit=limit)
@@ -250,6 +271,13 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.put("/user/{user_id}", response_model= schemas.UpdateUser)
+def update_user(user_id: int, user_data: schemas.UpdateUser, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_id(db, user_id)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return crud.update_user(db, user_id, user_data)
 
 ######################## AUTH
 
