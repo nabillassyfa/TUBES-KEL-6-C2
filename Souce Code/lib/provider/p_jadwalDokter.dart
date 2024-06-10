@@ -10,6 +10,8 @@ class JadwalDokterProvider extends ChangeNotifier {
   List<JadwalDokter> get dataJadwalDokter => data_Jadwal_dokter;
   List<JadwalDokterDaring> data_Jadwal_dokter_Daring = [];
   List<JadwalDokterDaring> get dataJadwalDokterDaring => data_Jadwal_dokter_Daring;
+  List<JadwalDokterDaring> data_Jadwal_dokter_panggil_dokter = [];
+  List<JadwalDokterDaring> get dataJadwalDokterPanggilDokter => data_Jadwal_dokter_panggil_dokter;
 
   Future<void> getdataJadwalDokterByDokterRS(int id_dokter, int id_rs) async {
     _setLoading(true);
@@ -53,7 +55,7 @@ class JadwalDokterProvider extends ChangeNotifier {
     print (day);
     print (time);
     try {
-      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_panggil_dokter/$time/$day/$spesialis/'));
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_dokter_panggil_dokter/$time/$day/$spesialis/'));
       if (response.statusCode == 200) {
         data_Jadwal_dokter_Daring = JadwalDokterDaringFromJson(response.body);
       } else {
@@ -119,6 +121,24 @@ class JadwalDokterProvider extends ChangeNotifier {
         print('day: $day');
         print('time: $time');
       } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      // Handle network or parsing error
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+    Future<void> getdataJadwalPanggilDokterByDokter(int id_dokter) async {
+    _setLoading(true);
+    try {
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/jadwal_dokter_panggil_dokter_by_dokter/$id_dokter/'));
+      if (response.statusCode == 200) {
+        data_Jadwal_dokter_panggil_dokter = JadwalDokterDaringFromJson(response.body);
+      } else {
+        // Handle server error
         throw Exception('Failed to load data');
       }
     } catch (e) {

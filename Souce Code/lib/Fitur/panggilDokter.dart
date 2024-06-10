@@ -64,7 +64,7 @@ class PanggilDokterState extends State<PanggilDokter> {
               Column(
                 children: <Widget>[
                   Text(
-                    "Video Call Dokter",
+                    "Panggil Dokter",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                   Center(
                     // Center the text
                     child: Text(
-                      "Buat janji konsultasi online berdasarkan spesialis dan waktu yang Anda inginkan.",
+                      "Panggil dokter ke rumah berdasarkan spesialis dan waktu yang Anda inginkan.",
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],

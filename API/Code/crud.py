@@ -414,8 +414,33 @@ def get_jadwal_dokter_Online(db: Session, dokter_id: int):
 
     return jadwal_dokter_list
 
+def get_jadwal_dokter_panggil_dokter_by_dokter(db: Session, dokter_id: int):
+    results = (
+        db.query(
+            models.JadwalDokterPanggilDokter, 
+            models.Dokter.nama.label("nama_dokter")
+        )
+        .join(models.Dokter, models.JadwalDokterPanggilDokter.id_dokter == models.Dokter.id)
+        .filter(models.JadwalDokterPanggilDokter.id_dokter == dokter_id)
+        .all()
+    )
 
-def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int):
+    jadwal_dokter_list = []
+    for jadwal_dokter, nama_dokter in results:
+        jadwal_dokter_dict = {
+            "id": jadwal_dokter.id,
+            "hari": jadwal_dokter.hari,
+            "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
+            "id_dokter": jadwal_dokter.id_dokter,
+            "nama_dokter" : nama_dokter,
+        }
+        jadwal_dokter_list.append(jadwal_dokter_dict)
+
+    return jadwal_dokter_list
+
+
+def get_jadwal_dokter_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int):
     
     try:
         hari, _ = hari.split(", ")
@@ -423,12 +448,12 @@ def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int)
         raise ValueError("Format input tidak valid. Harap gunakan format: 'Hari, DD MMMM YYYY'")
     
     results = (
-        db.query(models.JadwalPanggilDokter, models.Dokter.nama.label("nama_dokter"))
-        .join(models.Dokter, models.JadwalPanggilDokter.id_dokter == models.Dokter.id)
+        db.query(models.JadwalDokterPanggilDokter, models.Dokter.nama.label("nama_dokter"))
+        .join(models.Dokter, models.JadwalDokterPanggilDokter.id_dokter == models.Dokter.id)
         .filter(
-            models.JadwalPanggilDokter.hari == hari,
-            models.JadwalPanggilDokter.waktu_mulai <= waktu,
-            models.JadwalPanggilDokter.waktu_selesai > waktu,
+            models.JadwalDokterPanggilDokter.hari == hari,
+            models.JadwalDokterPanggilDokter.waktu_mulai <= waktu,
+            models.JadwalDokterPanggilDokter.waktu_berakhir > waktu,
             models.Dokter.id_spesialis == spesialis,
            
         )
@@ -441,7 +466,7 @@ def get_jadwal_panggil_dokter(db: Session, waktu: str, hari: str, spesialis:int)
             "id": jadwal_dokter.id,
             "hari": jadwal_dokter.hari,
             "waktu_mulai": jadwal_dokter.waktu_mulai.strftime("%H:%M"),
-            "waktu_berakhir": jadwal_dokter.waktu_selesai.strftime("%H:%M"),
+            "waktu_berakhir": jadwal_dokter.waktu_berakhir.strftime("%H:%M"),
             "id_dokter": jadwal_dokter.id_dokter,
             "nama_dokter" : nama_dokter,
         }
