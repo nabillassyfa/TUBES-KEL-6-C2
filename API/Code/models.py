@@ -33,7 +33,7 @@ class Dokter(BaseDB):
     rating = relationship("Rating", back_populates="dokter")
     jadwal_dokter = relationship("JadwalDokter", back_populates="dokter")
     jadwal_dokter_online = relationship("JadwalDokterOnline", back_populates="dokter")
-    jadwal_dokter_panggil_dokter = relationship("JadwalPanggilDokter", back_populates="dokter")
+    jadwal_dokter_panggil_dokter = relationship("JadwalDokterPanggilDokter", back_populates="dokter")
     
     
 class RekamMedis(BaseDB):
@@ -172,13 +172,13 @@ class JadwalDokterOnline(BaseDB):
     dokter = relationship("Dokter", back_populates="jadwal_dokter_online")
     
 
-class JadwalPanggilDokter(BaseDB):
+class JadwalDokterPanggilDokter(BaseDB):
     __tablename__ = "jadwal_dokter_panggil_dokter"
 
     id = Column(Integer, primary_key=True, index=True)
     hari = Column(String, index=True)
     waktu_mulai = Column(Time)
-    waktu_selesai = Column(Time)
+    waktu_berakhir = Column(Time)
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
 
     dokter = relationship("Dokter", back_populates="jadwal_dokter_panggil_dokter")

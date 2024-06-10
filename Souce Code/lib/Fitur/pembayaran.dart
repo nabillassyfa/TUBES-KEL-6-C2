@@ -128,7 +128,7 @@ class _PembayaranState extends State<Pembayaran> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(namaPasien ?? 'Loading...'),
+                      Text(namaPasien),
                     ],
                   ),
                   const SizedBox(

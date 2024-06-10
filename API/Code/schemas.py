@@ -176,13 +176,13 @@ class JadwalDokterOnline(JadwalDokterOnlineBase):
     class Config:
         orm_mode = True
         
-class JadwalPanggilDokterBase(BaseModel):
+class JadwalDokterPanggilDokterBase(BaseModel):
     hari: str
     waktu_mulai: time
-    waktu_selesai: time
+    waktu_berakhir: time
     id_dokter: int
         
-class JadwalPanggilDokter(JadwalPanggilDokterBase):
+class JadwalDokterPanggilDokter(JadwalDokterPanggilDokterBase):
     id: int
     
     class Config:

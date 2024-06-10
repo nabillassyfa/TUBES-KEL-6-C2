@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:tp2/Fitur/panggilDokterAfter.dart';
 import 'package:tp2/provider/p_jadwalDokter.dart';
 import 'lihat_review.dart';
 import 'beri_review.dart';
@@ -27,6 +28,9 @@ class DetailDokterState extends State<DetailDokter> {
 
     final jadwalDokterOnlineProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
     jadwalDokterProvider.getdataJadwalDokterByDokter(widget.dokter.id);
+    
+    final jadwalDokterPanggilDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
+    jadwalDokterProvider.getdataJadwalPanggilDokterByDokter(widget.dokter.id);
   }
   
   Widget build(BuildContext context) {
@@ -365,6 +369,106 @@ class DetailDokterState extends State<DetailDokter> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => BuatJanjiKonsulAfter(
+                                          dokter: dokter,
+                                        )),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            ),
+            Consumer<JadwalDokterProvider>(
+              builder: (context, jadwalDokterPanggilDokterProvider, child) {
+                if (jadwalDokterPanggilDokterProvider.isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  height: 260,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    color: Color(0xffd3e6ff),
+                    border: Border.all(
+                      color: const Color(0xff0165fc),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 16.0),
+                            Text(
+                              'Jadwal Panggil Dokter',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Rp 200.000/sesi',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            SizedBox(height: 16.0),
+                            ...jadwalDokterPanggilDokterProvider.data_Jadwal_dokter_panggil_dokter.map((jadwal) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    jadwal.hari,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${jadwal.waktu_mulai} - ${jadwal.waktu_berakhir}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                            SizedBox(height: 16.0),
+                            Container(
+                              height: 40,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                child: Text(
+                                  'Buat Janji Panggil Dokter',
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xff0165fc),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        32.0), // Mengatur sudut melengkung menjadi 10.0
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Navigasi ke halaman baru saat tombol ditekan
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => panggilDokterAfter(
                                           dokter: dokter,
                                         )),
                                   );
