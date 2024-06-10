@@ -44,10 +44,12 @@ class Emergency extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
                             'Panggilan Darurat',
@@ -58,16 +60,25 @@ class Emergency extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                            'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
-                            style: TextStyle(fontSize: 16),
+                          const SizedBox(
+                            width: 300,
+                            child: Text(
+                              'Dapatkan bantuan gawat darurat dari Doa Ibu Hospital',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                              maxLines: 2, // Batas jumlah baris
+                              overflow: TextOverflow
+                                  .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
+                            ),
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 24),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -83,14 +94,13 @@ class Emergency extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(12.0),
-                              border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  width: 1.0),
+                              border:
+                                  Border.all(color: Colors.grey, width: 1.0),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
+                                  color: Colors.grey.withOpacity(0.2),
                                   spreadRadius: 2,
-                                  blurRadius: 4,
+                                  blurRadius: 2,
                                   offset: Offset(0, 2),
                                 ),
                               ],
@@ -140,7 +150,15 @@ class Emergency extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        'Rumah Sakit Terdekat',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     Container(
                       height: MediaQuery.of(context).size.height -
                           kToolbarHeight -

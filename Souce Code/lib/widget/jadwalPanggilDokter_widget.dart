@@ -81,8 +81,7 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
             width: double.infinity,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: Color.fromARGB(
-                    250, 206, 222, 245), // Latar belakang chat berwarna biru
+                color: Color(0xffd3e6ff), // Latar belakang chat berwarna biru
                 border: Border.all(color: Colors.black, width: 1),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [

@@ -725,15 +725,15 @@ InkWell _informasiKesehatan(BuildContext context, Artikel item) {
         borderRadius: BorderRadius.circular(12),
         color: const Color.fromARGB(255, 255, 255, 255),
         border: Border.all(
-          color: const Color.fromARGB(255, 198, 198, 198),
-          width: 2,
+          color: Colors.black,
+          width: 1,
         ),
         boxShadow: const [
           BoxShadow(
             color: Color.fromARGB(128, 158, 158, 158),
-            spreadRadius: 0.5,
+            spreadRadius: 2,
             blurRadius: 2,
-            offset: Offset(1, 3),
+            offset: Offset(0, 2),
           )
         ],
       ),

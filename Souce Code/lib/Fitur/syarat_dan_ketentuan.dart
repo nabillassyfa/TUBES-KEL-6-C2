@@ -6,7 +6,29 @@ class SyaratDanKetentuanPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0165fc),
-        title: Text('Syarat & Ketentuan'),
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              'Syarat & Ketentuan',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

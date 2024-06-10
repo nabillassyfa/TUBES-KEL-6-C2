@@ -6,7 +6,29 @@ class PengaturanPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0165fc),
-        title: Text('Pengaturan'),
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              'Pengaturan',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -24,7 +46,7 @@ class PengaturanPage extends StatelessWidget {
                 child: InkWell(
                   child: const Column(
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -32,13 +54,12 @@ class PengaturanPage extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.language,
-                                size: 32,
+                                size: 24,
                                 color: Color(0xff0165fc),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 8),
                               Text(
                                 'Bahasa',
-                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -47,31 +68,31 @@ class PengaturanPage extends StatelessWidget {
                               Text(
                                 'Indonesia',
                                 style: TextStyle(
-                                    fontSize: 16, color: Color(0xff0165fc)),
+                                    fontSize: 14, color: Color(0xff0165fc)),
                               ),
                               SizedBox(width: 8),
                               Icon(
                                 Icons.arrow_forward_ios_rounded,
-                                size: 28,
+                                size: 24,
                                 color: Colors.grey,
                               ),
                             ],
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                     ],
                   ),
                   onTap: () {},
                 ),
               ),
-              Divider(thickness: 2),
+              Divider(),
               Material(
                 type: MaterialType.transparency,
                 child: InkWell(
                   child: const Column(
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -79,36 +100,35 @@ class PengaturanPage extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.lock,
-                                size: 32,
+                                size: 24,
                                 color: Color(0xff0165fc),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 8),
                               Text(
                                 'Ganti Kata Sandi',
-                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: 28,
+                            size: 24,
                             color: Colors.grey,
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                     ],
                   ),
                   onTap: () {},
                 ),
               ),
-              Divider(thickness: 2),
+              Divider(),
               Material(
                 type: MaterialType.transparency,
                 child: InkWell(
                   child: const Column(
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -116,36 +136,35 @@ class PengaturanPage extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.link,
-                                size: 32,
+                                size: 24,
                                 color: Color(0xff0165fc),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 8),
                               Text(
                                 'Akun Terhubung',
-                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: 28,
+                            size: 24,
                             color: Colors.grey,
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                     ],
                   ),
                   onTap: () {},
                 ),
               ),
-              Divider(thickness: 2),
+              Divider(),
               Material(
                 type: MaterialType.transparency,
                 child: InkWell(
                   child: const Column(
                     children: [
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -153,24 +172,23 @@ class PengaturanPage extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.person_remove,
-                                size: 32,
+                                size: 24,
                                 color: Colors.grey,
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 8),
                               Text(
                                 'Hapus Akun',
-                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: 28,
+                            size: 24,
                             color: Colors.grey,
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 4),
                     ],
                   ),
                   onTap: () {

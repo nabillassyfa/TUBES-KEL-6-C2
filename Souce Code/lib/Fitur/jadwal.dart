@@ -32,7 +32,7 @@ class _JadwalState extends State<Jadwal> {
         const SizedBox(
           width: 300,
           child: Text(
-            'Jangan lupakan jadwal konsultasi dan mium obat Anda!',
+            'Jangan lupakan jadwal konsultasi dan minum obat Anda!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey,

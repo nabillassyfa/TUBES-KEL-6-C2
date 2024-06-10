@@ -13,7 +13,29 @@ class _PusatBantuanPageState extends State<PusatBantuanPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff0165fc),
-        title: Text('Pusat Bantuan'),
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              'Pusat Bantuan',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
