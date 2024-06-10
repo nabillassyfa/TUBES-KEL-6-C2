@@ -30,4 +30,22 @@ class RSProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+  Future<void> getdataRsByLab(int lab) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/daftar_RS_by_idLab/$lab/'));
+      if (response.statusCode == 200) {
+        data_RS = RSFromJson(response.body);
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }

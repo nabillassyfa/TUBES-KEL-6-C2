@@ -856,3 +856,28 @@ def get_jadwal_lab_by_idrs(db: Session, rs_id: int, id_lab: int):
         jadwal_lab_list.append(jadwal_lab_dict)
 
     return jadwal_lab_list
+
+def get_RS_by_Lab(db: Session, id: int):
+    results = (
+        db.query(
+            models.Jadwal_Lab,
+            models.RS,
+        )
+        .join(models.RS, models.Jadwal_Lab.id_rs == models.RS.id)
+        .filter(models.Jadwal_Lab.id_lab == id)
+        .all()
+    )
+    
+    rs_list = []
+    for daftar_rs, rs in results:
+        rs_dict = {
+            "id": rs.id,
+            "nama": rs.nama,
+            "deskripsi": rs.deskripsi,
+            "lokasi": rs.lokasi,
+            "fasilitas": rs.fasilitas,
+            "img": rs.img,
+        }
+        rs_list.append(rs_dict)
+
+    return rs_list
