@@ -73,6 +73,13 @@ def read_items(id: int, db: Session = Depends(get_db)):
     daftar_RS = crud.get_RS_by_spesialis(db, id)
     return daftar_RS
 
+
+@app.get("/daftar_RS_by_idLab/{id}")
+def read_items(id: int, db: Session = Depends(get_db)):
+    daftar_RS = crud.get_RS_by_Lab(db, id)
+    return daftar_RS
+
+
 ## Daftar Spesialis berdasarkan id RS
 @app.get("/daftar_spesialis/{id}")
 def read_items(id: int, db: Session = Depends(get_db)):
