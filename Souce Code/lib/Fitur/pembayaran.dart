@@ -57,7 +57,7 @@ class _PembayaranState extends State<Pembayaran> {
     infoUserProvider = Provider.of<InfoUserProvider>(context, listen: false);
     infoUserProvider!.getdataInfoUser().then((_) {
       setState(() {
-        namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap;
+        namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap!;
         alamat = infoUserProvider!.dataInfoUser.first.alamat;
         print(namaPasien);
         print(alamat);

@@ -1,5 +1,5 @@
 from database import BaseDB
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, func
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, func, Double
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
 from typing import List
@@ -77,12 +77,13 @@ class InfoUser(BaseDB):
     id = Column(Integer, primary_key=True)  # Menggunakan id_user sebagai primary key
     jenis_kelamin = Column(String, index=True)
     umur = Column(Integer, index=True)
-    berat_badan = Column(Integer, index=True)
+    berat_badan = Column(Double, index=True)
     tanggal_lahir = Column(Date, index=True)
-    tinggi_badan = Column(Integer, index=True)
+    tinggi_badan = Column(Double, index=True)
     golongan_darah = Column(String, index=True)
     id_user = Column(Integer, ForeignKey('user.id'))  # Foreign key ke user
     alamat = Column(String, index=True)
+    foto= Column(String, index=True)
 
     user = relationship("User", back_populates="infoUser", uselist=False)
 

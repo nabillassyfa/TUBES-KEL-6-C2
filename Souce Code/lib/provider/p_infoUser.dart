@@ -21,6 +21,7 @@ class InfoUserProvider with ChangeNotifier {
     final response = await http.get(Uri.parse('http://127.0.0.1:8000/infoUser/$userId'));
 
     if (response.statusCode == 200) {
+      print('uhuy');
       _dataInfoUser = infoUserFromJson(response.body);
     } else {
       print('herupumi');
@@ -30,4 +31,31 @@ class InfoUserProvider with ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> updateUserInfo(InfoUser user) async {
+    _isLoading = true;
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    final int? userId = prefs.getInt('user_id');
+
+    final response = await http.put(
+      Uri.parse('http://127.0.0.1:8000/infoUser/$userId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(user.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      await getdataInfoUser();
+    } else {
+    print('walawe');
+      // Handle error
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
 }

@@ -86,15 +86,32 @@ class Rating(RatingBase):
 class InfoUserBase(BaseModel):
     jenis_kelamin: str | None = None
     umur: int | None = None
-    berat_badan: int | None = None
+    berat_badan: float | None = None
     tanggal_lahir: date | None = None
-    tinggi_badan: int | None = None
-    golongan: str | None = None
+    tinggi_badan: float | None = None
+    golongan_darah: str | None = None
     id_user:int
     alamat:str
+    foto:str
+    
+class UpdateInfoUserBase(BaseModel):
+    jenis_kelamin: str | None = None
+    umur: int | None = None
+    berat_badan: float | None = None
+    tanggal_lahir: date | None = None
+    tinggi_badan: float | None = None
+    golongan_darah: str | None = None
+    alamat:str
+    foto:str
 
 class InfoUser(InfoUserBase):
     id: int
+    class Config:
+        orm_mode = True
+
+class UpdateInfoUser(UpdateInfoUserBase):
+    id: int
+    id_user:int
     class Config:
         orm_mode = True
              
@@ -120,6 +137,15 @@ class UserLog(UserLogBase):
     password: str
 
 class UserL(UserBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+class UpdateUserBase(BaseModel):
+    nama: str
+    no_telp: str
+
+class UpdateUser(UpdateUserBase):
     id: int
     class Config:
         orm_mode = True

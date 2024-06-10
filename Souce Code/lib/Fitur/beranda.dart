@@ -112,29 +112,7 @@ class _BerandaState extends State<Beranda> {
                           (Route<dynamic> route) => false,
                         );
                       },
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: const Color.fromARGB(255, 1, 101, 252),
-                                width: 2,
-                              ),
-                            ),
-                            child: ClipOval(
-                              child: Image.asset(
-                                "assets/images/celine.png",
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Consumer<InfoUserProvider>(
+                      child: Consumer<InfoUserProvider>(
                             builder: (context, infoUserProvider, child) {
                               if (infoUserProvider.isLoading) {
                                 return Center(
@@ -143,58 +121,80 @@ class _BerandaState extends State<Beranda> {
                               }
                               final InfoUser user =
                                   infoUserProvider.dataInfoUser.single;
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              return Row(
                                 children: [
-                                  Text(
-                                    user.nama_lengkap,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: const Color.fromARGB(255, 1, 101, 252),
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        user.imageUrl,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                  Row(
+                                  const SizedBox(width: 8),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      if (user.jenis_kelamin == 'Laki-laki' ||
-                                          user.jenis_kelamin == 'Perempuan')
-                                        Icon(
-                                          user.jenis_kelamin == 'Laki-laki'
-                                              ? Icons.male
-                                              : Icons.female,
-                                          color:
+                                      Text(
+                                        user.nama_lengkap!,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          if (user.jenis_kelamin == 'Laki-laki' ||
+                                              user.jenis_kelamin == 'Perempuan')
+                                            Icon(
                                               user.jenis_kelamin == 'Laki-laki'
-                                                  ? Colors.blue
-                                                  : Colors.pink,
-                                        ),
-                                      if (user.jenis_kelamin == 'Laki-laki' ||
-                                          user.jenis_kelamin == 'Perempuan')
-                                        Text(
-                                          user.jenis_kelamin == 'Laki-laki'
-                                              ? 'Laki-laki'
-                                              : 'Perempuan',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      if (user.jenis_kelamin != 'Laki-laki' &&
-                                          user.jenis_kelamin != 'Perempuan')
-                                        const Text(
-                                          'Lengkapi biodata Anda!',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                                  ? Icons.male
+                                                  : Icons.female,
+                                              color:
+                                                  user.jenis_kelamin == 'Laki-laki'
+                                                      ? Colors.blue
+                                                      : Colors.pink,
+                                            ),
+                                          if (user.jenis_kelamin == 'Laki-laki' ||
+                                              user.jenis_kelamin == 'Perempuan')
+                                            Text(
+                                              user.jenis_kelamin == 'Laki-laki'
+                                                  ? 'Laki-laki'
+                                                  : 'Perempuan',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          if (user.jenis_kelamin != 'Laki-laki' &&
+                                              user.jenis_kelamin != 'Perempuan')
+                                            const Text(
+                                              'Lengkapi biodata Anda!',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ],
                               );
                             },
-                          ),
-                        ],
-                      ),
+                      )
                     ),
                   ),
                   Row(

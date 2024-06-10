@@ -480,7 +480,8 @@ def get_infoUser(db: Session, user_id: int):
         db.query(models.InfoUser,
                  models.User.nama.label('nama_lengkap'),
                  models.User.username.label('username'),
-                 models.User.no_telp.label('no_telp')
+                 models.User.no_telp.label('no_telp'),
+                 models.User.email.label('email')
                  )
         .join(models.User, models.InfoUser.id_user == models.User.id)
         .filter(models.InfoUser.id_user == user_id)
@@ -488,25 +489,47 @@ def get_infoUser(db: Session, user_id: int):
     )
 
     info_user_list = []
-    for info_user, nama_lengkap, username, no_telp in results:
+    for info_user, nama_lengkap, username, no_telp, email in results:
         info_user_dict = {
             "id": info_user.id,
             "jenis_kelamin": info_user.jenis_kelamin,
             "umur": info_user.umur,
             "berat_badan": info_user.berat_badan,
-            "tanggal_lahir": info_user.tanggal_lahir.strftime('%Y-%m-%d') if info_user.tanggal_lahir else None,
+            "tanggal_lahir": info_user.tanggal_lahir.strftime('%Y-%m-%d'),
             "tinggi_badan": info_user.tinggi_badan,
             "golongan_darah": info_user.golongan_darah,
             "id_user": info_user.id_user,
             "alamat": info_user.alamat,
+            "foto": info_user.foto,
             "nama_lengkap": nama_lengkap,
             "username": username,
             "no_telp": no_telp,
+            "email": email,
         }
         info_user_list.append(info_user_dict)
 
     return info_user_list
 
+def get_infoUser_by_id(db: Session, infoUser_id: int):
+    return db.query(models.InfoUser).filter(models.InfoUser.id == infoUser_id).first()
+
+def get_infoUser_by_userId(db: Session, user_id: int):
+    return db.query(models.InfoUser).filter(models.InfoUser.id_user == user_id).first()
+
+def update_infoUser(db: Session, user_id: int, user_data: schemas.UpdateInfoUserBase):
+    db_user = db.query(models.InfoUser).filter(models.InfoUser.id_user == user_id).first()
+    if db_user:
+        db_user.jenis_kelamin = user_data.jenis_kelamin
+        db_user.umur = user_data.umur
+        db_user.berat_badan = user_data.berat_badan
+        db_user.tanggal_lahir = user_data.tanggal_lahir
+        db_user.tinggi_badan = user_data.tinggi_badan
+        db_user.golongan_darah = user_data.golongan_darah
+        db_user.alamat = user_data.alamat
+        db_user.foto = user_data.foto
+        db.commit()
+        db.refresh(db_user)
+    return db_user
 
 # User ###########
 def get_user(db: Session, user_id: int):
@@ -517,6 +540,18 @@ def get_user_by_email(db: Session, email: str):
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
+
+def get_user_by_id(db: Session, user_id: int):
+    return db.query(models.User).filter(models.User.id == user_id).first()
+
+def update_user(db: Session, user_id: int, user_data: schemas.UpdateUserBase):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user:
+        db_user.nama = user_data.nama
+        db_user.no_telp = user_data.no_telp
+        db.commit()
+        db.refresh(db_user)
+    return db_user
 
 # delete semua user
 def delete_all_user(db: Session):
@@ -547,7 +582,8 @@ def create_user(db: Session, user: schemas.UserCreate):
         "tanggal_lahir": datetime.now(),
         "tinggi_badan": 0,
         "golongan_darah": "",
-        "alamat": ""
+        "alamat": "",
+        "foto": "user.png"
     }
     db_info_user = models.InfoUser(id_user=db_user.id, **default_info_user_values)
     db.add(db_info_user)

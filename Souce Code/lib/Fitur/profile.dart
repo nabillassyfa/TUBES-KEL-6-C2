@@ -80,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: CircleAvatar(
                                 radius: 38,
                                 backgroundImage: NetworkImage(
-                                    'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=1460&h=750&dpr=1'),
+                                    user.imageUrl),
                               ),
                             ),
                           ),
@@ -89,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                user.nama_lengkap,
+                                user.nama_lengkap!,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    user.no_telp,
+                                    user.no_telp!,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -286,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                   Text(
-                                    user.tanggal_lahir.toString(),
+                                     DateFormat('dd-MM-yyyy').format(user.tanggal_lahir!),
                                     style: TextStyle(fontSize: 14),
                                   ),
                                   SizedBox(height: 4),

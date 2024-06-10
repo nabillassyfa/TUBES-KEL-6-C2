@@ -5,7 +5,13 @@ class User {
   String email;
   String noTelp;
 
-  User({required this.id, required this.nama, required this.username, required this.email, required this.noTelp});
+  User({
+    required this.id, 
+    required this.nama, 
+    required this.username, 
+    required this.email, 
+    required this.noTelp
+    });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -21,8 +27,6 @@ class User {
     return {
       'id': id,
       'nama': nama,
-      'username': username,
-      'email': email,
       'no_telp': noTelp,
     };
   }
