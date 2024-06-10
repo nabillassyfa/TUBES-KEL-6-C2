@@ -449,9 +449,9 @@ class _DoctorTimelineState extends State<DoctorTimeline> {
 
 //Daftar proses untuk timeline
 final List<String> _processes = [
-  'Memilih Dokter',
-  'Menentukan Jadwal Konsultasi',
-  'Konsultasi dengan Dokter',
-  'Menyelesaikan Konsultasi',
-  'Konsultasi Berhasil'
+  'Dokter sedang bersiap', 
+  'Dokter dalam perjalanan',  
+  'Dokter tiba di lokasi',  
+  'Dokter melakukan pemeriksaan',  
+  'Pemeriksaan selesai. \nDokter kembali ke rumah sakit',  
 ];
