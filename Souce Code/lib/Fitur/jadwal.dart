@@ -32,7 +32,7 @@ class _JadwalState extends State<Jadwal> {
         const SizedBox(
           width: 300,
           child: Text(
-            'Jangan lupakan jadwal konsultasi anda',
+            'Jangan lupakan jadwal konsultasi dan mium obat Anda!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey,
@@ -72,7 +72,7 @@ class _JadwalState extends State<Jadwal> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height -
-                    291, // Atur sesuai dengan tinggi TabBarView
+                    309, // Atur sesuai dengan tinggi TabBarView
                 child: TabBarView(
                   children: [
                     // Isi dari Tab 'Jadwal Konsultasi' menggunakan Builder
