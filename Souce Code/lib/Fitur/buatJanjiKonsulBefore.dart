@@ -15,6 +15,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
   String? selectedDay;
   String? selectedTime;
   int? selectedDokterId;
+  DateTime? pickedDate;
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -127,7 +128,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                         child: TextFormField(
                           controller: dateController,
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
+                            pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
@@ -135,7 +136,7 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                             );
                             if (pickedDate != null) {
                               setState(() {
-                                selectedDay = _formatDate(pickedDate);
+                                selectedDay = _formatDate(pickedDate!);
                                 dateController.text = selectedDay!;
                                 _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
                               });
@@ -239,6 +240,10 @@ class BuatJanjiKonsulBeforeState extends State<BuatJanjiKonsulBefore> {
                             biaya: 120000,
                             tanggal: selectedDay!,
                             waktu: selectedTime!,
+                            unformattedDate: '${pickedDate}',
+                            durasi: 20,
+                            link_video_call: 'https://uny-ac-id.zoom.us/j/99590146921?',
+                            id_jadwal: selectedDokterId,
                           ),
                         ),
                       );

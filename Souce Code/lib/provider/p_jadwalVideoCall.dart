@@ -37,7 +37,7 @@ class JadwalVideoCallProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> postdataJadwalVideoCall(int id_jadwal_dokter_online, String tanggal, int durasi) async {
+  Future<void> postdataJadwalVideoCall(int id_jadwal_dokter_online, String tanggal, int durasi, String link_video_call) async {
     _setLoading(true);
     try {
       // Mendapatkan user_id dari SharedPreferences
@@ -55,6 +55,7 @@ class JadwalVideoCallProvider extends ChangeNotifier {
             'id_jadwal_dokter_online': id_jadwal_dokter_online,
             'tanggal': tanggal,
             'durasi': durasi, 
+            'link_video_call': link_video_call,
           }),
         );
         if (response.statusCode == 200) {

@@ -15,6 +15,7 @@ class PanggilDokterState extends State<PanggilDokter> {
   String? selectedDay;
   String? selectedTime;
   int? selectedDokterId;
+  DateTime? pickedDate;
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -127,7 +128,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                         child: TextFormField(
                           controller: dateController,
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
+                            pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
@@ -135,7 +136,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                             );
                             if (pickedDate != null) {
                               setState(() {
-                                selectedDay = _formatDate(pickedDate);
+                                selectedDay = _formatDate(pickedDate!);
                                 dateController.text = selectedDay!;
                                 _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
                               });
@@ -235,10 +236,12 @@ class PanggilDokterState extends State<PanggilDokter> {
                           builder: (context) => Pembayaran(
                             itemNama: selectedDokter.nama,
                             itemDeskripsi: selectedSpesialis.nama,
-                            itemLayanan: 'Konsultasi Online',
-                            biaya: 120000,
+                            itemLayanan: 'Panggil Dokter',
+                            biaya: 200000,
                             tanggal: selectedDay!,
                             waktu: selectedTime!,
+                            unformattedDate: '${pickedDate}',
+                            id_jadwal: selectedDokterId,
                           ),
                         ),
                       );
@@ -269,7 +272,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Text(
-                    "Buat Janji Konsultasi Online",
+                    "Buat Janji Panggil Dokter",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 18,

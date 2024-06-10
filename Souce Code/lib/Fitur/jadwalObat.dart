@@ -48,7 +48,12 @@ class _JadwalObatState extends State<JadwalObat> {
             provider.isLoading
                 ? Center(child: CircularProgressIndicator())
                 : provider.dataJadwalObat.isEmpty
-                    ? Text('Saat ini tidak memiliki jadwal minum obat')
+                    ? Column(
+                      children: [
+                        SizedBox(height: 40,),
+                        Text('Saat ini tidak memiliki jadwal minum obat'),
+                      ],
+                    )
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),

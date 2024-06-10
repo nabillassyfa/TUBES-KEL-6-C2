@@ -43,6 +43,7 @@ class JadwalPanggilDokterProvider extends ChangeNotifier {
       // Mendapatkan user_id dari SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       final int? userId = prefs.getInt('user_id');
+      print(userId);
 
       if (userId != null) {
         final response = await http.post(

@@ -66,7 +66,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               height: 15,
             ),
             Text(
-              'Pembayaran Sukses!',
+              'Reservasi Sukses!',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
