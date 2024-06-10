@@ -125,6 +125,8 @@ class User(BaseDB):
     status_rawatJalan = relationship("StatusRawatJalan", back_populates="user")
     pembayaran = relationship("Pembayaran", back_populates="user")
     jadwal_obat = relationship("JadwalObat", back_populates="user")
+    jadwal_video_call = relationship("JadwalKonsulOnline", back_populates="user")
+    jadwal_panggil_dokter = relationship("JadwalPanggilDokter", back_populates="user")
 
 class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
@@ -136,6 +138,30 @@ class JadwalJanjiTemu(BaseDB):
 
     user = relationship("User", back_populates="jadwal_janji_temu")
     jadwal_dokter = relationship("JadwalDokter", back_populates="jadwal_janji_temu")
+    
+
+class JadwalKonsulOnline(BaseDB):
+    __tablename__ = "jadwal_video_call"
+    id = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+    tanggal = Column(Date, nullable=False, index=True)
+    durasi = Column(Integer, index=True)
+    link_video_call = Column(String, index=True)
+    id_jadwal_dokter_online = Column(Integer, ForeignKey('jadwal_dokter_online.id'))
+
+    user = relationship("User", back_populates="jadwal_video_call")
+    jadwal_dokter_online = relationship("JadwalDokterOnline", back_populates="jadwal_video_call")
+    
+class JadwalPanggilDokter(BaseDB):
+    __tablename__ = "jadwal_panggil_dokter"
+    id = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+    tanggal = Column(Date, nullable=False, index=True)
+    id_jadwal_dokter_panggil_dokter = Column(Integer, ForeignKey('jadwal_dokter_panggil_dokter.id'))
+    alamat = Column(String, index=True)
+
+    user = relationship("User", back_populates="jadwal_panggil_dokter")
+    jadwal_dokter_panggil_dokter = relationship("JadwalDokterPanggilDokter", back_populates="jadwal_panggil_dokter")
     
 
 class StatusRawatJalan(BaseDB):
@@ -170,8 +196,8 @@ class JadwalDokterOnline(BaseDB):
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
     
     dokter = relationship("Dokter", back_populates="jadwal_dokter_online")
+    jadwal_video_call = relationship("JadwalKonsulOnline", back_populates="jadwal_dokter_online")
     
-
 class JadwalDokterPanggilDokter(BaseDB):
     __tablename__ = "jadwal_dokter_panggil_dokter"
 
@@ -182,6 +208,7 @@ class JadwalDokterPanggilDokter(BaseDB):
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
 
     dokter = relationship("Dokter", back_populates="jadwal_dokter_panggil_dokter")
+    jadwal_panggil_dokter = relationship("JadwalPanggilDokter", back_populates="jadwal_dokter_panggil_dokter")
     
 class Pembayaran(BaseDB):
     __tablename__ = "pembayaran"
