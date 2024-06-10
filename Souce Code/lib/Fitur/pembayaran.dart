@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tp2/models/jadwalPanggilDokter.dart';
 import 'package:tp2/models/metodePembayaran.dart';
 import 'package:tp2/provider/p_infoUser.dart';
 import 'package:tp2/provider/p_jadwalJanjiTemu.dart';
+import 'package:tp2/provider/p_jadwalPanggilDokter.dart';
+import 'package:tp2/provider/p_jadwalVideoCall.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
 import 'package:tp2/provider/p_pembayaran.dart';
 import 'pembayaranSukses.dart';
@@ -19,6 +22,7 @@ class Pembayaran extends StatefulWidget {
   int? id_jadwal;
   String? unformattedDate;
   int? durasi;
+  String? link_video_call;
 
   Pembayaran({
     super.key,
@@ -31,7 +35,8 @@ class Pembayaran extends StatefulWidget {
     required this.biaya,
     this.id_jadwal,
     this.unformattedDate,
-    this.durasi
+    this.durasi,
+    this.link_video_call
   });
 
   @override
@@ -41,6 +46,7 @@ class Pembayaran extends StatefulWidget {
 class _PembayaranState extends State<Pembayaran> {
   InfoUserProvider? infoUserProvider;
   String namaPasien = "";
+  String alamat = "";
   MetodePembayaranProvider? metodePembayaranProvider;
   MetodePembayaran? selectedMetodePembayaran;
   bool isProcessing = false; // State to track loading state
@@ -52,11 +58,50 @@ class _PembayaranState extends State<Pembayaran> {
     infoUserProvider!.getdataInfoUser().then((_) {
       setState(() {
         namaPasien = infoUserProvider!.dataInfoUser.first.nama_lengkap;
+        alamat = infoUserProvider!.dataInfoUser.first.alamat;
         print(namaPasien);
+        print(alamat);
+        print(widget.id_jadwal);
+        print(widget.itemLayanan);
       });
     });
     metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
     metodePembayaranProvider!.getdataMetodePembayaran();
+  }
+
+
+  void _editAlamat() {
+    TextEditingController _alamatController = TextEditingController(text: alamat);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Alamat'),
+          content: TextField(
+            controller: _alamatController,
+            decoration: InputDecoration(hintText: "Alamat"),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Batal'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Simpan'),
+              onPressed: () {
+                setState(() {
+                  alamat = _alamatController.text;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -82,7 +127,7 @@ class _PembayaranState extends State<Pembayaran> {
           children: [
             const Center(
               child: Text(
-                'Pembayaran',
+                'Reservasi',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -131,6 +176,44 @@ class _PembayaranState extends State<Pembayaran> {
                       Text(namaPasien),
                     ],
                   ),
+                  widget.itemLayanan == "Panggil Dokter"
+                  ? Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Alamat:',
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              alamat,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                              ),
+                              maxLines: null, // Allow the text to be multiline
+                              overflow: TextOverflow.visible, // Ensure the text overflows visibly
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: _editAlamat,
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'Pastikan untuk mengisi alamat dengan lengkap',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 231, 170, 1),
+                          fontSize: 12
+                        ),
+                        textAlign: TextAlign.left,
+                      )
+                    ],
+                  ) : Container(),
                   const SizedBox(
                     height: 20,
                   ),
@@ -292,10 +375,14 @@ class _PembayaranState extends State<Pembayaran> {
                                 if (provider.isLoading) {
                                   return Center(child: CircularProgressIndicator());
                                 } else {
+                                  List<MetodePembayaran> filteredMetodePembayaran = provider.dataMetodePembayaran;
+                                  if (widget.itemLayanan == "Konsultasi Online" || widget.itemLayanan == "Panggil Dokter") {
+                                    filteredMetodePembayaran = filteredMetodePembayaran.where((metode) => metode.nama_pembayaran != "Bayar ditempat").toList();
+                                  }
                                   return ListView.builder(
-                                    itemCount: provider.dataMetodePembayaran.length,
+                                    itemCount: filteredMetodePembayaran.length,
                                     itemBuilder: (context, index) {
-                                      MetodePembayaran metode = provider.dataMetodePembayaran[index];
+                                      MetodePembayaran metode = filteredMetodePembayaran[index];
                                       return ListTile(
                                         title: Text(metode.nama_pembayaran),
                                         onTap: () {
@@ -345,19 +432,33 @@ class _PembayaranState extends State<Pembayaran> {
                     height: 50,
                     onPressed: () async {
                       if (selectedMetodePembayaran != null) {
+                        if (widget.itemLayanan == "Panggil Dokter" && alamat == "") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Alamat tidak boleh kosong untuk layanan Panggil Dokter.'),
+                            ),
+                          );
+                          return;
+                        }
                         setState(() {
                           isProcessing = true;
                         });
                         try {
                           // Post data pembayaran
                           await Provider.of<PembayaranProvider>(context, listen: false)
-                              .postdataPembayaran(selectedMetodePembayaran!.nama_pembayaran, widget.biaya, widget.itemNama);
+                              .postdataPembayaran(selectedMetodePembayaran!.nama_pembayaran, widget.biaya, widget.itemLayanan);
                           
                           // Post data jadwal janji temu
                           if (widget.id_jadwal != null && widget.unformattedDate != null && widget.waktu != null) {
                             if(widget.itemLayanan == "Janji Temu"){
                               await Provider.of<JadwalJanjiTemuProvider>(context, listen: false)
-                                  .postdataJadwaljanjitemu(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!); // Durasi janji temu diset ke 60 menit, sesuaikan dengan kebutuhan
+                                  .postdataJadwaljanjitemu(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!); 
+                            } else if(widget.itemLayanan == "Konsultasi Online"){
+                              await Provider.of<JadwalVideoCallProvider>(context, listen: false)
+                                  .postdataJadwalVideoCall(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!, widget.link_video_call!); 
+                            } else if(widget.itemLayanan == "Panggil Dokter"){
+                              await Provider.of<JadwalPanggilDokterProvider>(context, listen: false)
+                                  .postdataJadwalPanggilDokter(widget.id_jadwal!, widget.unformattedDate!, alamat); 
                             }
                           }
 
@@ -379,6 +480,7 @@ class _PembayaranState extends State<Pembayaran> {
                             (Route<dynamic> route) => false,
                           );
                         } catch (e) {
+                          print('herupumi');
                           // Handle error
                         } finally {
                           setState(() {
@@ -399,7 +501,8 @@ class _PembayaranState extends State<Pembayaran> {
                         color: Colors.white,
                       ),
                     ),
-                  ) : Text('Silahkan pilih metode pembayaran')
+                  ) : Text('Silahkan pilih metode pembayaran'),
+                  SizedBox(height: 20,)
           ],
         ),
       ),

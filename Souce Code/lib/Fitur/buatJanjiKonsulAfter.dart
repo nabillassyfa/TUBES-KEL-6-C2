@@ -20,6 +20,7 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
   DateTime? pickedDate;
   String? selectedTime;
   List<String> waktuGabung = [];
+  int? selectedJadwalId;
 
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -111,6 +112,10 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                           biaya: 120000,
                           tanggal: _formatDate(pickedDate),
                           waktu: selectedTime,
+                          unformattedDate: '${pickedDate}',
+                          durasi: 20,
+                          link_video_call: 'https://uny-ac-id.zoom.us/j/99590146921?',
+                          id_jadwal: selectedJadwalId,
                         ),
                       ),
                     );
@@ -225,9 +230,11 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
 
     if (waktuGabung.isNotEmpty) {
       selectedTime = waktuGabung[0];
+      selectedJadwalId = filteredJadwal[0].id;
       timeController.text = selectedTime!;
     } else {
       selectedTime = null;
+      selectedJadwalId = null;
       timeController.text = "";
     }
   }
@@ -246,6 +253,8 @@ class BuatJanjiKonsulAfterState extends State<BuatJanjiKonsulAfter> {
                 onChanged: (value) {
                   setState(() {
                     selectedTime = value;
+                    int index = waktuGabung.indexOf(value!);
+                    selectedJadwalId = jadwalDokterProvider.dataJadwalDokter[index].id;
                     timeController.text = value!;
                   });
                   Navigator.of(context).pop();

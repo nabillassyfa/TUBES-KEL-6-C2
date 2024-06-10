@@ -20,6 +20,7 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
   DateTime? pickedDate;
   String? selectedTime;
   List<String> waktuGabung = [];
+  int? selectedJadwalId;
 
   TextEditingController timeController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -110,7 +111,9 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
                           itemLayanan: 'Panggil Dokter',
                           biaya: 200000,
                           tanggal: _formatDate(pickedDate),
+                          unformattedDate: '${pickedDate}',
                           waktu: selectedTime,
+                          id_jadwal: selectedJadwalId,
                         ),
                       ),
                     );
@@ -225,9 +228,11 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
 
     if (waktuGabung.isNotEmpty) {
       selectedTime = waktuGabung[0];
+      selectedJadwalId = filteredJadwal[0].id;
       timeController.text = selectedTime!;
     } else {
       selectedTime = null;
+      selectedJadwalId = null;
       timeController.text = "";
     }
   }
@@ -246,6 +251,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
                 onChanged: (value) {
                   setState(() {
                     selectedTime = value;
+                    int index = waktuGabung.indexOf(value!);
+                    selectedJadwalId = jadwalDokterProvider.dataJadwalDokter[index].id;
                     timeController.text = value!;
                   });
                   Navigator.of(context).pop();

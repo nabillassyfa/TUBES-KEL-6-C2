@@ -17,6 +17,7 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
   String? selectedDay;
   String? selectedTime;
   int? selectedDokterId;
+  DateTime? pickedDate;
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -152,7 +153,7 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                         child: TextFormField(
                           controller: dateController,
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
+                            pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
@@ -160,7 +161,7 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                             );
                             if (pickedDate != null) {
                               setState(() {
-                                selectedDay = _formatDate(pickedDate);
+                                selectedDay = _formatDate(pickedDate!);
                                 dateController.text = selectedDay!;
                                 _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
                               });
@@ -264,6 +265,10 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                                 biaya: 400000,
                                 tanggal:selectedDay,
                                 waktu: selectedTime,
+                                id_jadwal: selectedDokterId,
+                                unformattedDate: '${pickedDate}',
+                                durasi: 30,
+
                               ),
                             ),
                           );

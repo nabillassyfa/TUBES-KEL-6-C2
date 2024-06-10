@@ -60,7 +60,12 @@ class _JadwalKonsultasiState extends State<JadwalKonsultasi> {
               ),
             ),
             providerjanjitemu.data_JadwalJanjiTemu.isEmpty && providerVideoCall.data_JadwalVideoCall.isEmpty && providerPanggilDokter.data_JadwalPanggilDokter.isEmpty
-            ? Text('Saat ini Anda tidak memiliki jadwal apapun')
+            ? Column(
+              children: [
+                SizedBox(height: 40,),
+                Text('Saat ini Anda tidak memiliki jadwal apapun'),
+              ],
+            )
             :
             providerjanjitemu.isLoading
                 ? CircularProgressIndicator()
