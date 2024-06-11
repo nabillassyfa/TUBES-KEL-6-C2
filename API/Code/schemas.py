@@ -53,6 +53,7 @@ class RekamMedisBase(BaseModel):
     tanggal:datetime
     id_dokter:int
     id_user:int
+    tipe_layanan:str
 
 class RekamMedis(RekamMedisBase):
     id: int

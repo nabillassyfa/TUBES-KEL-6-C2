@@ -161,7 +161,7 @@ class _SignupPageState extends State<SignupPage> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text('Akun Telah Terdaftar'),
+                                    title: Text('Akun Berhasil Terdaftar'),
                                     content: Text(
                                         'Silahkan login untuk melanjutkan.'),
                                     actions: [
@@ -183,6 +183,23 @@ class _SignupPageState extends State<SignupPage> {
                               );
                             } catch (e) {
                               print('Signup failed: $e');
+                              showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Peringatan'),
+                                  content: Text('Email telah digunakan.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                             }
                           } else {
                             showDialog(

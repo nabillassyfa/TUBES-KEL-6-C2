@@ -12,8 +12,8 @@ class RekamMedisProvider extends ChangeNotifier {
   List<RekamMedis> get dataRekamMedis => data_RekamMedis;
 
   Future<void> getdataRekamMedis(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    int? userId = await userProvider.getUserId();
+      final prefs = await SharedPreferences.getInstance();
+      final int? userId = prefs.getInt('user_id');
 
     print(userId);
     isLoading = true;
@@ -32,7 +32,7 @@ class RekamMedisProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> postdataRekamMedis(String obat, DateTime tanggal, int id_dokter) async {
+  Future<void> postdataRekamMedis(String obat, DateTime tanggal, int id_dokter, String tipe_layanan) async {
     isLoading = true;
     notifyListeners();
     try {
@@ -53,6 +53,7 @@ class RekamMedisProvider extends ChangeNotifier {
             'tanggal': tanggal.toIso8601String(),
             'id_dokter': id_dokter,
             'id_user': userId,
+            'tipe_layanan': tipe_layanan
           }),
         );
         if (response.statusCode == 200) {
