@@ -185,6 +185,10 @@ def read_items(user_id: int, db: Session = Depends(get_db)):
     rekam_medis = crud.get_rekam_medis(db, user_id)
     return rekam_medis
 
+@app.post("/rekam_medis/", response_model=schemas.RekamMedis)
+def rekam_medis(rekam_medis: schemas.RekamMedisBase, db: Session = Depends(get_db)):
+    return crud.create_rekam_medis(db=db, rekam_medis=rekam_medis)
+
 ## Rating
 @app.get("/rating/{dokter_id}")
 def read_items(dokter_id: int, db: Session = Depends(get_db)):

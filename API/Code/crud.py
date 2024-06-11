@@ -181,6 +181,19 @@ def get_rekam_medis(db: Session, user_id: int):
 
     return rekam_medis_list
 
+def create_rekam_medis(db: Session, rekam_medis: schemas.RekamMedisBase):
+    db_rekam_medis = models.RekamMedis(
+        keterangan = rekam_medis.keterangan, 
+        catatan_dokter = rekam_medis.catatan_dokter, 
+        tanggal = rekam_medis.tanggal, 
+        id_user = rekam_medis.id_user, 
+        id_dokter = rekam_medis.id_dokter, 
+        obat = rekam_medis.obat)
+    db.add(db_rekam_medis)
+    db.commit()
+    db.refresh(db_rekam_medis)
+    return db_rekam_medis
+
 # Daftar RS berdasarkan Spesialis ----------------------------------------------------------------
 def get_RS_by_spesialis(db: Session, id: int):
     results = (
