@@ -917,3 +917,30 @@ def get_RS_by_Lab(db: Session, id: int):
         rs_list.append(rs_dict)
 
     return rs_list
+
+
+def get_statusRawatJalan(db: Session, id_user: int):
+    results = (
+        db.query(
+            models.StatusUser,
+            models.StatusRawatJalan,
+        )
+        .join(models.RS, models.Jadwal_Lab.id_rs == models.RS.id)
+        .filter(models.Jadwal_Lab.id_lab == id)
+        .all()
+    )
+    
+    rs_list = []
+    for daftar_rs, rs in results:
+        rs_dict = {
+            "id": rs.id,
+            "nama": rs.nama,
+            "deskripsi": rs.deskripsi,
+            "lokasi": rs.lokasi,
+            "fasilitas": rs.fasilitas,
+            "img": rs.img,
+        }
+        rs_list.append(rs_dict)
+
+    return rs_list
+

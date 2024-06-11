@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
 from pydantic import BaseModel
 
 from sqlalchemy.orm import Session
-from datetime import time
+from datetime import time, datetime
 
 
 
@@ -15,14 +15,14 @@ from database import SessionLocal, engine
 models.BaseDB.metadata.create_all(bind=engine)
 
 # from jose import jwt
-import datetime
+# import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
 
 app = FastAPI(title="Web service DIHospital",
     description="Web service untuk Tubes provis Kel 6",
-    version="0.0.1 (Alpha)",)
+    version="0.1.0 (Beta)",)
 
 app.add_middleware(
     CORSMiddleware,
@@ -152,8 +152,13 @@ def read_jadwal(dokter_id:int, rs_id:int, hari:str, db: Session = Depends(get_db
 
 ## Jadwal Dokter by Hari dan Jam
 @app.get("/jadwal_dokter_by_hari_jam/{waktu}/{rs_id}/{hari}/{spesialis}")
-def read_jadwal(waktu:str, rs_id:int, hari:str, spesialis:int, db: Session = Depends(get_db)):
-    return crud.get_jadwal_dokter_by_hari_jam(db=db, waktu=waktu, rs_id=rs_id, hari=hari, spesialis=spesialis)
+def read_jadwal(waktu: str, rs_id: int, hari: str, spesialis: int, db: Session = Depends(get_db)):
+    try:
+        waktu_obj = datetime.strptime(waktu, "%H:%M").time()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Format waktu tidak valid. Harap gunakan format: 'HH:MM'")
+    
+    return crud.get_jadwal_dokter_by_hari_jam(db=db, waktu=waktu_obj, rs_id=rs_id, hari=hari, spesialis=spesialis)
 
 ## Jadwal Dokter by Hari, Spesialis dan Jam 
 @app.get("/jadwal_dokter_daring/{waktu}/{hari}/{spesialis}")

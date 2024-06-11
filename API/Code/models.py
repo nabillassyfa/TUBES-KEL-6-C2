@@ -1,5 +1,5 @@
 from database import BaseDB
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, func, Double
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, func, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped
 from typing import List
@@ -77,9 +77,9 @@ class InfoUser(BaseDB):
     id = Column(Integer, primary_key=True)  # Menggunakan id_user sebagai primary key
     jenis_kelamin = Column(String, index=True)
     umur = Column(Integer, index=True)
-    berat_badan = Column(Double, index=True)
+    berat_badan = Column(Float, index=True)
     tanggal_lahir = Column(Date, index=True)
-    tinggi_badan = Column(Double, index=True)
+    tinggi_badan = Column(Float, index=True)
     golongan_darah = Column(String, index=True)
     id_user = Column(Integer, ForeignKey('user.id'))  # Foreign key ke user
     alamat = Column(String, index=True)
@@ -123,7 +123,6 @@ class User(BaseDB):
     rating = relationship("Rating", back_populates="user")
     infoUser = relationship("InfoUser", back_populates="user", uselist=False)
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="user")
-    status_rawatJalan = relationship("StatusRawatJalan", back_populates="user")
     pembayaran = relationship("Pembayaran", back_populates="user")
     jadwal_obat = relationship("JadwalObat", back_populates="user")
     jadwal_video_call = relationship("JadwalKonsulOnline", back_populates="user")
@@ -139,6 +138,7 @@ class JadwalJanjiTemu(BaseDB):
 
     user = relationship("User", back_populates="jadwal_janji_temu")
     jadwal_dokter = relationship("JadwalDokter", back_populates="jadwal_janji_temu")
+    status_user = relationship("StatusUser", back_populates="jadwal_janji_temu")
     
 
 class JadwalKonsulOnline(BaseDB):
@@ -168,12 +168,20 @@ class JadwalPanggilDokter(BaseDB):
 class StatusRawatJalan(BaseDB):
     __tablename__ = "status_rawat_jalan"
     id_status = Column(Integer, primary_key=True)
-    id_user = Column(Integer, ForeignKey('user.id'))
     keterangan_status = Column(String, index=True)
     deskripsi = Column(String, index=True)
+
+    status_user = relationship("StatusUser", back_populates="status_rawat_jalan")
     
-    user = relationship("User", back_populates="status_rawatJalan")
-    
+class StatusUser(BaseDB):
+    __tablename__ = "status_user"
+    id = Column(Integer, primary_key=True)
+    id_janjiTemu = Column(Integer, ForeignKey('jadwal_janji_temu.id'))
+    id_statusRawatJalan = Column(Integer, ForeignKey('status_rawat_jalan.id_status'))
+
+    jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="status_user")
+    status_rawat_jalan = relationship("StatusRawatJalan", back_populates="status_user")
+
 
 class JadwalDokter(BaseDB):
     __tablename__ = "jadwal_dokter"
