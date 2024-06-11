@@ -589,14 +589,14 @@ def create_user(db: Session, user: schemas.UserCreate):
 
     # Buat record InfoUser baru yang terhubung dengan user yang baru saja dibuat
     default_info_user_values = {
-        "jenis_kelamin": "",
+        "jenis_kelamin": "Laki-laki",
         "umur": 0,
         "berat_badan": 0,
         "tanggal_lahir": datetime.now(),
         "tinggi_badan": 0,
         "golongan_darah": "",
         "alamat": "",
-        "foto": "user.png"
+        "foto": "user.jpg"
     }
     db_info_user = models.InfoUser(id_user=db_user.id, **default_info_user_values)
     db.add(db_info_user)
@@ -865,6 +865,9 @@ def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
     return db_pembayaran
 
 ## Obat
+def get_obat(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Obat).offset(skip).limit(limit).all()
+
 def get_jadwal_obat_by_user(db:Session, user_id:int):
     results = (
         db.query(models.JadwalObat,
