@@ -18,14 +18,16 @@ class RatingProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/rating/$id'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8000/rating/$id'));
 
     if (response.statusCode == 200) {
       data_Rating = RatingFromJson(response.body);
 
       // Calculate the average rating and review count
       if (data_Rating.isNotEmpty) {
-        double totalRating = data_Rating.fold(0, (sum, item) => sum + item.rating);
+        double totalRating =
+            data_Rating.fold(0, (sum, item) => sum + item.rating);
         _averageRating = totalRating / data_Rating.length;
         _reviewCount = data_Rating.length;
       } else {
@@ -42,7 +44,8 @@ class RatingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> beriRating(String pesan, double rating, int id_user, int id_dokter) async {
+  Future<Map<String, dynamic>> beriRating(
+      String pesan, double rating, int id_user, int id_dokter) async {
     final response = await http.post(
       Uri.parse('http://127.0.0.1:8000/ratings/'),
       headers: <String, String>{

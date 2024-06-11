@@ -8,6 +8,7 @@ import 'beri_review.dart';
 import 'buatJanjiKonsulAfter.dart';
 import 'buatJanjiTemuAfter.dart';
 import '../models/dokter.dart';
+import '../provider/p_rating.dart';
 
 class DetailDokter extends StatefulWidget {
   final Dokter dokter;
@@ -35,6 +36,9 @@ class DetailDokterState extends State<DetailDokter> {
     final jadwalDokterPanggilDokterProvider =
         Provider.of<JadwalDokterProvider>(context, listen: false);
     jadwalDokterProvider.getdataJadwalPanggilDokterByDokter(widget.dokter.id);
+
+    final ratingProvider = Provider.of<RatingProvider>(context, listen: false);
+    ratingProvider.getdataRatingbyDokter(widget.dokter.id);
   }
 
   Widget build(BuildContext context) {
@@ -139,26 +143,38 @@ class DetailDokterState extends State<DetailDokter> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '4.5' + '  |',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(width: 4.0),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  SizedBox(width: 4.0),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  SizedBox(width: 4.0),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  SizedBox(width: 4.0),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                  SizedBox(width: 4.0),
-                                  Icon(Icons.star, color: Colors.yellow),
-                                ],
+                              Consumer<RatingProvider>(
+                                builder: (context, ratingProvider, child) {
+                                  if (ratingProvider.isLoading) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  double averageRating =
+                                      ratingProvider.averageRating;
+                                  int reviewCount = ratingProvider.reviewCount;
+
+                                  return Row(
+                                    children: [
+                                      Icon(Icons.star, color: Colors.yellow),
+                                      SizedBox(width: 4.0),
+                                      Text(
+                                        averageRating.toStringAsFixed(1),
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        ' ($reviewCount Reviews)',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               ),
                               VerticalDivider(
                                 thickness: 2,
@@ -171,9 +187,9 @@ class DetailDokterState extends State<DetailDokter> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            DoctorReviewsPage(dokter: dokter,)
-                                            ),
+                                        builder: (context) => DoctorReviewsPage(
+                                              dokter: dokter,
+                                            )),
                                   );
                                 },
                                 child: Text(
