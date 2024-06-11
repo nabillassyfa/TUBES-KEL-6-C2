@@ -15,6 +15,7 @@ class Rating {
     required this.id_dokter,
     required this.nama_dokter,
     required this.nama_user,
+    required this.info_user_id,
   });
 
   final int id;
@@ -24,8 +25,9 @@ class Rating {
   final int id_dokter;
   final String nama_dokter;
   final String nama_user;
+  final int info_user_id;
 
- String get imageUrl => 'http://127.0.0.1:8000/user_image/$id_user';
+ String get imageUrl => 'http://127.0.0.1:8000/user_image/$info_user_id';
   factory Rating.fromJson(Map<String, dynamic> json) => Rating(
         id: json["id"],
         pesan: json["pesan"],
@@ -34,6 +36,7 @@ class Rating {
         id_user: json["id_user"],
         nama_dokter: json["nama_dokter"],
         nama_user: json["nama_user"],
+        info_user_id:json ["info_user_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,5 +47,6 @@ class Rating {
         "id_user": id_user,
         "nama_dokter": nama_dokter,
         "nama_user" : nama_user,
+        "info_user_id" : info_user_id,
       };
 }

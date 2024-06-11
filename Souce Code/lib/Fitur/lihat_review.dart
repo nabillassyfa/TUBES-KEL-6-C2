@@ -112,7 +112,8 @@ class DoctorReviewsState extends State<DoctorReviewsPage> {
                             children: [
                               ListTile(
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(review.imageUrl),
+                                  backgroundImage:
+                                      NetworkImage(review.imageUrl),
                                   radius: 30.0,
                                 ),
                                 title: Text(
@@ -135,7 +136,8 @@ class DoctorReviewsState extends State<DoctorReviewsPage> {
                               ),
                               SizedBox(height: 4.0),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

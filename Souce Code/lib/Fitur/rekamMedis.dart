@@ -95,12 +95,13 @@ class _RekamMedisState extends State<RekamMedis> {
                             left: 20, right: 20, bottom: 20),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(250, 206, 222, 245),
-                          border: Border.all(color: Colors.grey, width: 2),
+                          color: Color(0xffd3e6ff),
+                          border:
+                              Border.all(color: Color(0xff0165fc), width: 1),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.8),
+                              color: Colors.grey.withOpacity(0.5),
                               blurRadius: 2,
                               spreadRadius: 2,
                               offset: Offset(0, 2),
@@ -110,51 +111,6 @@ class _RekamMedisState extends State<RekamMedis> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Spesialis',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 8, right: 8),
-                                    width: 1.5, // Lebar garis vertikal
-                                    height: 40, // Tinggi garis vertikal
-                                    color: Color.fromARGB(255, 1, 101,
-                                        252), // Warna garis vertikal
-                                  ),
-                                  Text(
-                                    'Dokter',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 8, right: 8),
-                                    width: 1.5, // Lebar garis vertikal
-                                    height: 40, // Tinggi garis vertikal
-                                    color: Color.fromARGB(255, 1, 101,
-                                        252), // Warna garis vertikal
-                                  ),
-                                  Text(
-                                    'Tanggal',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10),
                             Expanded(
                               child: ListView.builder(
                                 itemCount: value.dataRekamMedis.length,

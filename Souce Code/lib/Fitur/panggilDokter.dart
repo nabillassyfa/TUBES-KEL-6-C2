@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
-import 'package:tp2/provider/p_jadwalDokter.dart';  
+import 'package:tp2/provider/p_jadwalDokter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:tp2/provider/p_spesialis.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class PanggilDokterState extends State<PanggilDokter> {
 
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +28,14 @@ class PanggilDokterState extends State<PanggilDokter> {
     });
   }
 
-  void _fetchFilteredDokters(String? selectedDay, String? selectedTime, int? selectedSpesialisId) {
-    if (selectedDay != null && selectedTime != null && selectedSpesialisId != null) {
-      Provider.of<JadwalDokterProvider>(context, listen: false).getdataJadwalPanggilDokter(selectedDay, selectedTime, selectedSpesialisId);
+  void _fetchFilteredDokters(
+      String? selectedDay, String? selectedTime, int? selectedSpesialisId) {
+    if (selectedDay != null &&
+        selectedTime != null &&
+        selectedSpesialisId != null) {
+      Provider.of<JadwalDokterProvider>(context, listen: false)
+          .getdataJadwalPanggilDokter(
+              selectedDay, selectedTime, selectedSpesialisId);
     }
   }
 
@@ -47,8 +52,8 @@ class PanggilDokterState extends State<PanggilDokter> {
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back,
+            size: 24,
             color: Colors.black,
           ),
         ),
@@ -98,28 +103,36 @@ class PanggilDokterState extends State<PanggilDokter> {
                     context: context,
                     label: "Pilih Spesialis",
                     hintText: "Semua Spesialis",
-                    items: provider.dataSpesialis.map((spesialis) => spesialis.nama).toList(),
+                    items: provider.dataSpesialis
+                        .map((spesialis) => spesialis.nama)
+                        .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedSpesialisId = provider.dataSpesialis.firstWhere((spesialis) => spesialis.nama == value).id;
+                        selectedSpesialisId = provider.dataSpesialis
+                            .firstWhere((spesialis) => spesialis.nama == value)
+                            .id;
                         selectedDay = null;
                         selectedTime = null;
                         selectedDokterId = null;
                         dateController.clear();
                         timeController.clear();
-                         _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                        _fetchFilteredDokters(
+                            selectedDay, selectedTime, selectedSpesialisId);
                       });
                     },
                   );
                 },
               ),
-               SizedBox(height: 10),
+              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     "Pilih Tanggal",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87),
                   ),
                   SizedBox(height: 10), // Jarak antara judul dan kotak tanggal
                   Row(
@@ -138,14 +151,18 @@ class PanggilDokterState extends State<PanggilDokter> {
                               setState(() {
                                 selectedDay = _formatDate(pickedDate!);
                                 dateController.text = selectedDay!;
-                                _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                                _fetchFilteredDokters(selectedDay, selectedTime,
+                                    selectedSpesialisId);
                               });
                             }
                           },
                           readOnly: true,
                           decoration: InputDecoration(
                             hintText: 'Pilih Tanggal',
-                            suffixIcon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252),), // Icon kalender
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: Color.fromARGB(255, 1, 101, 252),
+                            ), // Icon kalender
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -160,7 +177,10 @@ class PanggilDokterState extends State<PanggilDokter> {
                 children: <Widget>[
                   Text(
                     "Pilih Waktu",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87),
                   ),
                   SizedBox(height: 10), // Jarak antara judul dan kotak waktu
                   Row(
@@ -175,16 +195,21 @@ class PanggilDokterState extends State<PanggilDokter> {
                             );
                             if (pickedTime != null) {
                               setState(() {
-                                selectedTime = "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
+                                selectedTime =
+                                    "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
                                 timeController.text = selectedTime!;
-                                _fetchFilteredDokters(selectedDay, selectedTime, selectedSpesialisId);
+                                _fetchFilteredDokters(selectedDay, selectedTime,
+                                    selectedSpesialisId);
                               });
                             }
                           },
                           readOnly: true,
                           decoration: InputDecoration(
                             hintText: 'Pilih Waktu',
-                            suffixIcon: Icon(Icons.access_time, color: Color.fromARGB(255, 1, 101, 252),), // Icon waktu
+                            suffixIcon: Icon(
+                              Icons.access_time,
+                              color: Color.fromARGB(255, 1, 101, 252),
+                            ), // Icon waktu
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -207,17 +232,21 @@ class PanggilDokterState extends State<PanggilDokter> {
                     context: context,
                     label: "Pilih Dokter",
                     hintText: "Pilih dokter",
-                    items: provider.data_Jadwal_dokter_Daring.map((dokter) => dokter.nama).toList(),
+                    items: provider.data_Jadwal_dokter_Daring
+                        .map((dokter) => dokter.nama)
+                        .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedDokterId = provider.data_Jadwal_dokter_Daring.firstWhere((dokter) => dokter.nama == value).id;
+                        selectedDokterId = provider.data_Jadwal_dokter_Daring
+                            .firstWhere((dokter) => dokter.nama == value)
+                            .id;
                       });
                     },
                   );
                 },
               ),
               SizedBox(height: 20),
-                // Add spacing here
+              // Add spacing here
               Container(
                 padding: EdgeInsets.only(top: 3, left: 3),
                 decoration: BoxDecoration(
@@ -227,9 +256,21 @@ class PanggilDokterState extends State<PanggilDokter> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    if (selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
-                     final selectedDokter = Provider.of<JadwalDokterProvider>(context, listen: false).data_Jadwal_dokter_Daring.firstWhere((dokter) => dokter.id == selectedDokterId);
-                      final selectedSpesialis = Provider.of<SpesialisProvider>(context, listen: false).dataSpesialis.firstWhere((spesialis) => spesialis.id == selectedSpesialisId);
+                    if (selectedDay != null &&
+                        selectedTime != null &&
+                        selectedSpesialisId != null &&
+                        selectedDokterId != null) {
+                      final selectedDokter = Provider.of<JadwalDokterProvider>(
+                              context,
+                              listen: false)
+                          .data_Jadwal_dokter_Daring
+                          .firstWhere(
+                              (dokter) => dokter.id == selectedDokterId);
+                      final selectedSpesialis =
+                          Provider.of<SpesialisProvider>(context, listen: false)
+                              .dataSpesialis
+                              .firstWhere((spesialis) =>
+                                  spesialis.id == selectedSpesialisId);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -252,7 +293,8 @@ class PanggilDokterState extends State<PanggilDokter> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Peringatan"),
-                            content: Text("Silakan lengkapi semua informasi sebelum melanjutkan."),
+                            content: Text(
+                                "Silakan lengkapi semua informasi sebelum melanjutkan."),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -263,7 +305,7 @@ class PanggilDokterState extends State<PanggilDokter> {
                             ],
                           );
                         },
-                    );
+                      );
                     }
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
@@ -304,7 +346,8 @@ Widget dropdownInput({
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        style: TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
       SizedBox(height: 5),
       DropdownButtonFormField<String>(

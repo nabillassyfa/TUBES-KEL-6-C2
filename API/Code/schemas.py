@@ -320,10 +320,10 @@ class JadwalLab(JadwalDokterBase):
 # Status User
 class StatusUserBase(BaseModel):
     id_janjiTemu: int
-    id_statusRawatjalan: int
-        
-class StatusUser(JadwalDokterBase):
+    id_statusRawatJalan: int
+
+class StatusUser(StatusUserBase):
     id: int
-    
+
     class Config:
         orm_mode = True

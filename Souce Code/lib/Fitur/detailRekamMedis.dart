@@ -36,27 +36,11 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
             color: Colors.black,
           ),
         ),
+        title: Text('Rekam Medis'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
-              'Rekam Medis',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              'Lihat rekam medis anda secara detail dan lengkap',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-              maxLines: 2, // Batas jumlah baris
-              overflow: TextOverflow
-                  .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
-            ),
-            const SizedBox(
-              height: 40,
-            ),
             Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(20),
@@ -64,11 +48,11 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                 decoration: BoxDecoration(
                     color: Color.fromARGB(250, 206, 222,
                         245), // Latar belakang chat berwarna biru
-                    border: Border.all(color: Colors.grey, width: 2),
+                    border: Border.all(color: Color(0xff0165fc), width: 1),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                        color: Colors.grey.withOpacity(0.5), // Warna bayangan
                         blurRadius: 2,
                         spreadRadius: 2,
                         offset: Offset(0, 2),

@@ -267,15 +267,17 @@ def get_rating_dokter(db: Session, dokter_id: int):
             models.Rating,
             models.Dokter.nama.label("nama_dokter"),
             models.User.nama.label("nama_user"),
+            models.InfoUser.id.label("info_user_id")  # Tambahkan InfoUser.id ke hasil query
         )
         .join(models.Dokter, models.Rating.id_dokter == models.Dokter.id)
         .join(models.User, models.Rating.id_user == models.User.id)
+        .join(models.InfoUser, models.InfoUser.id_user == models.User.id)  # Join dengan InfoUser
         .filter(models.Rating.id_dokter == dokter_id)
         .all()
     )
 
     rating_dokter_list = []
-    for rating_dokter, nama_dokter, nama_user in results:
+    for rating_dokter, nama_dokter, nama_user, info_user_id in results:
         rating_dokter_dict = {
             "id": rating_dokter.id,
             "pesan": rating_dokter.pesan,
@@ -284,10 +286,12 @@ def get_rating_dokter(db: Session, dokter_id: int):
             "id_dokter": rating_dokter.id_dokter,
             "nama_dokter": nama_dokter,
             "nama_user": nama_user,
+            "info_user_id": info_user_id  # Masukkan info_user_id ke dalam dictionary
         }
         rating_dokter_list.append(rating_dokter_dict)
 
     return rating_dokter_list
+
 
 # Jadwal Dokter
 
@@ -822,7 +826,7 @@ def get_status_rawat_jalan_by_id(db: Session, id_status:int):
     )
 
     status_rawat_jalan_list = []
-    for status_rawat_jalan, nama_user in results:
+    for status_rawat_jalan in results:
         status_rawat_jalan_dict = {
             "id_status": status_rawat_jalan.id_status,
             "keterangan_status": status_rawat_jalan.keterangan_status,
@@ -831,6 +835,12 @@ def get_status_rawat_jalan_by_id(db: Session, id_status:int):
         status_rawat_jalan_list.append(status_rawat_jalan_dict)
 
     return status_rawat_jalan_list
+
+def get_status_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.StatusUser).offset(skip).limit(limit).all()
+
+def get_status_user_by_id(db: Session, status_user_id: int):
+    return db.query(models.StatusUser).filter(models.StatusUser.id == status_user_id).first()
 
 # pembayaran
 def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):
@@ -872,6 +882,16 @@ def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
     return db_pembayaran
 
 ## Obat
+def delete_obat_by_id(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+
+
 def get_obat(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Obat).offset(skip).limit(limit).all()
 
