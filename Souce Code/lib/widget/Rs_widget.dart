@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tp2/Fitur/detailRS.dart';
 import 'package:tp2/Fitur/pilih_dokter.dart';
+import 'package:tp2/Fitur/maps.dart';
 import '../models/dataRS.dart';
 
 class RSWidget extends StatelessWidget {
@@ -106,23 +107,32 @@ class RSWidget extends StatelessWidget {
                         ],
                       ),
                     if (asal == "emergency")
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Lihat petunjuk arah',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.blue,
+                      InkWell(
+                        onTap: () {
+                          // Add your desired functionality here, such as navigating to a different screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Maps()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Lihat petunjuk arah',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.blue,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_circle_right,
-                            color: Colors.blue,
-                            size: 24,
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.arrow_circle_right,
+                              color: Colors.blue,
+                              size: 24,
+                            ),
+                          ],
+                        ),
                       ),
                     if (asal == "dokter")
                       Row(

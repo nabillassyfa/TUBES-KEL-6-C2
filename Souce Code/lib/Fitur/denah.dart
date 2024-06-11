@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Denah extends StatefulWidget {
   @override
   _DenahState createState() => _DenahState();
@@ -10,43 +9,45 @@ class _DenahState extends State<Denah> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
-      leading: Container(
-        child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      title: const Text('Denah',
-          style: TextStyle(fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-      elevation: 10,
-      shadowColor: Colors.white,
-    ),
-    body: Stack(
-      children: <Widget>[
-        // Container dengan gambar di latar belakang
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/denah1.png'),
-              // fit: BoxFit.cover,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 24,
+              color: Colors.black,
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                SizedBox(height: 10,),
+        ),
+        title: const Text('Denah',
+            style: TextStyle(fontWeight: FontWeight.w700),
+            textAlign: TextAlign.center),
+        elevation: 10,
+        shadowColor: Colors.white,
+      ),
+      body: Stack(
+        children: <Widget>[
+          // Container dengan gambar di latar belakang
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/denah1.png'),
+                // fit: BoxFit.cover,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(children: [
+                SizedBox(
+                  height: 10,
+                ),
                 TextField(
                   decoration: InputDecoration(
                     hintText: "Cari ",
@@ -65,13 +66,11 @@ class _DenahState extends State<Denah> {
                         color: Colors.grey.shade600,
                       ),
                     ),
-                    
                   ),
                 ),
-              ]
+              ]),
             ),
           ),
-        ),
           Positioned(
             bottom: 20,
             left: 0,
@@ -81,7 +80,6 @@ class _DenahState extends State<Denah> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -89,15 +87,15 @@ class _DenahState extends State<Denah> {
                         "Lantai 1",
                         style: TextStyle(fontSize: 25),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(250, 206, 222, 245),
-                          border: Border.all(
-                            color: Color.fromARGB(255, 1, 101, 252)
-                          ),
-                          borderRadius: BorderRadius.circular(12)
-                        ),
+                            color: Color.fromARGB(250, 206, 222, 245),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 1, 101, 252)),
+                            borderRadius: BorderRadius.circular(12)),
                         child: IconButton(
                           iconSize: 35,
                           onPressed: () {},
