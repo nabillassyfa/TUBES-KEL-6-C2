@@ -177,7 +177,7 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const BottomNavBar(
+                                    builder: (context) => BottomNavBar(
                                         idx: 0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
                                 (Route<dynamic> route) => false,
                               );

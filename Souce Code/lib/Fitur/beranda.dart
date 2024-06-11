@@ -107,7 +107,7 @@ class _BerandaState extends State<Beranda> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(idx: 4),
+                            builder: (context) => BottomNavBar(idx: 4),
                           ),
                           (Route<dynamic> route) => false,
                         );
@@ -612,7 +612,9 @@ class _BerandaState extends State<Beranda> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TahapRawatJalan(),
+                                  builder: (context) => TahapRawatJalan(
+                                    jadwalJanjiTemu: jadwal,
+                                  ),
                                   barrierDismissible:
                                       true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
                             );

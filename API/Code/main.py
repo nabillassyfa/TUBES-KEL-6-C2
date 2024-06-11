@@ -15,7 +15,6 @@ from database import SessionLocal, engine
 models.BaseDB.metadata.create_all(bind=engine)
 
 # from jose import jwt
-# import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
@@ -395,3 +394,18 @@ def read_lab(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 def read_items(id_lab: int ,rs_id: int, db: Session = Depends(get_db)):
     data = crud.get_jadwal_lab_by_idrs(db, id_lab=id_lab, rs_id=rs_id)
     return data
+
+# Status rawat jalan user
+@app.get("/status_rawat_jalan_user/{jadwal_janji_temu_id}")
+def read_items(jadwal_janji_temu_id: int, db: Session = Depends(get_db)):
+    data = crud.get_statusRawatJalanUser(db, id_jadwal_janji_temu=jadwal_janji_temu_id)
+    return data
+
+@app.patch("/status_rawat_jalan_user/{jadwal_janji_temu_id}")
+def update_status(jadwal_janji_temu_id: int, status_data: dict, db: Session = Depends(get_db)):
+    status_user = db.query(models.StatusUser).filter(models.StatusUser.id_janjiTemu == jadwal_janji_temu_id).first()
+    if status_user:
+        status_user.id_statusRawatJalan = status_data['id_statusRawatJalan']
+        db.commit()
+        db.refresh(status_user)
+    return status_user

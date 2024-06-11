@@ -224,7 +224,9 @@ class WidgetJadwalJanjiTemu extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TahapRawatJalan(),
+                                builder: (context) => TahapRawatJalan(
+                                  jadwalJanjiTemu: jadwal,
+                                ),
                                 barrierDismissible:
                                     true), // Ganti HalamanTujuan dengan halaman yang ingin dituju
                           );

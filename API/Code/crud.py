@@ -604,6 +604,16 @@ def create_jadwal_janji_temu(db: Session, jadwal: schemas.JadwalJanjiTemuBase):
     db.add(db_jadwal)
     db.commit()
     db.refresh(db_jadwal)
+
+    # Buat record status user baru yang terhubung dengan janji temu yang baru saja dibuat
+    default_info_user_values = {
+        "id_statusRawatJalan": 1,
+    }
+    db_status_user = models.StatusUser(id_janjiTemu=db_jadwal.id, **default_info_user_values)
+    db.add(db_status_user)
+    db.commit()
+    db.refresh(db_status_user)
+
     return db_jadwal
 
 def get_jadwal_janji_temu(db: Session, skip: int = 0, limit: int = 100):
@@ -760,10 +770,28 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     results = (
         db.query(
             models.StatusRawatJalan,
-            models.User.nama.label("nama_user")
         )
-        .join(models.User, models.StatusRawatJalan.id_user == models.User.id)
         .offset(skip).limit(limit)
+        .all()
+    )
+
+    status_rawat_jalan_list = []
+    for status_rawat_jalan in results:
+        status_rawat_jalan_dict = {
+            "id_status": status_rawat_jalan.id_status,
+            "keterangan_status": status_rawat_jalan.keterangan_status,
+            "deskripsi": status_rawat_jalan.deskripsi,
+        }
+        status_rawat_jalan_list.append(status_rawat_jalan_dict)
+
+    return status_rawat_jalan_list
+
+def get_status_rawat_jalan_by_id(db: Session, id_status:int):
+    results = (
+        db.query(
+            models.StatusRawatJalan,
+        )
+        .filter(models.StatusRawatJalan.id_status == id_status)
         .all()
     )
 
@@ -773,8 +801,6 @@ def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
             "id_status": status_rawat_jalan.id_status,
             "keterangan_status": status_rawat_jalan.keterangan_status,
             "deskripsi": status_rawat_jalan.deskripsi,
-            "id_user": status_rawat_jalan.id_user,
-            "nama_user": nama_user,
         }
         status_rawat_jalan_list.append(status_rawat_jalan_dict)
 
@@ -919,28 +945,27 @@ def get_RS_by_Lab(db: Session, id: int):
     return rs_list
 
 
-def get_statusRawatJalan(db: Session, id_user: int):
-    results = (
+def get_statusRawatJalanUser(db: Session, id_jadwal_janji_temu: int):
+    result = (
         db.query(
             models.StatusUser,
-            models.StatusRawatJalan,
+            models.StatusRawatJalan.keterangan_status.label("keterangan_status"),
+            models.StatusRawatJalan.deskripsi.label("deskripsi")
         )
-        .join(models.RS, models.Jadwal_Lab.id_rs == models.RS.id)
-        .filter(models.Jadwal_Lab.id_lab == id)
-        .all()
+        .join(models.StatusRawatJalan, models.StatusUser.id_statusRawatJalan == models.StatusRawatJalan.id_status)
+        .join(models.JadwalJanjiTemu, models.StatusUser.id_janjiTemu == models.JadwalJanjiTemu.id)
+        .filter(models.StatusUser.id_janjiTemu == id_jadwal_janji_temu)
+        .first()
     )
     
-    rs_list = []
-    for daftar_rs, rs in results:
-        rs_dict = {
-            "id": rs.id,
-            "nama": rs.nama,
-            "deskripsi": rs.deskripsi,
-            "lokasi": rs.lokasi,
-            "fasilitas": rs.fasilitas,
-            "img": rs.img,
-        }
-        rs_list.append(rs_dict)
+    status_user, keterangan_status, deskripsi = result
 
-    return rs_list
+    status_user_dict = {
+        "id": status_user.id,
+        "id_janji_temu": status_user.id_janjiTemu,
+        "id_statusRawatJalan": status_user.id_statusRawatJalan,
+        "keterangan_status": keterangan_status,
+        "deskripsi": deskripsi,
+    }
 
+    return status_user_dict
