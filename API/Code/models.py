@@ -6,6 +6,8 @@ from typing import List
 from sqlalchemy import Table
 from sqlalchemy import Date, DateTime, Time
 
+
+# MODEL RS
 class RS(BaseDB):
     __tablename__ = "RS"
     id = Column(Integer, primary_key=True)
@@ -18,7 +20,9 @@ class RS(BaseDB):
     daftarRS = relationship("DaftarRS", back_populates="RS")
     jadwal_dokter = relationship("JadwalDokter", back_populates="RS")
     pemeriksaan_lab = relationship("Jadwal_Lab", back_populates="RS")
-    
+
+
+# MODEL DOKTER  
 class Dokter(BaseDB):
     __tablename__ = "dokter"
     id = Column(Integer, primary_key=True)
