@@ -13,15 +13,15 @@ class MyFruit extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
-            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 24,
+              color: Colors.black,
+            ),
           ),
-        ),
           title: Text(
             'Makan Buah',
             style: TextStyle(

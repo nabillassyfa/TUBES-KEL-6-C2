@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class MyVegetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -9,29 +7,26 @@ class MyVegetable extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
-            color: Colors.black,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 24,
+              color: Colors.black,
+            ),
           ),
         ),
-      ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 10), // Jarak antara judul dan garis biru
               Text(
                 'Makan Sayur',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 28
-                ),
+                style: TextStyle(color: Colors.black, fontSize: 28),
               ),
               SizedBox(height: 10), // Jarak antara judul dan garis biru
               Container(
@@ -49,7 +44,8 @@ class MyVegetable extends StatelessWidget {
                           border: OutlineInputBorder(),
                           suffixIcon: Icon(
                             Icons.search,
-                            color: Colors.blue, // Mengubah warna ikon menjadi biru
+                            color:
+                                Colors.blue, // Mengubah warna ikon menjadi biru
                           ),
                         ),
                       ),
@@ -57,7 +53,8 @@ class MyVegetable extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10), // Jarak antara kolom cari dan kontainer sayur
+              SizedBox(
+                  height: 10), // Jarak antara kolom cari dan kontainer sayur
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(

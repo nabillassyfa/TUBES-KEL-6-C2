@@ -8,11 +8,31 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<ChatUsers> chatUsers = [
-    ChatUsers(text: "dr. Muhammad Tio Ariyantu, Sp.A", secondaryText: "Selamat pagi dok", image: "assets/images/dokter2.png", time: "Now"),
-    ChatUsers(text: "dr. Revana Faliha Salma", secondaryText: "Terimakasih atas sarannya dok", image: "assets/images/perempuan.jpg", time: "Yesterday"),
-    ChatUsers(text: "dr. Muhammad Rifky Afandi, SpKj", secondaryText: "Terimakasih dok", image: "assets/images/dokter2.png", time: "31 Mar"),
-    ChatUsers(text: "dr. Wildan Hafizh,Sp.P", secondaryText: "Terimakasih dok", image: "assets/images/dokter2.png", time: "28 Mar"),
-    ChatUsers(text: "dr. Nabilla Assyfa R, Sp.THT", secondaryText: "Terimakasih dok", image: "assets/images/perempuan.jpg", time: "23 Mar"),
+    ChatUsers(
+        text: "dr. Muhammad Tio Ariyantu, Sp.A",
+        secondaryText: "Selamat pagi dok",
+        image: "assets/images/dokter2.png",
+        time: "Now"),
+    ChatUsers(
+        text: "dr. Revana Faliha Salma",
+        secondaryText: "Terimakasih atas sarannya dok",
+        image: "assets/images/perempuan.jpg",
+        time: "Yesterday"),
+    ChatUsers(
+        text: "dr. Muhammad Rifky Afandi, SpKj",
+        secondaryText: "Terimakasih dok",
+        image: "assets/images/dokter2.png",
+        time: "31 Mar"),
+    ChatUsers(
+        text: "dr. Wildan Hafizh,Sp.P",
+        secondaryText: "Terimakasih dok",
+        image: "assets/images/dokter2.png",
+        time: "28 Mar"),
+    ChatUsers(
+        text: "dr. Nabilla Assyfa R, Sp.THT",
+        secondaryText: "Terimakasih dok",
+        image: "assets/images/perempuan.jpg",
+        time: "23 Mar"),
   ];
 
   @override
@@ -33,8 +53,8 @@ class _ChatPageState extends State<ChatPage> {
                         Navigator.pop(context);
                       },
                       icon: Icon(
-                        Icons.arrow_circle_left_outlined,
-                        size: 40,
+                        Icons.arrow_back,
+                        size: 24,
                         color: Colors.black,
                       ),
                     ),
@@ -61,9 +81,11 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ),
 
-                    SizedBox(width: 40), // Menambahkan spasi antara teks dan ikon
+                    SizedBox(
+                        width: 40), // Menambahkan spasi antara teks dan ikon
                   ],
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Memposisikan secara sejajar dan rata antara elemen
+                  mainAxisAlignment: MainAxisAlignment
+                      .spaceBetween, // Memposisikan secara sejajar dan rata antara elemen
                 ),
               ),
             ),
@@ -97,7 +119,7 @@ class _ChatPageState extends State<ChatPage> {
               shrinkWrap: true,
               padding: EdgeInsets.only(top: 16),
               physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index){
+              itemBuilder: (context, index) {
                 return ConversationList(
                   name: chatUsers[index].text,
                   messageText: chatUsers[index].secondaryText,
@@ -120,21 +142,31 @@ class ChatUsers {
   String image;
   String time;
 
-  ChatUsers({required this.text, required this.secondaryText, required this.image, required this.time});
+  ChatUsers(
+      {required this.text,
+      required this.secondaryText,
+      required this.image,
+      required this.time});
 }
 
-class ConversationList extends StatefulWidget{
+class ConversationList extends StatefulWidget {
   final String name;
   final String messageText;
   final String imageUrl;
   final String time;
   final bool isMessageRead;
 
-  ConversationList({required this.name, required this.messageText, required this.imageUrl, required this.time, required this.isMessageRead});
+  ConversationList(
+      {required this.name,
+      required this.messageText,
+      required this.imageUrl,
+      required this.time,
+      required this.isMessageRead});
 
   @override
   _ConversationListState createState() => _ConversationListState();
 }
+
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
@@ -145,7 +177,8 @@ class _ConversationListState extends State<ConversationList> {
         }));
       },
       child: Container(
-        color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
+        color: Color.fromARGB(
+            250, 206, 222, 245), // Latar belakang chat berwarna biru
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         child: Container(
           decoration: BoxDecoration(

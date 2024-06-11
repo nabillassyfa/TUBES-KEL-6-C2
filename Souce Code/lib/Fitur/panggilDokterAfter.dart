@@ -28,7 +28,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    jadwalDokterProvider = Provider.of<JadwalDokterProvider>(context, listen: false);
+    jadwalDokterProvider =
+        Provider.of<JadwalDokterProvider>(context, listen: false);
     jadwalDokterProvider.getdataJadwalPanggilDokterByDokter(widget.dokter.id);
   }
 
@@ -45,8 +46,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back,
+            size: 24,
             color: Colors.black,
           ),
         ),
@@ -84,12 +85,32 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
               SizedBox(height: 40),
               Column(
                 children: <Widget>[
-                  inputFile(context: context, label: "Spesialisasi", hintText: "${widget.dokter.namaSpesialis}", hintTextColor: Colors.black),
+                  inputFile(
+                      context: context,
+                      label: "Spesialisasi",
+                      hintText: "${widget.dokter.namaSpesialis}",
+                      hintTextColor: Colors.black),
                   SizedBox(height: 10),
-                  inputFile(context: context, label: "Dokter", hintText: "${widget.dokter.nama}", hintTextColor: Colors.black),
+                  inputFile(
+                      context: context,
+                      label: "Dokter",
+                      hintText: "${widget.dokter.nama}",
+                      hintTextColor: Colors.black),
                   SizedBox(height: 10),
-                  inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey, controller: dateController),
-                  pickedDate != null ? inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey, controller: timeController) : Container(),
+                  inputFile(
+                      context: context,
+                      label: "Pilih Tanggal",
+                      hintText: "Hari, Tgl - Bln - Thn",
+                      hintTextColor: Colors.grey,
+                      controller: dateController),
+                  pickedDate != null
+                      ? inputFile(
+                          context: context,
+                          label: "Pilih Waktu",
+                          hintText: "00:00",
+                          hintTextColor: Colors.grey,
+                          controller: timeController)
+                      : Container(),
                 ],
               ),
               SizedBox(height: 40),
@@ -164,7 +185,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
           controller: controller,
           onTap: () async {
             if (label == "Pilih Tanggal") {
-              pickedDate = await _selectDate(context, jadwalDokterProvider.dataJadwalDokterDaring);
+              pickedDate = await _selectDate(
+                  context, jadwalDokterProvider.dataJadwalDokterDaring);
               if (pickedDate != null) {
                 setState(() {
                   controller?.text = "${_formatDate(pickedDate)}";
@@ -187,9 +209,11 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
               borderSide: BorderSide(color: Colors.grey),
             ),
             suffixIcon: label == "Pilih Tanggal"
-                ? Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252))
+                ? Icon(Icons.calendar_today,
+                    color: Color.fromARGB(255, 1, 101, 252))
                 : (label == "Pilih Waktu"
-                    ? Icon(Icons.access_time_filled_rounded, color: Color.fromARGB(255, 1, 101, 252))
+                    ? Icon(Icons.access_time_filled_rounded,
+                        color: Color.fromARGB(255, 1, 101, 252))
                     : null),
           ),
         ),
@@ -198,7 +222,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
     );
   }
 
-  Future<DateTime?> _selectDate(BuildContext context, List<JadwalDokterDaring> jadwalDokter) async {
+  Future<DateTime?> _selectDate(
+      BuildContext context, List<JadwalDokterDaring> jadwalDokter) async {
     DateTime? pickedDate;
     pickedDate = await showDatePicker(
       context: context,
@@ -214,12 +239,15 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
   }
 
   void _updateWaktuGabung() {
-    List<JadwalDokterDaring> filteredJadwal = jadwalDokterProvider.data_Jadwal_dokter_panggil_dokter
+    List<JadwalDokterDaring> filteredJadwal = jadwalDokterProvider
+        .data_Jadwal_dokter_panggil_dokter
         .where((jadwal) => jadwal.hari == _getDayName(pickedDate?.weekday ?? 0))
         .toList();
 
-    List<String> waktuMulai = filteredJadwal.map((jadwal) => jadwal.waktu_mulai).toList();
-    List<String> waktuBerakhir = filteredJadwal.map((jadwal) => jadwal.waktu_berakhir).toList();
+    List<String> waktuMulai =
+        filteredJadwal.map((jadwal) => jadwal.waktu_mulai).toList();
+    List<String> waktuBerakhir =
+        filteredJadwal.map((jadwal) => jadwal.waktu_berakhir).toList();
 
     waktuGabung.clear();
     for (int i = 0; i < waktuMulai.length; i++) {
@@ -252,7 +280,8 @@ class panggilDokterAfterState extends State<panggilDokterAfter> {
                   setState(() {
                     selectedTime = value;
                     int index = waktuGabung.indexOf(value!);
-                    selectedJadwalId = jadwalDokterProvider.dataJadwalDokter[index].id;
+                    selectedJadwalId =
+                        jadwalDokterProvider.dataJadwalDokter[index].id;
                     timeController.text = value!;
                   });
                   Navigator.of(context).pop();
