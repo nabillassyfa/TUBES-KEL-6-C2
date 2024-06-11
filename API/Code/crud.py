@@ -254,15 +254,17 @@ def get_rating_dokter(db: Session, dokter_id: int):
             models.Rating,
             models.Dokter.nama.label("nama_dokter"),
             models.User.nama.label("nama_user"),
+            models.InfoUser.id.label("info_user_id")  # Tambahkan InfoUser.id ke hasil query
         )
         .join(models.Dokter, models.Rating.id_dokter == models.Dokter.id)
         .join(models.User, models.Rating.id_user == models.User.id)
+        .join(models.InfoUser, models.InfoUser.id_user == models.User.id)  # Join dengan InfoUser
         .filter(models.Rating.id_dokter == dokter_id)
         .all()
     )
 
     rating_dokter_list = []
-    for rating_dokter, nama_dokter, nama_user in results:
+    for rating_dokter, nama_dokter, nama_user, info_user_id in results:
         rating_dokter_dict = {
             "id": rating_dokter.id,
             "pesan": rating_dokter.pesan,
@@ -271,10 +273,12 @@ def get_rating_dokter(db: Session, dokter_id: int):
             "id_dokter": rating_dokter.id_dokter,
             "nama_dokter": nama_dokter,
             "nama_user": nama_user,
+            "info_user_id": info_user_id  # Masukkan info_user_id ke dalam dictionary
         }
         rating_dokter_list.append(rating_dokter_dict)
 
     return rating_dokter_list
+
 
 # Jadwal Dokter
 
