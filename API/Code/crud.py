@@ -869,6 +869,16 @@ def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
     return db_pembayaran
 
 ## Obat
+def delete_obat_by_id(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+
+
 def get_obat(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Obat).offset(skip).limit(limit).all()
 

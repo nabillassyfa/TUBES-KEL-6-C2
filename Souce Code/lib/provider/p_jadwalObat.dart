@@ -36,6 +36,26 @@ class JadwalObatProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
+
+  Future<void> deleteJadwalObat(int idJadwalObat) async {
+  _setLoading(true);
+  try {
+      final response = await http.delete(
+        Uri.parse('http://127.0.0.1:8000/hapus_obat/$idJadwalObat'),
+      );
+
+      if (response.statusCode == 200) {
+        print('Medication deleted successfully');
+      } else {
+        throw Exception('Failed to delete medication');
+      }
+  } catch (e) {
+    print(e);
+  } finally {
+    _setLoading(false);
+  }
+}
+
   /*
   Future<void> postdataJadwalObat(int id_jadwal_dokter, String tanggal, int durasi) async {
     _setLoading(true);

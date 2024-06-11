@@ -25,6 +25,11 @@ class _JadwalObatState extends State<JadwalObat> {
             .getdataJadwalObatByUser());
   }
 
+  void _deleteJadwalObat(int idJadwalObat) {
+  Provider.of<JadwalObatProvider>(context, listen: false)
+      .deleteJadwalObat(idJadwalObat);
+}
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<JadwalObatProvider>(context);
@@ -123,6 +128,17 @@ class _JadwalObatState extends State<JadwalObat> {
                                           ),
                                         ],
                                       ),
+                                      Spacer(),
+                                     GestureDetector(
+                                      onTap: () {
+                                        _deleteJadwalObat(jadwal.id); // Assuming jadwal has an id property
+                                      },
+                                      child: Icon(
+                                        Icons.cancel_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+
                                     ],
                                   ),
                                 ),
