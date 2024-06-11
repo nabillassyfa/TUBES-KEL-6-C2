@@ -240,7 +240,7 @@ def get_rating_dokter(db: Session, dokter_id: int):
         db.query(
             models.Rating,
             models.Dokter.nama.label("nama_dokter"),
-            models.User.nama.label("nama_user")
+            models.User.nama.label("nama_user"),
         )
         .join(models.Dokter, models.Rating.id_dokter == models.Dokter.id)
         .join(models.User, models.Rating.id_user == models.User.id)

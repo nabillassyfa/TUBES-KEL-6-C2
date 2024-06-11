@@ -168,13 +168,13 @@ class DetailDokterState extends State<DetailDokter> {
                                   backgroundColor: Color(0xff0165fc),
                                 ),
                                 onPressed: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           dokterReviewsPage()
-                                  //           ),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DoctorReviewsPage(dokter: dokter,)
+                                            ),
+                                  );
                                 },
                                 child: Text(
                                   'Lihat Review',
