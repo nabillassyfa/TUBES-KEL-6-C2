@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/Fitur/monitoringSayur.dart';
+import 'package:tp2/Fitur/monitoringBuah.dart';
+import 'package:tp2/Fitur/monitoringTidur.dart';
+import 'package:tp2/Fitur/monitoringLangkah.dart';
 
 class MonitoringKesehatanApp extends StatelessWidget {
   @override
@@ -34,8 +37,7 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 maxLines: 2, // Batas jumlah baris
-                overflow: TextOverflow
-                    .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
+                overflow: TextOverflow.ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
               ),
             ),
             SizedBox(
@@ -74,7 +76,14 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (context) => MyWalk()));
+                          },
+                          child: Container(
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
@@ -124,10 +133,19 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                                   color: Color.fromARGB(255, 1, 101, 252),
                                 ),
                               ],
-                            )),
+                            ),
+                          ),
+                        ),
 
                         // Kontainer 2 alur isi nya sama kek kontainer 1
-                        Container(
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (context) => MySleep()));
+                          },
+                          child: Container(
                             padding: EdgeInsets.all(10),
                             height: 70,
                             decoration: BoxDecoration(
@@ -175,7 +193,9 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                                   color: Color.fromARGB(255, 1, 101, 252),
                                 ),
                               ],
-                            )),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -216,23 +236,31 @@ class MonitoringKesehatanScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(6)),
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          child: Row(
-                            children: [
-                              Text("Makan Lebih Banyak Buah"),
-                              Spacer(),
-                              Icon(
-                                Icons.keyboard_arrow_right_rounded,
-                                color: Color.fromARGB(255, 1, 101, 252),
-                              )
-                            ],
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                    builder: (context) => MyFruit()));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            height: 50,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6)),
+                            margin: EdgeInsets.only(bottom: 10.0),
+                            child: Row(
+                              children: [
+                                Text("Makan Lebih Banyak Buah"),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_rounded,
+                                  color: Color.fromARGB(255, 1, 101, 252),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         // kontainer 4 sama kek kontainer 3

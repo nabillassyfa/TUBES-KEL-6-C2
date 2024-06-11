@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MySleep());
 }
 
-class MyApp extends StatelessWidget {
+class MySleep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -100,7 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perhitungan Langkah'),
+        title: Text('Monitoring Waktu Tidur'),
+        centerTitle: true,
+        elevation: 0, // 
       ),
       body: Column(
         children: [
