@@ -38,60 +38,52 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: Row(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                        color: Colors.black,
+                    Text(
+                      "Chat Dokter",
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Chat Dokter",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Konsultasi kesehatan dengan dokter dari rumah, cari dokter yang ingin anda ajak konsultasi.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                    SizedBox(height: 8),
+                    Text(
+                      "Konsultasi kesehatan dengan dokter dari rumah, cari dokter yang ingin anda ajak konsultasi.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
                       ),
                     ),
-
-                    SizedBox(
-                        width: 40), // Menambahkan spasi antara teks dan ikon
                   ],
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // Memposisikan secara sejajar dan rata antara elemen
                 ),
               ),
             ),
-
+            SizedBox(height: 16),
             Padding(
-              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Cari Dokter...",
@@ -102,23 +94,40 @@ class _ChatPageState extends State<ChatPage> {
                     size: 20,
                   ),
                   filled: true,
-                  fillColor: Colors.grey.shade100,
-                  contentPadding: EdgeInsets.all(8),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+                  fillColor: Colors.white,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
-                      color: Colors.grey.shade100,
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: Colors.grey.shade600,
                     ),
                   ),
                 ),
               ),
             ),
             // ListView.builder moved here
-            ListView.builder(
+            ListView.separated(
               itemCount: chatUsers.length,
               shrinkWrap: true,
               padding: EdgeInsets.only(top: 16),
               physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.grey.shade300,
+                height: 1,
+              ),
               itemBuilder: (context, index) {
                 return ConversationList(
                   name: chatUsers[index].text,
@@ -177,58 +186,78 @@ class _ConversationListState extends State<ConversationList> {
         }));
       },
       child: Container(
-        color: Color.fromARGB(
-            250, 206, 222, 245), // Latar belakang chat berwarna biru
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white, // Kotak chat berwarna putih
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.black),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: AssetImage(widget.imageUrl),
-                  maxRadius: 30,
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        widget.name,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        widget.messageText,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
-                          fontWeight: widget.isMessageRead
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                    ],
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Row(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundImage: AssetImage(widget.imageUrl),
+              maxRadius: 24,
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    widget.name,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  SizedBox(height: 4),
+                  Text(
+                    widget.messageText,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                      fontWeight: widget.isMessageRead
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
                 Text(
                   widget.time,
                   style: TextStyle(
                     fontSize: 12,
+                    color: Colors.grey.shade600,
                     fontWeight: widget.isMessageRead
                         ? FontWeight.bold
                         : FontWeight.normal,
                   ),
                 ),
+                SizedBox(height: 4),
+                if (!widget.isMessageRead)
+                  Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      color: Color(0xff0165fc),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '1',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
