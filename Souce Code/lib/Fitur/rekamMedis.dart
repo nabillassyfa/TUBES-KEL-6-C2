@@ -111,19 +111,33 @@ class _RekamMedisState extends State<RekamMedis> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: value.dataRekamMedis.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: RMWidget(
-                                      data: value.dataRekamMedis[index],
+                            if (value.dataRekamMedis.isEmpty)
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    'Tidak ada rekam medis',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
                                     ),
-                                  );
-                                },
+                                  ),
+                                ),
+                              )
+                            else
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: value.dataRekamMedis.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: RMWidget(
+                                        data: value.dataRekamMedis[index],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
