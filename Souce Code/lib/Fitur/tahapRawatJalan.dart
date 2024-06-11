@@ -607,34 +607,7 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                   ),
                                 ],
                               )
-                            : Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        spreadRadius: 1,
-                                        blurRadius: 4,
-                                        color: Colors.grey,
-                                        offset: Offset(0, 3),
-                                      )
-                                    ]),
-                                child: indeks == 0
-                                    ? Center(
-                                        child: QrImageView(
-                                          data: '1234567890',
-                                          version: QrVersions.auto,
-                                          size: 320,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+
                               : Container(
                                   width: double.infinity,
                                   padding: EdgeInsets.all(20),
@@ -784,20 +757,7 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                           SizedBox(
                             height: 20,
                           ),
-                          indeks == 4?
-                          Container(
-                            padding: EdgeInsets.only(left: 15),
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Color.fromARGB(255, 1, 101, 252),
-
-                              ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        indeks == 4
+                          indeks == 4
                             ? Container(
                                 padding: EdgeInsets.only(left: 15),
                                 height: 40,
