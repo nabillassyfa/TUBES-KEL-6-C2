@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tp2/provider/p_dokter.dart';
+import 'package:tp2/provider/p_rating.dart';
 import 'detail_dokter.dart';
 import '../models/dataRS.dart';
 
@@ -28,6 +29,8 @@ class _PilihDokterState extends State<PilihDokter> {
     "Sabtu",
     "Minggu",
   ];
+
+  int ?selectedId;
   int selectedDayIndex = -1;
   String selectedDay = "";
 
@@ -35,6 +38,11 @@ class _PilihDokterState extends State<PilihDokter> {
   void initState() {
     super.initState();
     _loadDokter();
+  }
+
+  void RatingDokter (int selectedID){
+    final ratingProvider = Provider.of<RatingProvider>(context, listen: false);
+    ratingProvider.getdataRatingbyDokter(selectedID);
   }
 
   void _loadDokter() {
@@ -176,82 +184,90 @@ class _PilihDokterState extends State<PilihDokter> {
                   itemCount: dokterProvider.dataDokter.length,
                   itemBuilder: (context, index) {
                     final dokter = dokterProvider.dataDokter[index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailDokter(dokter: dokter),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Card(
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide(
-                              color: Colors.grey,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                  
+                    return Consumer<RatingProvider>(
+                      builder: (context, ratingProvider, _) {
+                        RatingDokter(dokter.id);
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailDokter(dokter: dokter),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Card(
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                side: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        dokter.imageUrl,
-                                        width: 60.0,
-                                        height: 80.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(width: 12.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            dokter.nama,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
+                                    Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            dokter.imageUrl,
+                                            width: 60.0,
+                                            height: 80.0,
+                                            fit: BoxFit.cover,
                                           ),
-                                          Text(dokter.namaSpesialis),
-                                          SizedBox(height: 8.0),
-                                          Row(
+                                        ),
+                                        SizedBox(width: 12.0),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Icon(Icons.star,
-                                                  color: Colors.yellow),
-                                              SizedBox(width: 8.0),
-                                              Text('Pilih'),
-                                              SizedBox(width: 4.0),
-                                              Icon(Icons.arrow_forward_ios,
-                                                  size: 16.0),
+                                              Text(
+                                                dokter.nama,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              Text(dokter.namaSpesialis),
+                                              SizedBox(height: 8.0),
+                                              Row(
+                                                children: [
+                                                  // menampilkan rating dokter
+                                                  for (int i = 0; i < ratingProvider.averageRating.round(); i++)
+                                                    Icon(Icons.star, color: Colors.yellow),
+                                                    // menampilkan yang 0 bintang
+                                                  for (int i = 0; i < 5 - ratingProvider.averageRating.round(); i++)
+                                                    Icon(Icons.star_border, color: Colors.yellow),
+                                                  Spacer(),
+                                                  Text('Pilih'),
+                                                  SizedBox(width: 4.0),
+                                                  Icon(Icons.arrow_forward_ios, size: 16.0),
+                                                ],
+                                              ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 );
