@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perhitungan Langkah'),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Column(
         children: [

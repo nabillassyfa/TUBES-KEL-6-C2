@@ -23,7 +23,7 @@ class MyFruit extends StatelessWidget {
           ),
         ),
           title: Text(
-            'Makan Sayur',
+            'Makan Buah',
             style: TextStyle(
               color: Colors.black,
             ),
