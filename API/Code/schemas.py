@@ -192,7 +192,6 @@ class JadwalPanggilDokter(JadwalPanggilDokterBase):
         
 # Status Rawat Jalan
 class StatusRawatJalanBase(BaseModel):
-    id_user: int
     keterangan_status: str
     deskripsi: str
     
@@ -310,6 +309,17 @@ class JadwalLabBase(BaseModel):
     id_rs: int
         
 class JadwalLab(JadwalDokterBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
+# Status User
+class StatusUserBase(BaseModel):
+    id_janjiTemu: int
+    id_statusRawatjalan: int
+        
+class StatusUser(JadwalDokterBase):
     id: int
     
     class Config:
