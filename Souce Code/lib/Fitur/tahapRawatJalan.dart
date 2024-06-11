@@ -841,7 +841,7 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                     : Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DoctorAddReviewsPage(),
+                                          builder: (context) => DoctorAddReviewsPage(beri_review: widget.jadwalJanjiTemu,),
                                     ));
                                   },
                                   color: Color.fromARGB(255, 1, 101, 252),

@@ -33,6 +33,8 @@ class JadwalJanjiTemu {
   final String waktu_mulai;
   final String waktu_berakhir;
 
+  String get imageUrl => 'http://127.0.0.1:8000/dokter_image/$id_dokter';
+
   factory JadwalJanjiTemu.fromJson(Map<String, dynamic> json) => JadwalJanjiTemu(
         id: json["id"],
         id_user: json["id_user"],
