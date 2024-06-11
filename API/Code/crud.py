@@ -796,7 +796,7 @@ def get_status_rawat_jalan_by_id(db: Session, id_status:int):
     )
 
     status_rawat_jalan_list = []
-    for status_rawat_jalan, nama_user in results:
+    for status_rawat_jalan in results:
         status_rawat_jalan_dict = {
             "id_status": status_rawat_jalan.id_status,
             "keterangan_status": status_rawat_jalan.keterangan_status,
@@ -805,6 +805,12 @@ def get_status_rawat_jalan_by_id(db: Session, id_status:int):
         status_rawat_jalan_list.append(status_rawat_jalan_dict)
 
     return status_rawat_jalan_list
+
+def get_status_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.StatusUser).offset(skip).limit(limit).all()
+
+def get_status_user_by_id(db: Session, status_user_id: int):
+    return db.query(models.StatusUser).filter(models.StatusUser.id == status_user_id).first()
 
 # pembayaran
 def get_pembayaran(db: Session, skip: int = 0, limit: int = 100):

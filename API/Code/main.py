@@ -354,6 +354,17 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
     return db_status_rawat_jalan
 
+@app.get("/status_users/", response_model=List[schemas.StatusUser])
+def read_status_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    status_users = crud.get_status_users(db, skip=skip, limit=limit)
+    return status_users
+
+@app.get("/status_users/{status_user_id}", response_model=schemas.StatusUser)
+def read_status_user(status_user_id: int, db: Session = Depends(get_db)):
+    db_status_user = crud.get_status_user_by_id(db, status_user_id)
+    if db_status_user is None:
+        raise HTTPException(status_code=404, detail="StatusUser not found")
+    return db_status_user
 
 # Pembayaran
 @app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
