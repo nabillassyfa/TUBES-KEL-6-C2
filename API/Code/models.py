@@ -49,6 +49,7 @@ class RekamMedis(BaseDB):
     id_user = Column(Integer, ForeignKey('user.id'))
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
     obat = Column(String, index=True)
+    tipe_layanan = Column(String, index=True)
 
     dokter = relationship("Dokter", back_populates="rekam_medis")
     user = relationship("User", back_populates="rekam_medis")

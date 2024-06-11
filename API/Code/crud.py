@@ -173,6 +173,7 @@ def get_rekam_medis(db: Session, user_id: int):
             "id_user": rekam_medis.id_user,
             "id_dokter": rekam_medis.id_dokter,
             "obat": rekam_medis.obat,
+            "tipe_layanan": rekam_medis.tipe_layanan,
             "dokter_nama": dokter_name,
             "user_nama": user_name,
             "spesialis": spesialis,
@@ -188,7 +189,9 @@ def create_rekam_medis(db: Session, rekam_medis: schemas.RekamMedisBase):
         tanggal = rekam_medis.tanggal, 
         id_user = rekam_medis.id_user, 
         id_dokter = rekam_medis.id_dokter, 
-        obat = rekam_medis.obat)
+        obat = rekam_medis.obat,
+        tipe_layanan = rekam_medis.tipe_layanan,
+        )
     db.add(db_rekam_medis)
     db.commit()
     db.refresh(db_rekam_medis)
@@ -694,6 +697,7 @@ def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
 
 def delete_jadwal_janji_temu(db: Session, id: int):
     try:
+        jum_rec = db.query(models.StatusUser).filter(models.StatusUser.id_janjiTemu == id).delete()
         jum_rec = db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == id).delete()
         db.commit()
         return jum_rec

@@ -125,11 +125,13 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
 
     // Combine date and time
     final combinedDateTime = combineDateWithTime(widget.jadwalJanjiTemu.tanggal, waktuMulai);
+    final tipe_layanan = "Rawat Jalan";
 
     rekamMedisProvider.postdataRekamMedis(
       obatNames,
       combinedDateTime,
       widget.jadwalJanjiTemu.id_dokter,
+      tipe_layanan
     ).then((_) {
       // Show success message or handle post submission logic
       print('Rekam Medis posted successfully');
