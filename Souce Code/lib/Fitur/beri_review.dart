@@ -1,49 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:tp2/Fitur/bottomNavBar.dart';
-import 'beranda.dart';
-
-class Doctor {
-  final String imageUrl;
-  final String name;
-  final String specialization;
-  final int yearsOfExperience;
-  final String hospitalAddress;
-  final double rating;
-  final int ratingCount;
-  final String description;
-
-  Doctor({
-    required this.imageUrl,
-    required this.name,
-    required this.specialization,
-    required this.yearsOfExperience,
-    required this.hospitalAddress,
-    required this.rating,
-    required this.ratingCount,
-    required this.description,
-  });
-}
+import 'package:tp2/models/jadwalJanjiTemu.dart';
+import 'package:tp2/provider/p_rating.dart';
 
 class DoctorAddReviewsPage extends StatefulWidget {
+  final JadwalJanjiTemu beri_review;
+
+  DoctorAddReviewsPage({super.key, required this.beri_review});
+
   @override
   State<DoctorAddReviewsPage> createState() => DoctorAddReviewsState();
 }
 
 class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
+  int _selectedRating = 0; // State variable to keep track of selected rating
+  final TextEditingController _pesanController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    Doctor doctor = Doctor(
-      imageUrl: 'assets/images/dokter2.png',
-      name: 'Dr. John Doe',
-      specialization: 'Cardiologist',
-      yearsOfExperience: 10,
-      hospitalAddress: '123 Main St, City',
-      rating: 4.5,
-      ratingCount: 23,
-      description:
-          'Muhammad Rifky Afandi adalah seorang dokter spesialis jiwa dengan pengalaman kerja 5 tahun. Beliau menempuh S1 dan spesialis jiwa di Universitas Padjajaran.',
-    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Doctor Reviews'),
@@ -55,8 +30,8 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100.0),
-                child: Image.asset(
-                  doctor.imageUrl,
+                child: Image.network(
+                  widget.beri_review.imageUrl,
                   width: 120.0,
                   height: 120.0,
                   fit: BoxFit.cover,
@@ -65,16 +40,16 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'dr. Muhammad Rifky Afandi, SpKj',
+              widget.beri_review.nama_dokter,
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             Text(
-              'Spesialis Kejiwaan',
+              widget.beri_review.nama_spesialis,
               style: TextStyle(fontSize: 14.0, color: Colors.grey),
             ),
             SizedBox(height: 16.0),
             Text(
-              'Bagaimana pengalaman Anda dengan dr. Rifky?',
+              'Bagaimana pengalaman Anda dengan ${widget.beri_review.nama_dokter}?',
               style: TextStyle(
                 fontSize: 16.0,
               ),
@@ -88,34 +63,22 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: 4.0),
-                Icon(
-                  Icons.star_border,
-                  color: Colors.black,
-                  size: 48,
-                ),
-                Icon(
-                  Icons.star_border,
-                  color: Colors.black,
-                  size: 48,
-                ),
-                Icon(
-                  Icons.star_border,
-                  color: Colors.black,
-                  size: 48,
-                ),
-                Icon(
-                  Icons.star_border,
-                  color: Colors.black,
-                  size: 48,
-                ),
-                Icon(
-                  Icons.star_border,
-                  color: Colors.black,
-                  size: 48,
-                ),
-              ],
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    index < _selectedRating
+                        ? Icons.star
+                        : Icons.star_border,
+                    color: Colors.yellow,
+                    size: 48,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _selectedRating = index + 1; // Update the rating
+                    });
+                  },
+                );
+              }),
             ),
             SizedBox(height: 16.0),
             Divider(thickness: 2),
@@ -128,9 +91,10 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 Container(
-                  height: 80.0, // Ubah nilai tinggi sesuai kebutuhan Anda
+                  height: 80.0,
                   child: TextFormField(
-                    maxLines: null, // Mengatur jumlah baris menjadi dinamis
+                    controller: _pesanController,
+                    maxLines: null,
                     decoration: InputDecoration(
                       labelText: 'Review Anda',
                       border: OutlineInputBorder(),
@@ -150,13 +114,10 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff0165fc),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        32.0), // Mengatur sudut melengkung menjadi 10.0
+                    borderRadius: BorderRadius.circular(32.0),
                   ),
                 ),
-                onPressed: () {
-                  // Simpan perubahan biodata ke tempat penyimpanan yang sesuai
-                  // Misalnya, Anda dapat menggunakan metode penyimpanan data seperti SharedPreferences, SQLite, atau REST API untuk menyimpan biodata yang telah diedit.
+                onPressed: () async {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -173,14 +134,29 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                           ),
                           TextButton(
                             child: Text('Kirim'),
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BottomNavBar(
-                                        idx: 0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
-                                (Route<dynamic> route) => false,
-                              );
+                            onPressed: () async {
+                              try {
+                                await Provider.of<RatingProvider>(context, listen: false)
+                                    .beriRating(
+                                  _pesanController.text,
+                                  _selectedRating.toDouble(),
+                                  widget.beri_review.id_user,
+                                  widget.beri_review.id_user,
+                                );
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BottomNavBar(idx: 0),
+                                  ),
+                                  (Route<dynamic> route) => false,
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Failed to submit rating: $e'),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ],

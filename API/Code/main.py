@@ -191,6 +191,10 @@ def read_items(dokter_id: int, db: Session = Depends(get_db)):
     ratings = crud.get_rating_dokter(db, dokter_id)
     return ratings
 
+@app.post("/ratings/", response_model=schemas.Rating)
+def create_rating(beri_rating: schemas.RatingCreate, db: Session = Depends(get_db)):
+    return crud.add_rating(db=db, beri_rating=beri_rating)
+
 ## InfoUser
 @app.get("/infoUser/{user_id}")
 def read_info(user_id: int, db: Session = Depends(get_db)):
