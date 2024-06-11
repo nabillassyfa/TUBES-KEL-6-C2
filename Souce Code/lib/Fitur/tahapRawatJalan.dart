@@ -16,6 +16,8 @@ import 'package:tp2/Fitur/pembayaran.dart';
 import 'package:tp2/models/jadwalJanjiTemu.dart';
 import 'package:tp2/models/metodePembayaran.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
+import 'package:tp2/provider/p_obat.dart';
+import 'package:tp2/provider/p_rekamMedis.dart';
 import 'package:tp2/provider/p_statusUserRawatJalan.dart';
 import 'package:tp2/widget/dotTahapRawatjalan_widget.dart';
 import 'beri_review.dart';
@@ -72,11 +74,16 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
 
         metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
     metodePembayaranProvider!.getdataMetodePembayaran();
+    // Fetch obat data
+    Provider.of<ObatProvider>(context, listen: false).getDataObat();
   }
 
   void _incrementIndeks() {
     final provider = Provider.of<StatusUserRawatJalanProvider>(context, listen: false);
     setState(() {
+      if(indeks == 5){
+         _postRekamMedis();
+      }
       if (indeks < 6) {
         indeks++;
         print('indeks: ' + '${indeks}');
@@ -84,6 +91,43 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
         provider.getDataStatusUserRawatJalan(widget.jadwalJanjiTemu.id);
       });
       }
+    });
+  }
+
+  DateTime combineDateWithTime(DateTime date, TimeOfDay time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+  }
+  
+
+  void _postRekamMedis() {
+    final obatProvider = Provider.of<ObatProvider>(context, listen: false);
+    final rekamMedisProvider = Provider.of<RekamMedisProvider>(context, listen: false);
+
+    // Convert list of obat names to a single string
+    final obatNames = obatProvider.dataObat.map((obat) => obat.nama).join(', ');
+
+      // Parse time string to TimeOfDay
+    final waktuMulai = parseTimeOfDay(widget.jadwalJanjiTemu.waktu_mulai);
+
+    // Combine date and time
+    final combinedDateTime = combineDateWithTime(widget.jadwalJanjiTemu.tanggal, waktuMulai);
+
+    rekamMedisProvider.postdataRekamMedis(
+      obatNames,
+      combinedDateTime,
+      widget.jadwalJanjiTemu.id_dokter,
+    ).then((_) {
+      // Show success message or handle post submission logic
+      print('Rekam Medis posted successfully');
+    }).catchError((error) {
+      // Handle error
+      print('Error posting Rekam Medis: $error');
     });
   }
 
@@ -612,136 +656,79 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                                   ],
                                                 )
                                               : (indeks == 4 || indeks == 5
-                                                  ? const Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          'Obat Anda',
-                                                          style: TextStyle(
+                                                  ? Consumer<ObatProvider>(
+                                                      builder: (context, obatProvider, child) {
+                                                        if (obatProvider.isLoading) {
+                                                          return CircularProgressIndicator();
+                                                        }
+                                                        final obatList = obatProvider.dataObat;
+                                                        if (obatList.isEmpty) {
+                                                          return Text("No medications available");
+                                                        }
+                                                        return Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Text(
+                                                              'Obat Anda',
+                                                              style: TextStyle(
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.bold),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Column(
+                                                              children: obatList.map((obat) {
+                                                                return Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        Text(
+                                                                          obat.nama,
+                                                                          style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                        Text(
+                                                                          obat.harga.toString(),
+                                                                          style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(height: 20),
+                                                                  ],
+                                                                );
+                                                              }).toList(),
+                                                            ),
+                                                            Divider(
                                                               color: Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Anti Depresan',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
                                                             ),
-                                                            Text(
-                                                              '90.000',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Sertaline',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                            SizedBox(
+                                                              height: 20,
                                                             ),
-                                                            Text(
-                                                              '85.000',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Patrazoxine',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  'Total :',
+                                                                  style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontWeight: FontWeight.w800),
+                                                                ),
+                                                                Text(
+                                                                  obatProvider.totalHarga.toString(),
+                                                                  style: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontWeight: FontWeight.w800),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            Text(
-                                                              '175.000',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
                                                           ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Divider(
-                                                          color: Colors.black,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Total :',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800),
-                                                            ),
-                                                            Text(
-                                                              'Rp. 350.000',
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Colors.black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
+                                                        );
+                                                      },
                                                     )
                                                   : SizedBox.shrink()))),
                                 ),
