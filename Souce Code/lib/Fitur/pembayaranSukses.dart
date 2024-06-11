@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tp2/Fitur/bottomNavBar.dart';
 
-
 class PembayaranSukses extends StatefulWidget {
   final String itemNama;
   final String itemDeskripsi;
@@ -42,16 +41,15 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
             Center(
               child: Text(
                 'Pembayaran',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold
-                ),),
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
             ),
             SizedBox(
               height: 20,
             ),
             Divider(
-              color: Color.fromARGB(255, 1, 101, 252), // Atur warna garis sesuai keinginan
+              color: Color.fromARGB(
+                  255, 1, 101, 252), // Atur warna garis sesuai keinginan
               thickness: 2, // Atur ketebalan garis
             ),
             SizedBox(
@@ -66,7 +64,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               height: 15,
             ),
             Text(
-              'Reservasi Sukses!',
+              'Pembayaran Sukses!',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -117,9 +115,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                           Text(
                             widget.pasien,
                             style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -139,36 +135,33 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                           Text(
                             '${widget.tanggal}',
                             style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
                       SizedBox(
                         height: 20,
                       ),
-                      widget.itemDeskripsi2 != null ?
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.location_pin,
-                            color: Color.fromARGB(255, 1, 101, 252),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${widget.itemDeskripsi2}',
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold
-                            ),
-                          )
-                        ],
-                      ) : Container(),
-                      
+                      widget.itemDeskripsi2 != null
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.location_pin,
+                                  color: Color.fromARGB(255, 1, 101, 252),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '${widget.itemDeskripsi2}',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            )
+                          : Container(),
                     ],
                   ),
                   Column(
@@ -187,9 +180,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                           Text(
                             '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                             style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -209,13 +200,10 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
                           Text(
                             '${widget.waktu}',
                             style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 10, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
-                      
                     ],
                   ),
                 ],
@@ -248,12 +236,15 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               minWidth: 380,
               height: 50,
               onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
-                    (Route<dynamic> route) => false,
-                  );
-                },
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(
+                          idx:
+                              1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                  (Route<dynamic> route) => false,
+                );
+              },
               color: Color.fromARGB(255, 1, 101, 252),
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -273,7 +264,10 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const BottomNavBar(idx: 0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(
+                          idx:
+                              0)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
                   (Route<dynamic> route) => false,
                 );
               },
@@ -290,7 +284,6 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
           ],
         ),
       ),
-
     );
   }
 }

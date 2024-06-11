@@ -158,8 +158,11 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
                             MaterialPageRoute(
                               builder: (context) => Pembayaran(
                                 itemNama: widget.labExam.nama,
-                                itemDeskripsi: widget.labExam.deskripsi,
-                                itemLayanan: widget.labExam.kategori,
+                                itemDeskripsi: widget.labExam.kategori,
+                                itemDeskripsi2: selectedHospital,
+                                itemLayanan: 'Pemeriksaan Lab',
+                                tanggal: dateController.text,
+                                waktu: timeController.text,
                                 biaya: int.parse(
                                     widget.labExam.harga.replaceAll('.', '')),
                               ),
