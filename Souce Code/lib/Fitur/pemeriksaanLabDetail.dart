@@ -37,13 +37,15 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
     initializeDateFormatting('id_ID', null);
     // Ensure selectedRSId has a value before fetching data
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<RSProvider>(context, listen: false).getdataRsByLab(selectedLabId!);
+      Provider.of<RSProvider>(context, listen: false)
+          .getdataRsByLab(selectedLabId!);
     });
   }
 
   void _fetchFilteredLab(int? selectedRSId, int? selectedLabId) {
     if (selectedRSId != null && selectedLabId != null) {
-      Provider.of<LabProvider>(context, listen: false).getdataLabByRs(selectedRSId, selectedLabId);
+      Provider.of<LabProvider>(context, listen: false)
+          .getdataLabByRs(selectedRSId, selectedLabId);
     }
   }
 
@@ -53,115 +55,140 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.labExam.nama,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.labExam.nama,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Kategori: ${widget.labExam.kategori}',
-              style: const TextStyle(
-                fontSize: 16,
+              const SizedBox(height: 16),
+              Text(
+                'Kategori: ${widget.labExam.kategori}',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Deskripsi:',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 16),
+              Text(
+                'Deskripsi:',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${widget.labExam.deskripsi}',
-              style: const TextStyle(
-                fontSize: 16,
+              const SizedBox(height: 8),
+              Text(
+                '${widget.labExam.deskripsi}',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const Spacer(),
-            Consumer<RSProvider>(
-              builder: (context, provider, child) {
-                if (provider.isLoading) {
-                  return CircularProgressIndicator();
-                }
-                if (provider.dataRS.isEmpty) {
-                  return Text("No Rumah Sakit found");
-                }
-                return dropdownInput(
+              SizedBox(
+                height: 36,
+              ),
+              Consumer<RSProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                  if (provider.dataRS.isEmpty) {
+                    return Text("No Rumah Sakit found");
+                  }
+                  return dropdownInput(
+                    context: context,
+                    label: "Pilih Rumah Sakit",
+                    hintText: "Pilih Rumah Sakit",
+                    items: provider.dataRS.map((rs) => rs.nama).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedHospital = value;
+                        selectedRSId = provider.dataRS
+                            .firstWhere((rs) => rs.nama == value)
+                            .id;
+                        _fetchFilteredLab(selectedRSId, selectedLabId);
+                      });
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 5),
+              inputFile(
                   context: context,
-                  label: "Pilih Rumah Sakit",
-                  hintText: "Pilih Rumah Sakit",
-                  items: provider.dataRS.map((rs) => rs.nama).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedHospital = value;
-                      selectedRSId = provider.dataRS.firstWhere((rs) => rs.nama == value).id;
-                      _fetchFilteredLab(selectedRSId, selectedLabId);
-                    });
-                  },
-                );
-              },
-            ),
-            inputFile(context: context, label: "Pilih Tanggal", hintText: "Hari, Tgl - Bln - Thn", hintTextColor: Colors.grey, controller: dateController),
-            SizedBox(height: 5),
-            pickedDate != null ? inputFile(context: context, label: "Pilih Waktu", hintText: "00:00", hintTextColor: Colors.grey, controller: timeController) : Container(),
-            const SizedBox(height: 4),
-            const Divider(
-              thickness: 2,
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Harga: Rp. ${widget.labExam.harga}',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Pembayaran(
-                          itemNama: widget.labExam.nama,
-                          itemDeskripsi: widget.labExam.deskripsi,
-                          itemLayanan: widget.labExam.kategori,
-                          biaya: int.parse(widget.labExam.harga.replaceAll('.', '')),
-                        ),
+                  label: "Pilih Tanggal",
+                  hintText: "Hari, Tgl - Bln - Thn",
+                  hintTextColor: Colors.grey,
+                  controller: dateController),
+              SizedBox(height: 5),
+              pickedDate != null
+                  ? inputFile(
+                      context: context,
+                      label: "Pilih Waktu",
+                      hintText: "00:00",
+                      hintTextColor: Colors.grey,
+                      controller: timeController)
+                  : Container(),
+              const SizedBox(height: 4),
+              const Divider(
+                thickness: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Harga: Rp. ${widget.labExam.harga}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 1, 101, 252),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
                     ),
-                  ),
-                  child: const Text('Pesan'),
+                    if (pickedDate != null && selectedHospital != null)
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Pembayaran(
+                                itemNama: widget.labExam.nama,
+                                itemDeskripsi: widget.labExam.deskripsi,
+                                itemLayanan: widget.labExam.kategori,
+                                biaya: int.parse(
+                                    widget.labExam.harga.replaceAll('.', '')),
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 1, 101, 252),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: const Text('Pesan'),
+                      ),
+                    if (pickedDate == null || selectedHospital == null)
+                      Text('Isi form untuk memesan!'),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<DateTime?> _selectDate(BuildContext context, List<JadwalLab> jadwalLab) async {
+  Future<DateTime?> _selectDate(
+      BuildContext context, List<JadwalLab> jadwalLab) async {
     DateTime? pickedDate;
     pickedDate = await showDatePicker(
       context: context,
@@ -181,8 +208,10 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
         .where((jadwal) => jadwal.hari == _getDayName(pickedDate?.weekday ?? 0))
         .toList();
 
-    List<String> waktuMulai = filteredJadwal.map((jadwal) => jadwal.waktu_mulai).toList();
-    List<String> waktuBerakhir = filteredJadwal.map((jadwal) => jadwal.waktu_berakhir).toList();
+    List<String> waktuMulai =
+        filteredJadwal.map((jadwal) => jadwal.waktu_mulai).toList();
+    List<String> waktuBerakhir =
+        filteredJadwal.map((jadwal) => jadwal.waktu_berakhir).toList();
 
     waktuGabung.clear();
     for (int i = 0; i < waktuMulai.length; i++) {
@@ -213,7 +242,8 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
                   setState(() {
                     selectedTime = value;
                     int index = waktuGabung.indexOf(value!);
-                    selectedJadwalId = jadwalLabProvider.dataJadwalLab[index].id;
+                    selectedJadwalId =
+                        jadwalLabProvider.dataJadwalLab[index].id;
                     timeController.text = value;
                   });
                   Navigator.of(context).pop();
@@ -314,7 +344,8 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
           controller: controller,
           onTap: () async {
             if (label == "Pilih Tanggal") {
-              pickedDate = await _selectDate(context, jadwalLabProvider.dataJadwalLab);
+              pickedDate =
+                  await _selectDate(context, jadwalLabProvider.dataJadwalLab);
               if (pickedDate != null) {
                 setState(() {
                   controller?.text = "${_formatDate(pickedDate)}";
@@ -337,9 +368,11 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
               borderSide: BorderSide(color: Colors.grey),
             ),
             suffixIcon: label == "Pilih Tanggal"
-                ? Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252))
+                ? Icon(Icons.calendar_today,
+                    color: Color.fromARGB(255, 1, 101, 252))
                 : (label == "Pilih Waktu"
-                    ? Icon(Icons.access_time_filled_rounded, color: Color.fromARGB(255, 1, 101, 252))
+                    ? Icon(Icons.access_time_filled_rounded,
+                        color: Color.fromARGB(255, 1, 101, 252))
                     : null),
           ),
         ),
@@ -349,48 +382,49 @@ class _PemeriksaanLabDetailState extends State<PemeriksaanLabDetail> {
   }
 
   // Widget untuk dropdown input
-Widget dropdownInput({
-  required BuildContext context,
-  required String label,
-  required String hintText,
-  required List<String> items,
-  void Function(String?)? onChanged,
-}) {
-  String? selectedValue;
+  Widget dropdownInput({
+    required BuildContext context,
+    required String label,
+    required String hintText,
+    required List<String> items,
+    void Function(String?)? onChanged,
+  }) {
+    String? selectedValue;
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      SizedBox(height: 5),
-      DropdownButtonFormField<String>(
-        isExpanded: true,
-        value: selectedValue,
-        hint: Text(hintText),
-        onChanged: onChanged,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 10,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        ),
+        SizedBox(height: 5),
+        DropdownButtonFormField<String>(
+          isExpanded: true,
+          value: selectedValue,
+          hint: Text(hintText),
+          onChanged: onChanged,
+          items: items.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 10,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 }

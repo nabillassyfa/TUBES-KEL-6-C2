@@ -18,9 +18,7 @@ class _PemeriksaanLabState extends State<PemeriksaanLab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pemeriksaan Lab'),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
@@ -42,48 +40,67 @@ class _PemeriksaanLabState extends State<PemeriksaanLab> {
                     itemCount: labExams.length,
                     itemBuilder: (context, index) {
                       final exam = labExams[index];
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                exam.nama,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Card(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.grey.shade400, width: 1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  exam.nama,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text('${exam.kategori}'),
-                              const SizedBox(height: 16),
-                              const Divider(
-                                thickness: 2,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Rp. ${exam.harga}',
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PemeriksaanLabDetail(
-                                            labExam: exam,
+                                const SizedBox(height: 8),
+                                Text('${exam.kategori}'),
+                                const SizedBox(height: 16),
+                                const Divider(
+                                  thickness: 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Rp. ${exam.harga}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PemeriksaanLabDetail(
+                                              labExam: exam,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text('Lihat Detail'),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xff0165fc),
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      child: const Text('Lihat Detail'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
