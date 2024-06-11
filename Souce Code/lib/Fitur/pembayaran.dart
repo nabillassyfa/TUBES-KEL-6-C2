@@ -24,20 +24,19 @@ class Pembayaran extends StatefulWidget {
   int? durasi;
   String? link_video_call;
 
-  Pembayaran({
-    super.key,
-    required this.itemNama,
-    required this.itemDeskripsi,
-    this.itemDeskripsi2,
-    required this.itemLayanan,
-    this.tanggal,
-    this.waktu,
-    required this.biaya,
-    this.id_jadwal,
-    this.unformattedDate,
-    this.durasi,
-    this.link_video_call
-  });
+  Pembayaran(
+      {super.key,
+      required this.itemNama,
+      required this.itemDeskripsi,
+      this.itemDeskripsi2,
+      required this.itemLayanan,
+      this.tanggal,
+      this.waktu,
+      required this.biaya,
+      this.id_jadwal,
+      this.unformattedDate,
+      this.durasi,
+      this.link_video_call});
 
   @override
   State<Pembayaran> createState() => _PembayaranState();
@@ -65,13 +64,14 @@ class _PembayaranState extends State<Pembayaran> {
         print(widget.itemLayanan);
       });
     });
-    metodePembayaranProvider = Provider.of<MetodePembayaranProvider>(context, listen: false);
+    metodePembayaranProvider =
+        Provider.of<MetodePembayaranProvider>(context, listen: false);
     metodePembayaranProvider!.getdataMetodePembayaran();
   }
 
-
   void _editAlamat() {
-    TextEditingController _alamatController = TextEditingController(text: alamat);
+    TextEditingController _alamatController =
+        TextEditingController(text: alamat);
 
     showDialog(
       context: context,
@@ -116,8 +116,8 @@ class _PembayaranState extends State<Pembayaran> {
             Navigator.pop(context);
           },
           icon: const Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back_ios,
+            size: 24,
             color: Colors.black,
           ),
         ),
@@ -127,15 +127,15 @@ class _PembayaranState extends State<Pembayaran> {
           children: [
             const Center(
               child: Text(
-                'Reservasi',
+                'Pembayaran',
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 8,
             ),
             const Divider(
               color: Color.fromARGB(255, 1, 101, 252),
@@ -144,76 +144,72 @@ class _PembayaranState extends State<Pembayaran> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Color.fromARGB(255, 1, 101, 252),
-                ),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
                   Row(
                     children: [
                       Text(
                         'Nama Pasien:',
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                       SizedBox(
                         width: 10,
                       ),
-                      Text(namaPasien),
+                      Text(
+                        namaPasien,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                     ],
                   ),
                   widget.itemLayanan == "Panggil Dokter"
-                  ? Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Alamat:',
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              alamat,
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                              ),
-                              maxLines: null, // Allow the text to be multiline
-                              overflow: TextOverflow.visible, // Ensure the text overflows visibly
+                      ? Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Alamat:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    alamat,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    maxLines:
+                                        null, // Allow the text to be multiline
+                                    overflow: TextOverflow
+                                        .visible, // Ensure the text overflows visibly
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed: _editAlamat,
+                                ),
+                              ],
                             ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: _editAlamat,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'Pastikan untuk mengisi alamat dengan lengkap',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 231, 170, 1),
-                          fontSize: 12
-                        ),
-                        textAlign: TextAlign.left,
-                      )
-                    ],
-                  ) : Container(),
+                            Text(
+                              'Pastikan untuk mengisi alamat dengan lengkap',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 231, 170, 1),
+                                  fontSize: 12),
+                              textAlign: TextAlign.left,
+                            )
+                          ],
+                        )
+                      : Container(),
                   const SizedBox(
                     height: 20,
                   ),
@@ -234,6 +230,7 @@ class _PembayaranState extends State<Pembayaran> {
                               'Ringkasan Pembayaran',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
+                                fontSize: 16,
                               ),
                             ),
                           ),
@@ -250,6 +247,7 @@ class _PembayaranState extends State<Pembayaran> {
                                 widget.itemNama,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),
                               ),
                               Text(
@@ -258,7 +256,7 @@ class _PembayaranState extends State<Pembayaran> {
                                     : widget.itemDeskripsi,
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 10,
+                                  fontSize: 14,
                                 ),
                               ),
                               SizedBox(
@@ -269,7 +267,7 @@ class _PembayaranState extends State<Pembayaran> {
                                       'Tanggal : ${widget.tanggal}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: 10,
+                                        fontSize: 14,
                                       ),
                                     )
                                   : Container(),
@@ -278,7 +276,7 @@ class _PembayaranState extends State<Pembayaran> {
                                       'Waktu   : ${widget.waktu}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
-                                        fontSize: 10,
+                                        fontSize: 14,
                                       ),
                                     )
                                   : Container(),
@@ -291,14 +289,14 @@ class _PembayaranState extends State<Pembayaran> {
                                     'Layanan: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Text(
                                     widget.itemLayanan,
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -307,20 +305,21 @@ class _PembayaranState extends State<Pembayaran> {
                                 height: 40,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Biaya Konsultasi: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Text(
                                     '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -329,20 +328,21 @@ class _PembayaranState extends State<Pembayaran> {
                                 color: Color.fromARGB(255, 1, 101, 252),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total Pembayaran: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                   Text(
                                     '${NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 2).format(widget.biaya)}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 10,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ],
@@ -373,26 +373,41 @@ class _PembayaranState extends State<Pembayaran> {
                             return Consumer<MetodePembayaranProvider>(
                               builder: (context, provider, child) {
                                 if (provider.isLoading) {
-                                  return Center(child: CircularProgressIndicator());
+                                  return Center(
+                                      child: CircularProgressIndicator());
                                 } else {
-                                  List<MetodePembayaran> filteredMetodePembayaran = provider.dataMetodePembayaran;
-                                  if (widget.itemLayanan == "Konsultasi Online" || widget.itemLayanan == "Panggil Dokter") {
-                                    filteredMetodePembayaran = filteredMetodePembayaran.where((metode) => metode.nama_pembayaran != "Bayar ditempat").toList();
+                                  List<MetodePembayaran>
+                                      filteredMetodePembayaran =
+                                      provider.dataMetodePembayaran;
+                                  if (widget.itemLayanan ==
+                                          "Konsultasi Online" ||
+                                      widget.itemLayanan == "Panggil Dokter") {
+                                    filteredMetodePembayaran =
+                                        filteredMetodePembayaran
+                                            .where((metode) =>
+                                                metode.nama_pembayaran !=
+                                                "Bayar ditempat")
+                                            .toList();
                                   }
-                                  return ListView.builder(
-                                    itemCount: filteredMetodePembayaran.length,
-                                    itemBuilder: (context, index) {
-                                      MetodePembayaran metode = filteredMetodePembayaran[index];
-                                      return ListTile(
-                                        title: Text(metode.nama_pembayaran),
-                                        onTap: () {
-                                          setState(() {
-                                            selectedMetodePembayaran = metode;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    },
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 16.0),
+                                    child: ListView.builder(
+                                      itemCount:
+                                          filteredMetodePembayaran.length,
+                                      itemBuilder: (context, index) {
+                                        MetodePembayaran metode =
+                                            filteredMetodePembayaran[index];
+                                        return ListTile(
+                                          title: Text(metode.nama_pembayaran),
+                                          onTap: () {
+                                            setState(() {
+                                              selectedMetodePembayaran = metode;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                    ),
                                   );
                                 }
                               },
@@ -423,86 +438,123 @@ class _PembayaranState extends State<Pembayaran> {
                 ],
               ),
             ),
-            selectedMetodePembayaran != null ?
-            isProcessing // Display loading indicator if processing
-               
-            ? CircularProgressIndicator()
-                : MaterialButton(
-                    minWidth: 380,
-                    height: 50,
-                    onPressed: () async {
-                      if (selectedMetodePembayaran != null) {
-                        if (widget.itemLayanan == "Panggil Dokter" && alamat == "") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Alamat tidak boleh kosong untuk layanan Panggil Dokter.'),
-                            ),
-                          );
-                          return;
-                        }
-                        setState(() {
-                          isProcessing = true;
-                        });
-                        try {
-                          // Post data pembayaran
-                          await Provider.of<PembayaranProvider>(context, listen: false)
-                              .postdataPembayaran(selectedMetodePembayaran!.nama_pembayaran, widget.biaya, widget.itemLayanan);
-                          
-                          // Post data jadwal janji temu
-                          if (widget.id_jadwal != null && widget.unformattedDate != null && widget.waktu != null) {
-                            if(widget.itemLayanan == "Janji Temu"){
-                              await Provider.of<JadwalJanjiTemuProvider>(context, listen: false)
-                                  .postdataJadwaljanjitemu(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!); 
-                            } else if(widget.itemLayanan == "Konsultasi Online"){
-                              await Provider.of<JadwalVideoCallProvider>(context, listen: false)
-                                  .postdataJadwalVideoCall(widget.id_jadwal!, widget.unformattedDate!, widget.durasi!, widget.link_video_call!); 
-                            } else if(widget.itemLayanan == "Panggil Dokter"){
-                              await Provider.of<JadwalPanggilDokterProvider>(context, listen: false)
-                                  .postdataJadwalPanggilDokter(widget.id_jadwal!, widget.unformattedDate!, alamat); 
-                            }
-                          }
+            selectedMetodePembayaran != null
+                ? isProcessing // Display loading indicator if processing
 
-                          // Navigate to success screen
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PembayaranSukses(
-                                itemNama: widget.itemNama,
-                                itemDeskripsi: widget.itemDeskripsi,
-                                itemDeskripsi2: widget.itemDeskripsi2,
-                                itemLayanan: widget.itemLayanan,
-                                biaya: widget.biaya,
-                                pasien: namaPasien,
-                                tanggal: widget.tanggal,
-                                waktu: widget.waktu,
-                              ),
+                    ? CircularProgressIndicator()
+                    : Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: MaterialButton(
+                          minWidth: 380,
+                          height: 50,
+                          onPressed: () async {
+                            if (selectedMetodePembayaran != null) {
+                              if (widget.itemLayanan == "Panggil Dokter" &&
+                                  alamat == "") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Alamat tidak boleh kosong untuk layanan Panggil Dokter.'),
+                                  ),
+                                );
+                                return;
+                              }
+                              setState(() {
+                                isProcessing = true;
+                              });
+                              try {
+                                // Post data pembayaran
+                                await Provider.of<PembayaranProvider>(context,
+                                        listen: false)
+                                    .postdataPembayaran(
+                                        selectedMetodePembayaran!
+                                            .nama_pembayaran,
+                                        widget.biaya,
+                                        widget.itemLayanan);
+
+                                // Post data jadwal janji temu
+                                if (widget.id_jadwal != null &&
+                                    widget.unformattedDate != null &&
+                                    widget.waktu != null) {
+                                  if (widget.itemLayanan == "Janji Temu") {
+                                    await Provider.of<JadwalJanjiTemuProvider>(
+                                            context,
+                                            listen: false)
+                                        .postdataJadwaljanjitemu(
+                                            widget.id_jadwal!,
+                                            widget.unformattedDate!,
+                                            widget.durasi!);
+                                  } else if (widget.itemLayanan ==
+                                      "Konsultasi Online") {
+                                    await Provider.of<JadwalVideoCallProvider>(
+                                            context,
+                                            listen: false)
+                                        .postdataJadwalVideoCall(
+                                            widget.id_jadwal!,
+                                            widget.unformattedDate!,
+                                            widget.durasi!,
+                                            widget.link_video_call!);
+                                  } else if (widget.itemLayanan ==
+                                      "Panggil Dokter") {
+                                    await Provider.of<
+                                                JadwalPanggilDokterProvider>(
+                                            context,
+                                            listen: false)
+                                        .postdataJadwalPanggilDokter(
+                                            widget.id_jadwal!,
+                                            widget.unformattedDate!,
+                                            alamat);
+                                  }
+                                }
+
+                                // Navigate to success screen
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PembayaranSukses(
+                                      itemNama: widget.itemNama,
+                                      itemDeskripsi: widget.itemDeskripsi,
+                                      itemDeskripsi2: widget.itemDeskripsi2,
+                                      itemLayanan: widget.itemLayanan,
+                                      biaya: widget.biaya,
+                                      pasien: namaPasien,
+                                      tanggal: widget.tanggal,
+                                      waktu: widget.waktu,
+                                    ),
+                                  ),
+                                  (Route<dynamic> route) => false,
+                                );
+                              } catch (e) {
+                                print('herupumi');
+                                // Handle error
+                              } finally {
+                                setState(() {
+                                  isProcessing = false;
+                                });
+                              }
+                            }
+                          },
+                          color: Color.fromARGB(255, 1, 101, 252),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Text(
+                            "Konfirmasi",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                              color: Colors.white,
                             ),
-                            (Route<dynamic> route) => false,
-                          );
-                        } catch (e) {
-                          print('herupumi');
-                          // Handle error
-                        } finally {
-                          setState(() {
-                            isProcessing = false;
-                          });
-                        }
-                      } 
-                    },
-                    color: Color.fromARGB(255, 1, 101, 252),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      "Konfirmasi",
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ) : Text('Silahkan pilih metode pembayaran'),
-                  SizedBox(height: 20,)
+                          ),
+                        ),
+                      )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text('Silahkan pilih metode pembayaran'),
+                  ),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
