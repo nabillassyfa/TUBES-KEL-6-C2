@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-List<RS> RSFromJson(String str) =>
-    List<RS>.from(json.decode(str).map((x) => RS.fromJson(x)));
+List<Rating> RatingFromJson(String str) =>
+    List<Rating>.from(json.decode(str).map((x) => Rating.fromJson(x)));
 
-String RSToJson(List<RS> data) =>
+String RatingToJson(List<Rating> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class RS {
-  RS({
+class Rating {
+  Rating({
     required this.id,
     required this.pesan,
     required this.rating,
@@ -25,8 +25,8 @@ class RS {
   final String nama_dokter;
   final String nama_user;
 
-
-  factory RS.fromJson(Map<String, dynamic> json) => RS(
+ String get imageUrl => 'http://127.0.0.1:8000/user_image/$id_user';
+  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
         id: json["id"],
         pesan: json["pesan"],
         rating: json["rating"],

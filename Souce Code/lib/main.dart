@@ -13,6 +13,7 @@ import 'package:tp2/provider/p_pembayaran.dart';
 import 'package:tp2/provider/p_spesialis.dart';
 import 'package:tp2/provider/p_user.dart';
 import 'package:tp2/provider/p_lab.dart';
+import 'package:tp2/provider/p_rating.dart';
 import 'package:tp2/provider/p_statusRawatJalan.dart';
 import 'Fitur/landingPage1.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Import untuk inisialisasi data lokal
@@ -37,6 +38,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => JadwalVideoCallProvider()),
         ChangeNotifierProvider(create: (_) => JadwalPanggilDokterProvider()),
         ChangeNotifierProvider(create: (_) => LabProvider()),
+        ChangeNotifierProvider(create: (_) => RatingProvider()),
       ],            
       child: const MyApp(), 
     ) 

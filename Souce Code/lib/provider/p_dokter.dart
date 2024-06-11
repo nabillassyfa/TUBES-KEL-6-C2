@@ -28,7 +28,7 @@ class DokterProvider extends ChangeNotifier {
   Future<void> getdataDokterbyIdwithS(int id) async {
     _setLoading(true);
     try {
-      final response = await http.get(Uri.parse('http://127.0.0.1:8000/dokter_by_id_withS/$id'));
+      final response = await http.get(Uri.parse('http://127.0.0.1:8000/data_dokter_by_id_withS/$id'));
       if (response.statusCode == 200) {
         data_dokter = DokterFromJson(response.body);
       } else {
