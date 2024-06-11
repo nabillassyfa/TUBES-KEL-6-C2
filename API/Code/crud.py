@@ -692,6 +692,15 @@ def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
 
     return jadwal_janji_temu_list
 
+def delete_jadwal_janji_temu(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+
 
 # Jadwal Konsul Online
 def create_jadwal_konsul_online(db: Session, jadwal: schemas.JadwalkonsulOnlineBase):
@@ -932,6 +941,50 @@ def get_jadwal_obat_by_user(db:Session, user_id:int):
     jadwal_obat_list = list(jadwal_obat_dict.values())
 
     return jadwal_obat_list
+
+def create_jadwal_obat(db: Session, jadwal_obat: schemas.JadwalObatBase):
+    db_jadwal = models.JadwalObat(
+        id_obat=jadwal_obat.id_obat,
+        kondisi_makan=jadwal_obat.kondisi_makan,
+        takaran=jadwal_obat.takaran,
+        id_user=jadwal_obat.id_user
+    )
+    db.add(db_jadwal)
+    db.commit()
+    db.refresh(db_jadwal)
+
+    # Buat record status user baru yang terhubung dengan janji temu yang baru saja dibuat
+    waktu = datetime.strptime("07:00", '%H:%M').time()
+    default_jadwal_obat_konsumsi_values = {
+        "id_jadwal_obat": db_jadwal.id,
+        "waktu": waktu
+    }
+    db_obat_konsumsi = models.JadwalObatKonsumsi(**default_jadwal_obat_konsumsi_values)
+    db.add(db_obat_konsumsi)
+    db.commit()
+    db.refresh(db_obat_konsumsi)
+    
+    waktu = datetime.strptime("12:00", '%H:%M').time()
+    default_jadwal_obat_konsumsi_values = {
+        "id_jadwal_obat": db_jadwal.id,
+        "waktu": waktu
+    }
+    db_obat_konsumsi = models.JadwalObatKonsumsi(**default_jadwal_obat_konsumsi_values)
+    db.add(db_obat_konsumsi)
+    db.commit()
+    db.refresh(db_obat_konsumsi)
+    
+    waktu = datetime.strptime("19:00", '%H:%M').time()
+    default_jadwal_obat_konsumsi_values = {
+        "id_jadwal_obat": db_jadwal.id,
+        "waktu": waktu
+    }
+    db_obat_konsumsi = models.JadwalObatKonsumsi(**default_jadwal_obat_konsumsi_values)
+    db.add(db_obat_konsumsi)
+    db.commit()
+    db.refresh(db_obat_konsumsi)
+
+    return db_jadwal
 
 def get_metode_pembayaran(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.MetodePembayaran).offset(skip).limit(limit).all()

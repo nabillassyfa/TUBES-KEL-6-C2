@@ -325,6 +325,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
 
+@app.delete("/hapus_jadwal_janji_temu/{id}")
+def hapus_janji_temu(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_janji_temu(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
+
 # Jadwal Konsultasi Online
 @app.post("/jadwal_konsul_online/", response_model=schemas.JadwalkonsulOnline)
 def create_jadwal(jadwal: schemas.JadwalkonsulOnlineBase, db: Session = Depends(get_db)):
@@ -411,6 +421,11 @@ def hapus_obat(id_obat: int, db: Session = Depends(get_db)):
         return {"message": "Obat berhasil dihapus"}
     else:
         raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
+@app.post("/create_jadwal_obat/", response_model=schemas.JadwalObat)
+def jadwal_obat(jadwal_obat: schemas.JadwalObatBase, db: Session = Depends(get_db)):
+    return crud.create_jadwal_obat(db=db, jadwal_obat=jadwal_obat)
+
 
 # Metode Pembayaran
 @app.get("/metode_pembayaran/")
