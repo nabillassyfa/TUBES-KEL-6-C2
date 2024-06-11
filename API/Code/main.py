@@ -185,6 +185,10 @@ def read_items(user_id: int, db: Session = Depends(get_db)):
     rekam_medis = crud.get_rekam_medis(db, user_id)
     return rekam_medis
 
+@app.post("/rekam_medis/", response_model=schemas.RekamMedis)
+def rekam_medis(rekam_medis: schemas.RekamMedisBase, db: Session = Depends(get_db)):
+    return crud.create_rekam_medis(db=db, rekam_medis=rekam_medis)
+
 ## Rating
 @app.get("/rating/{dokter_id}")
 def read_items(dokter_id: int, db: Session = Depends(get_db)):
@@ -398,6 +402,15 @@ def read_obat(db:Session = Depends(get_db)):
 def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
     jadwal_obat_list = crud.get_jadwal_obat_by_user(db=db, user_id=user_id)
     return jadwal_obat_list
+
+@app.delete("/hapus_obat/{id_obat}")
+def hapus_obat(id_obat: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_obat_by_id(db, id=id_obat)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
 
 # Metode Pembayaran
 @app.get("/metode_pembayaran/")

@@ -48,7 +48,7 @@ class Dokter(DokterBase):
 # Rekam Medis
 class RekamMedisBase(BaseModel):
     keterangan: str
-    catatan_dokter: str | None = None
+    catatan_dokter: str
     obat:str
     tanggal:datetime
     id_dokter:int

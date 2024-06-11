@@ -48,13 +48,10 @@ class RekamMedis {
         "id": id,
         "keterangan": keterangan,
         "catatan_dokter": catatan_dokter,
-        "dokter_nama": dokter_nama,
         "obat": obat,
-        "user_nama": user_nama,
         "tanggal": tanggal.toIso8601String(),
         "id_dokter": id_dokter,
         "id_user": id_user,
-        "spesialis": spesialis,
       };
 }
 

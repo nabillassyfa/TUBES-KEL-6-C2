@@ -9,7 +9,9 @@ import 'package:tp2/provider/p_jadwalObat.dart';
 import 'package:tp2/provider/p_jadwalPanggilDokter.dart';
 import 'package:tp2/provider/p_jadwalVideoCall.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
+import 'package:tp2/provider/p_obat.dart';
 import 'package:tp2/provider/p_pembayaran.dart';
+import 'package:tp2/provider/p_rekamMedis.dart';
 import 'package:tp2/provider/p_spesialis.dart';
 import 'package:tp2/provider/p_statusUserRawatJalan.dart';
 import 'package:tp2/provider/p_user.dart';
@@ -41,6 +43,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LabProvider()),
         ChangeNotifierProvider(create: (_) => RatingProvider()),
         ChangeNotifierProvider(create: (_) => StatusUserRawatJalanProvider()),
+        ChangeNotifierProvider(create: (_) => ObatProvider()),
+        ChangeNotifierProvider(create: (_) => RekamMedisProvider()),
       ],            
       child: const MyApp(), 
     ) 

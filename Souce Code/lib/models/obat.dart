@@ -15,7 +15,7 @@ class Obat {
   });
 
   final int id;
-  final int nama;
+  final String nama;
   final int harga;
   final String keterangan;
 
