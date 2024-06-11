@@ -376,6 +376,12 @@ def get_pembayaran_by_id(pembayaran_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
     return db_pembayaran
 
+# Obat
+@app.get("/obat")
+def read_obat(db:Session = Depends(get_db)):
+    jadwal_obat_list = crud.get_obat(db=db)
+    return jadwal_obat_list
+
 # Jadwal Obat
 @app.get("/jadwal_obat/{user_id}")
 def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
