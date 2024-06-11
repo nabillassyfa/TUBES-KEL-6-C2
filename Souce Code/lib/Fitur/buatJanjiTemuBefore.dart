@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
 import 'package:tp2/provider/p_RS.dart';
 import 'package:tp2/provider/p_spesialis.dart';
-import 'package:tp2/provider/p_jadwalDokter.dart';  
+import 'package:tp2/provider/p_jadwalDokter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class BuatJanjiTemuBefore extends StatefulWidget {
@@ -30,9 +30,15 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
     });
   }
 
-  void _fetchFilteredDokters(int? selectedRSId, String? selectedDay, String? selectedTime, int? selectedSpesialisId) {
-    if (selectedRSId != null && selectedDay != null && selectedTime != null && selectedSpesialisId != null) {
-      Provider.of<JadwalDokterProvider>(context, listen: false).getFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+  void _fetchFilteredDokters(int? selectedRSId, String? selectedDay,
+      String? selectedTime, int? selectedSpesialisId) {
+    if (selectedRSId != null &&
+        selectedDay != null &&
+        selectedTime != null &&
+        selectedSpesialisId != null) {
+      Provider.of<JadwalDokterProvider>(context, listen: false)
+          .getFilteredDokters(
+              selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
     }
   }
 
@@ -49,10 +55,9 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
             Navigator.pop(context);
           },
           icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+            Icons.arrow_back,
+            size: 24,
             color: Colors.black,
-
           ),
         ),
       ),
@@ -98,18 +103,24 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                     context: context,
                     label: "Pilih Spesialis",
                     hintText: "Semua Spesialis",
-                    items: provider.dataSpesialis.map((spesialis) => spesialis.nama).toList(),
+                    items: provider.dataSpesialis
+                        .map((spesialis) => spesialis.nama)
+                        .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedSpesialisId = provider.dataSpesialis.firstWhere((spesialis) => spesialis.nama == value).id;
+                        selectedSpesialisId = provider.dataSpesialis
+                            .firstWhere((spesialis) => spesialis.nama == value)
+                            .id;
                         selectedRSId = null;
                         selectedDay = null;
                         selectedTime = null;
                         selectedDokterId = null;
                         dateController.clear();
                         timeController.clear();
-                        Provider.of<RSProvider>(context, listen: false).getdataRSbySpesialis(selectedSpesialisId!);
-                         _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                        Provider.of<RSProvider>(context, listen: false)
+                            .getdataRSbySpesialis(selectedSpesialisId!);
+                        _fetchFilteredDokters(selectedRSId, selectedDay,
+                            selectedTime, selectedSpesialisId);
                       });
                     },
                   );
@@ -131,8 +142,11 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                     items: provider.dataRS.map((rs) => rs.nama).toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedRSId = provider.dataRS.firstWhere((rs) => rs.nama == value).id;
-                        _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                        selectedRSId = provider.dataRS
+                            .firstWhere((rs) => rs.nama == value)
+                            .id;
+                        _fetchFilteredDokters(selectedRSId, selectedDay,
+                            selectedTime, selectedSpesialisId);
                       });
                     },
                   );
@@ -144,7 +158,10 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                 children: <Widget>[
                   Text(
                     "Pilih Tanggal",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87),
                   ),
                   SizedBox(height: 5), // Jarak antara judul dan kotak tanggal
                   Row(
@@ -163,14 +180,18 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                               setState(() {
                                 selectedDay = _formatDate(pickedDate!);
                                 dateController.text = selectedDay!;
-                                _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                                _fetchFilteredDokters(selectedRSId, selectedDay,
+                                    selectedTime, selectedSpesialisId);
                               });
                             }
                           },
                           readOnly: true,
                           decoration: InputDecoration(
                             hintText: 'Pilih Tanggal',
-                            suffixIcon: Icon(Icons.calendar_today, color: Color.fromARGB(255, 1, 101, 252),), // Icon kalender
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: Color.fromARGB(255, 1, 101, 252),
+                            ), // Icon kalender
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -185,7 +206,10 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                 children: <Widget>[
                   Text(
                     "Pilih Waktu",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87),
                   ),
                   SizedBox(height: 5), // Jarak antara judul dan kotak waktu
                   Row(
@@ -200,16 +224,21 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                             );
                             if (pickedTime != null) {
                               setState(() {
-                                selectedTime = "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
+                                selectedTime =
+                                    "${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}";
                                 timeController.text = selectedTime!;
-                                _fetchFilteredDokters(selectedRSId, selectedDay, selectedTime, selectedSpesialisId);
+                                _fetchFilteredDokters(selectedRSId, selectedDay,
+                                    selectedTime, selectedSpesialisId);
                               });
                             }
                           },
                           readOnly: true,
                           decoration: InputDecoration(
                             hintText: 'Pilih Waktu',
-                            suffixIcon: Icon(Icons.access_time, color: Color.fromARGB(255, 1, 101, 252),), // Icon waktu
+                            suffixIcon: Icon(
+                              Icons.access_time,
+                              color: Color.fromARGB(255, 1, 101, 252),
+                            ), // Icon waktu
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -231,10 +260,14 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                     context: context,
                     label: "Pilih Dokter",
                     hintText: "Pilih dokter",
-                    items: provider.data_Jadwal_dokter.map((dokter) => dokter.nama).toList(),
+                    items: provider.data_Jadwal_dokter
+                        .map((dokter) => dokter.nama)
+                        .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedDokterId = provider.data_Jadwal_dokter.firstWhere((dokter) => dokter.nama == value).id;
+                        selectedDokterId = provider.data_Jadwal_dokter
+                            .firstWhere((dokter) => dokter.nama == value)
+                            .id;
                       });
                     },
                   );
@@ -250,28 +283,43 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                   minWidth: double.infinity,
                   height: 60,
                   onPressed: () {
-                    if (selectedRSId != null && selectedDay != null && selectedTime != null && selectedSpesialisId != null && selectedDokterId != null) {
-                      final selectedDokter = Provider.of<JadwalDokterProvider>(context, listen: false).data_Jadwal_dokter.firstWhere((dokter) => dokter.id == selectedDokterId);
-                      final selectedSpesialis = Provider.of<SpesialisProvider>(context, listen: false).dataSpesialis.firstWhere((spesialis) => spesialis.id == selectedSpesialisId);
-                      final selectedRS = Provider.of<RSProvider>(context, listen: false).data_RS.firstWhere((RS) => RS.id == selectedRSId);
+                    if (selectedRSId != null &&
+                        selectedDay != null &&
+                        selectedTime != null &&
+                        selectedSpesialisId != null &&
+                        selectedDokterId != null) {
+                      final selectedDokter = Provider.of<JadwalDokterProvider>(
+                              context,
+                              listen: false)
+                          .data_Jadwal_dokter
+                          .firstWhere(
+                              (dokter) => dokter.id == selectedDokterId);
+                      final selectedSpesialis =
+                          Provider.of<SpesialisProvider>(context, listen: false)
+                              .dataSpesialis
+                              .firstWhere((spesialis) =>
+                                  spesialis.id == selectedSpesialisId);
+                      final selectedRS =
+                          Provider.of<RSProvider>(context, listen: false)
+                              .data_RS
+                              .firstWhere((RS) => RS.id == selectedRSId);
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Pembayaran(
-                                itemNama: selectedDokter.nama,
-                                itemDeskripsi: selectedSpesialis.nama,
-                                itemDeskripsi2: selectedRS.nama,
-                                itemLayanan: 'Janji Temu',
-                                biaya: 400000,
-                                tanggal:selectedDay,
-                                waktu: selectedTime,
-                                id_jadwal: selectedDokterId,
-                                unformattedDate: '${pickedDate}',
-                                durasi: 30,
-
-                              ),
-                            ),
-                          );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Pembayaran(
+                            itemNama: selectedDokter.nama,
+                            itemDeskripsi: selectedSpesialis.nama,
+                            itemDeskripsi2: selectedRS.nama,
+                            itemLayanan: 'Janji Temu',
+                            biaya: 400000,
+                            tanggal: selectedDay,
+                            waktu: selectedTime,
+                            id_jadwal: selectedDokterId,
+                            unformattedDate: '${pickedDate}',
+                            durasi: 30,
+                          ),
+                        ),
+                      );
                     } else {
                       // Tampilkan peringatan jika ada variabel yang kosong
                       showDialog(
@@ -279,7 +327,8 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Peringatan"),
-                            content: Text("Silakan lengkapi semua informasi sebelum melanjutkan."),
+                            content: Text(
+                                "Silakan lengkapi semua informasi sebelum melanjutkan."),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -290,7 +339,7 @@ class BuatJanjiTemuBeforeState extends State<BuatJanjiTemuBefore> {
                             ],
                           );
                         },
-                    );
+                      );
                     }
                   },
                   color: Color.fromARGB(255, 1, 101, 252),
@@ -332,7 +381,8 @@ Widget dropdownInput({
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        style: TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
       ),
       SizedBox(height: 5),
       DropdownButtonFormField<String>(

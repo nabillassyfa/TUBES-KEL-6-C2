@@ -235,6 +235,19 @@ def get_spesialis_by_RS(db: Session, id: int):
 
 
 # Rating
+def add_rating(db: Session, beri_rating: schemas.RatingCreate):
+    db_rating = models.Rating(
+        pesan=beri_rating.pesan, 
+        rating=beri_rating.rating, 
+        id_user=beri_rating.id_user, 
+        id_dokter=beri_rating.id_dokter
+    )
+    db.add(db_rating)
+    db.commit()
+    db.refresh(db_rating)
+    return db_rating
+
+
 def get_rating_dokter(db: Session, dokter_id: int):
     results = (
         db.query(

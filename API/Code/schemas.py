@@ -73,9 +73,12 @@ class Spesialis(SpesialisBase):
 # Rating
 class RatingBase(BaseModel):
     rating: float
-    keterangan: str | None = None
+    pesan: str | None = None
     id_dokter:int
     id_user:int
+
+class RatingCreate(RatingBase):
+    pass
 
 class Rating(RatingBase):
     id: int

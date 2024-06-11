@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import '../models/rekamMedis.dart';
 import 'package:intl/intl.dart';
 
-
 class DetailRekamMedis extends StatefulWidget {
   const DetailRekamMedis({
     Key? key,
@@ -20,7 +19,7 @@ class DetailRekamMedis extends StatefulWidget {
 class _DetailRekamMedisState extends State<DetailRekamMedis> {
   @override
   Widget build(BuildContext context) {
-    final DateFormat dateFormatter = DateFormat('yyyy-MM-dd'); 
+    final DateFormat dateFormatter = DateFormat('yyyy-MM-dd');
     final DateFormat timeFormatter = DateFormat('HH:mm:ss');
 
     return Scaffold(
@@ -31,9 +30,9 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 40,
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
             color: Colors.black,
           ),
         ),
@@ -43,10 +42,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
           children: [
             const Text(
               'Rekam Medis',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             ),
             const Text(
               'Lihat rekam medis anda secara detail dan lengkap',
@@ -55,144 +51,143 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                 color: Colors.grey,
               ),
               maxLines: 2, // Batas jumlah baris
-              overflow: TextOverflow.ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
+              overflow: TextOverflow
+                  .ellipsis, // Menggunakan elipsis (...) jika teks melebihi batas
             ),
             const SizedBox(
               height: 40,
             ),
             Container(
-              width: double.infinity,
-              margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(250, 206, 222, 245), // Latar belakang chat berwarna biru
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 2
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
-                  color: Colors.grey.withOpacity(0.8), // Warna bayangan
-                  blurRadius: 2,
-                  spreadRadius: 2,
-                  offset: Offset(0, 2),
-                )]
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 200,
-                    child: Text(
-                      widget.data.dokter_nama,
-                      textAlign: TextAlign.start,
+                width: double.infinity,
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(250, 206, 222,
+                        245), // Latar belakang chat berwarna biru
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.8), // Warna bayangan
+                        blurRadius: 2,
+                        spreadRadius: 2,
+                        offset: Offset(0, 2),
+                      )
+                    ]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        widget.data.dokter_nama,
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      widget.data.spesialis,
                       style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
-                  ), 
-                  Text(
-                    widget.data.spesialis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Spacer(),
-                      Text(
-                        dateFormatter.format(widget.data.tanggal), //tanggal
-                        style: const TextStyle(
-                          fontSize: 16,
+                    Row(
+                      children: [
+                        Spacer(),
+                        Text(
+                          dateFormatter.format(widget.data.tanggal), //tanggal
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Spacer(),
-                      Text(
-                        timeFormatter.format(widget.data.tanggal), //waktu
-                        style: const TextStyle(
-                          fontSize: 16,
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Spacer(),
+                        Text(
+                          timeFormatter.format(widget.data.tanggal), //waktu
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
+                      ],
+                    ),
+                    const Text(
+                      'Keterangan : ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 80,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        widget.data.keterangan,
+                        // style: TextStyle(color: Colors.black),
                       ),
-                    ],
-                  ),
-                        
-                  const Text(
-                    'Keterangan : ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold
                     ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Container(
-                    width: double.infinity,
-                    height: 80,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(8)
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: Text(
-                      widget.data.keterangan,
-                      // style: TextStyle(color: Colors.black),
+                    const Text(
+                      'Obat : ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(height: 10,),
-                  const Text(
-                    'Obat : ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: double.infinity,
-                    height: 80,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(8)
+                    Container(
+                      width: double.infinity,
+                      height: 80,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        widget.data.obat,
+                      ),
                     ),
-                    child: Text(
-                      widget.data.obat,
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                  SizedBox(height: 15,),
-                  const Text(
-                    'Catatan dokter : ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold
+                    const Text(
+                      'Catatan dokter : ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: double.infinity,
-                    height: 120,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(8)
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: Text(
-                      widget.data.catatan_dokter,
+                    Container(
+                      width: double.infinity,
+                      height: 120,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        widget.data.catatan_dokter,
+                      ),
                     ),
-                  ),
-                  
-                ],
-              )
+                  ],
+                )),
+            const SizedBox(
+              height: 40,
             ),
-            const SizedBox(height: 40,),
-            
           ],
         ),
       ),

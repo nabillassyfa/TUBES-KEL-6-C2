@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Maps extends StatefulWidget {
   @override
   _MapsState createState() => _MapsState();
@@ -10,38 +9,38 @@ class _MapsState extends State<Maps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      leading: Container(
-        child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_circle_left_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      title: const Text('Maps',
-          style: TextStyle(fontWeight: FontWeight.w700), textAlign: TextAlign.center),
-      elevation: 10,
-      shadowColor: Colors.white,
-    ),
-    body: Stack(
-      children: <Widget>[
-        // Container dengan gambar di latar belakang
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/maps.png'),
-              fit: BoxFit.cover,
+      appBar: AppBar(
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 24,
+              color: Colors.black,
             ),
           ),
-          child: Column(
-            children: [
+        ),
+        title: const Text('Maps',
+            style: TextStyle(fontWeight: FontWeight.w700),
+            textAlign: TextAlign.center),
+        elevation: 10,
+        shadowColor: Colors.white,
+      ),
+      body: Stack(
+        children: <Widget>[
+          // Container dengan gambar di latar belakang
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/maps.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(children: [
               TextField(
                 decoration: InputDecoration(
                   hintText: "Cari ",
@@ -62,9 +61,8 @@ class _MapsState extends State<Maps> {
                   ),
                 ),
               ),
-            ]
+            ]),
           ),
-        ),
           Positioned(
             bottom: 20,
             left: 0,
