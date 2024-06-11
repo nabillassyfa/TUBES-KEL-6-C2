@@ -179,13 +179,12 @@ class StatusRawatJalan(BaseDB):
     
 class StatusUser(BaseDB):
     __tablename__ = "status_user"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     id_janjiTemu = Column(Integer, ForeignKey('jadwal_janji_temu.id'))
     id_statusRawatJalan = Column(Integer, ForeignKey('status_rawat_jalan.id_status'))
 
     jadwal_janji_temu = relationship("JadwalJanjiTemu", back_populates="status_user")
     status_rawat_jalan = relationship("StatusRawatJalan", back_populates="status_user")
-
 
 class JadwalDokter(BaseDB):
     __tablename__ = "jadwal_dokter"

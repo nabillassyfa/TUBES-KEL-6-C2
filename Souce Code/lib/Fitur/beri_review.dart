@@ -141,7 +141,7 @@ class DoctorAddReviewsState extends State<DoctorAddReviewsPage> {
                                   _pesanController.text,
                                   _selectedRating.toDouble(),
                                   widget.beri_review.id_user,
-                                  widget.beri_review.id_user,
+                                  widget.beri_review.id_dokter,
                                 );
                                 Navigator.pushAndRemoveUntil(
                                   context,

@@ -4,6 +4,7 @@ import 'package:timelines/timelines.dart';
 import 'dart:async';
 
 import 'package:tp2/models/jadwalPanggilDokter.dart';
+import 'package:tp2/fitur/maps.dart';
 
 class WidgetJadwalPanggilDokter extends StatefulWidget {
   final List<JadwalPanggilDokter> jadwalPanggilDokter;
@@ -258,7 +259,13 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            // Add your desired functionality here, such as navigating to a different screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Maps()),
+                            );
+                          },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -469,9 +476,9 @@ class _DoctorTimelineState extends State<DoctorTimeline> {
 
 //Daftar proses untuk timeline
 final List<String> _processes = [
-  'Dokter sedang bersiap', 
-  'Dokter dalam perjalanan',  
-  'Dokter tiba di lokasi',  
-  'Dokter melakukan pemeriksaan',  
-  'Pemeriksaan selesai. \nDokter kembali ke rumah sakit',  
+  'Dokter sedang bersiap',
+  'Dokter dalam perjalanan',
+  'Dokter tiba di lokasi',
+  'Dokter melakukan pemeriksaan',
+  'Pemeriksaan selesai. \nDokter kembali ke rumah sakit',
 ];

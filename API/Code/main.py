@@ -362,6 +362,17 @@ def get_status_rawat_jalan_by_id(status_rawat_jalan_id: int, db: Session = Depen
         raise HTTPException(status_code=404, detail="StatusRawatJalan not found")
     return db_status_rawat_jalan
 
+@app.get("/status_users/", response_model=List[schemas.StatusUser])
+def read_status_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    status_users = crud.get_status_users(db, skip=skip, limit=limit)
+    return status_users
+
+@app.get("/status_users/{status_user_id}", response_model=schemas.StatusUser)
+def read_status_user(status_user_id: int, db: Session = Depends(get_db)):
+    db_status_user = crud.get_status_user_by_id(db, status_user_id)
+    if db_status_user is None:
+        raise HTTPException(status_code=404, detail="StatusUser not found")
+    return db_status_user
 
 # Pembayaran
 @app.get("/pembayaran/", response_model=List[schemas.Pembayaran])
@@ -391,6 +402,15 @@ def read_obat(db:Session = Depends(get_db)):
 def read_jadwal_obat(user_id:int, db:Session = Depends(get_db)):
     jadwal_obat_list = crud.get_jadwal_obat_by_user(db=db, user_id=user_id)
     return jadwal_obat_list
+
+@app.delete("/hapus_obat/{id_obat}")
+def hapus_obat(id_obat: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_obat_by_id(db, id=id_obat)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
 
 # Metode Pembayaran
 @app.get("/metode_pembayaran/")
