@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tp2/provider/p_user.dart';
-import 'login.dart'; // Import halaman login.dart jika belum diimport
+import 'login.dart';
 import 'syarat_dan_ketentuan.dart';
 
 class SignupPage extends StatefulWidget {
@@ -11,6 +11,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool _isObscure = true;
+  bool _isAgreed = false;
   final TextEditingController namaController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -20,6 +21,17 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+
+    bool _validateFields() {
+      if (namaController.text.isEmpty ||
+          usernameController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          emailController.text.isEmpty ||
+          noTelpController.text.isEmpty) {
+        return false;
+      }
+      return true;
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -84,19 +96,18 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: 15,
-                    height: 15,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle, // Shape set to circle
-                      color: Colors.white, // Background color
-                      border: Border.all(width: 1, color: Colors.black),
-                    ),
+                  Checkbox(
+                    value: _isAgreed,
+                    activeColor: Color.fromARGB(255, 1, 101,
+                        252), // Mengubah warna latar belakang centang menjadi biru
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        _isAgreed = newValue ?? false;
+                      });
+                    },
                   ),
                   SizedBox(width: 8),
                   Row(
-                    // Wrap the text widgets in a column
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
@@ -114,12 +125,10 @@ class _SignupPageState extends State<SignupPage> {
                         child: Text(
                           "Syarat dan ketentuan",
                           style: TextStyle(
-                            color: Color.fromARGB(
-                                255, 1, 101, 252), // Menambahkan warna teks
+                            color: Color.fromARGB(255, 1, 101, 252),
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
-                            decoration: TextDecoration
-                                .underline, // Menambahkan garis bawah
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
@@ -135,47 +144,70 @@ class _SignupPageState extends State<SignupPage> {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () async {
-                    try {
-                      Map<String, dynamic> signupResponse =
-                          await userProvider.signUp(
-                        namaController.text.trim(),
-                        usernameController.text.trim(),
-                        emailController.text.trim(),
-                        passwordController.text.trim(),
-                        noTelpController.text.trim(),
-                      );
-                      print('Signup successful: $signupResponse');
-                      // Add navigation or show success message
-                      // Tampilkan dialog akun terdaftar
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Akun Telah Terdaftar'),
-                            content: Text('Silahkan login untuk melanjutkan.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context); // Tutup dialog
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginMenu()),
-                                  ); // Pindah ke halaman login
+                  onPressed: _isAgreed
+                      ? () async {
+                          if (_validateFields()) {
+                            try {
+                              Map<String, dynamic> signupResponse =
+                                  await userProvider.signUp(
+                                namaController.text.trim(),
+                                usernameController.text.trim(),
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                                noTelpController.text.trim(),
+                              );
+                              print('Signup successful: $signupResponse');
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Akun Telah Terdaftar'),
+                                    content: Text(
+                                        'Silahkan login untuk melanjutkan.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginMenu()),
+                                          );
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
                                 },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } catch (e) {
-                      print('Signup failed: $e');
-                      // Handle signup failure, show error message, etc.
-                    }
-                  },
-                  color: Color.fromARGB(255, 1, 101, 252),
+                              );
+                            } catch (e) {
+                              print('Signup failed: $e');
+                            }
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Peringatan'),
+                                  content: Text('Semua field harus diisi.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        }
+                      : null,
+                  color: _isAgreed
+                      ? Color.fromARGB(255, 1, 101, 252)
+                      : Colors.grey,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -204,12 +236,10 @@ class _SignupPageState extends State<SignupPage> {
                     child: Text(
                       "Masuk",
                       style: TextStyle(
-                        color: Color.fromARGB(
-                            255, 1, 101, 252), // Menambahkan warna teks
+                        color: Color.fromARGB(255, 1, 101, 252),
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
-                        decoration:
-                            TextDecoration.underline, // Menambahkan garis bawah
+                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
@@ -222,9 +252,10 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // Widget untuk input field
   Widget inputFile(
-      {label, obscureText = false, required TextEditingController controller}) {
+      {required String label,
+      bool obscureText = false,
+      required TextEditingController controller}) {
     Widget? icon;
     if (label == "Password") {
       icon = IconButton(
@@ -252,18 +283,17 @@ class _SignupPageState extends State<SignupPage> {
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-                vertical: 8, horizontal: 10), // Adjusted vertical padding
+            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
             ),
-            suffixIcon: icon, // Assign icon to suffixIcon
+            suffixIcon: icon,
           ),
         ),
-        SizedBox(height: 1), // Adjusted height
+        SizedBox(height: 1),
       ],
     );
   }

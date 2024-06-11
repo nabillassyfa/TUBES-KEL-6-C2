@@ -12,6 +12,7 @@ class LoginMenu extends StatefulWidget {
 
 class _LoginMenuState extends State<LoginMenu> {
   bool _isObscure = true;
+  bool _rememberPassword = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -72,8 +73,9 @@ class _LoginMenuState extends State<LoginMenu> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // Add your onTap functionality here
-                            print("Circular container tapped!");
+                            setState(() {
+                              _rememberPassword = !_rememberPassword;
+                            });
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -81,7 +83,9 @@ class _LoginMenuState extends State<LoginMenu> {
                             height: 15,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white,
+                              color: _rememberPassword
+                                  ? Color.fromARGB(255, 1, 101, 252)
+                                  : Colors.white,
                               border: Border.all(width: 1, color: Colors.black),
                             ),
                             margin: EdgeInsets.only(left: 8),
@@ -129,10 +133,8 @@ class _LoginMenuState extends State<LoginMenu> {
                           try {
                             Map<String, dynamic> loginResponse =
                                 await userProvider.login(
-                              emailController.text
-                                  .trim(), // Ambil email dari input field
-                              passwordController.text
-                                  .trim(), // Ambil password dari input field
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
                             );
                             print('Login successful: $loginResponse');
                             Navigator.pushAndRemoveUntil(
@@ -144,13 +146,11 @@ class _LoginMenuState extends State<LoginMenu> {
                             );
                           } catch (e) {
                             print('Login failed: $e');
-                            // Handle login failure, show error message, etc.
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content:
                                     Text('Email atau password tidak sesuai'),
-                                duration: Duration(
-                                    seconds: 2), // Durasi pemberitahuan
+                                duration: Duration(seconds: 2),
                               ),
                             );
                           }
@@ -171,15 +171,13 @@ class _LoginMenuState extends State<LoginMenu> {
                       ),
                     ),
                   ),
-
-                  //Lainnya
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Divider(
                           color: Colors.black,
-                          height: 24, // Tinggi garis
+                          height: 24,
                         ),
                       ),
                       Padding(
@@ -194,7 +192,7 @@ class _LoginMenuState extends State<LoginMenu> {
                       Expanded(
                         child: Divider(
                           color: Colors.black,
-                          height: 12, // Tinggi garis
+                          height: 12,
                         ),
                       ),
                     ],
@@ -209,14 +207,13 @@ class _LoginMenuState extends State<LoginMenu> {
                           child: Container(
                             width: double.infinity,
                             height: 48,
-                            padding: EdgeInsets.all(8), // Menambahkan padding
-                            margin: EdgeInsets.all(8), // Menambahkan margin
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  10), // Memberikan border radius
+                              borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: Colors.black, // Warna border
-                                width: 1, // Ketebalan border
+                                color: Colors.black,
+                                width: 1,
                               ),
                             ),
                             child: Wrap(
@@ -316,12 +313,10 @@ class _LoginMenuState extends State<LoginMenu> {
                               child: Text(
                                 "Daftar",
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 1, 101,
-                                      252), // Menambahkan warna teks
+                                  color: Color.fromARGB(255, 1, 101, 252),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
-                                  decoration: TextDecoration
-                                      .underline, // Menambahkan garis bawah
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
@@ -339,7 +334,6 @@ class _LoginMenuState extends State<LoginMenu> {
     );
   }
 
-  // Widget untuk input field
   Widget inputFile({label, obscureText = false}) {
     Widget? icon;
     if (label == "Password") {
@@ -365,9 +359,7 @@ class _LoginMenuState extends State<LoginMenu> {
         ),
         SizedBox(height: 1),
         TextField(
-          controller: label == "Email"
-              ? emailController
-              : passwordController, // Sesuaikan controller
+          controller: label == "Email" ? emailController : passwordController,
           obscureText: label == "Password" ? _isObscure : false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),

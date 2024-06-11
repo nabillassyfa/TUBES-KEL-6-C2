@@ -4,14 +4,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tp2/models/user.dart';
 
-
 class UserProvider with ChangeNotifier {
   final String baseUrl = 'http://127.0.0.1:8000';
   bool _isLoggedIn = false;
   bool _isLoading = false;
   bool get isLoggedIn => _isLoggedIn;
 
-  Future<Map<String, dynamic>> signUp(String nama, String username, String email, String password, String noTelp) async {
+  Future<Map<String, dynamic>> signUp(String nama, String username,
+      String email, String password, String noTelp) async {
     final response = await http.post(
       Uri.parse('$baseUrl/Signup/'),
       headers: <String, String>{
@@ -37,7 +37,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-   Future<Map<String, dynamic>> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login/'),
       headers: <String, String>{
@@ -79,7 +79,7 @@ class UserProvider with ChangeNotifier {
       // await getdataInfoUser();
       print('update sukses');
     } else {
-    print('walawe');
+      print('walawe');
       // Handle error
     }
 
