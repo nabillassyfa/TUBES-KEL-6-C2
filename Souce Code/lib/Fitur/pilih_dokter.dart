@@ -30,7 +30,7 @@ class _PilihDokterState extends State<PilihDokter> {
     "Minggu",
   ];
 
-  int ?selectedId;
+  int? selectedId;
   int selectedDayIndex = -1;
   String selectedDay = "";
 
@@ -40,7 +40,7 @@ class _PilihDokterState extends State<PilihDokter> {
     _loadDokter();
   }
 
-  void RatingDokter (int selectedID){
+  void RatingDokter(int selectedID) {
     final ratingProvider = Provider.of<RatingProvider>(context, listen: false);
     ratingProvider.getdataRatingbyDokter(selectedID);
   }
@@ -184,7 +184,7 @@ class _PilihDokterState extends State<PilihDokter> {
                   itemCount: dokterProvider.dataDokter.length,
                   itemBuilder: (context, index) {
                     final dokter = dokterProvider.dataDokter[index];
-                  
+
                     return Consumer<RatingProvider>(
                       builder: (context, ratingProvider, _) {
                         RatingDokter(dokter.id);
@@ -193,12 +193,14 @@ class _PilihDokterState extends State<PilihDokter> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailDokter(dokter: dokter),
+                                builder: (context) =>
+                                    DetailDokter(dokter: dokter),
                               ),
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Card(
                               elevation: 4.0,
                               shape: RoundedRectangleBorder(
@@ -220,7 +222,8 @@ class _PilihDokterState extends State<PilihDokter> {
                                     Row(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(8.0),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
                                           child: Image.network(
                                             dokter.imageUrl,
                                             width: 60.0,
@@ -231,7 +234,8 @@ class _PilihDokterState extends State<PilihDokter> {
                                         SizedBox(width: 12.0),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 dokter.nama,
@@ -245,15 +249,67 @@ class _PilihDokterState extends State<PilihDokter> {
                                               Row(
                                                 children: [
                                                   // menampilkan rating dokter
-                                                  for (int i = 0; i < ratingProvider.averageRating.round(); i++)
-                                                    Icon(Icons.star, color: Colors.yellow),
-                                                    // menampilkan yang 0 bintang
-                                                  for (int i = 0; i < 5 - ratingProvider.averageRating.round(); i++)
-                                                    Icon(Icons.star_border, color: Colors.yellow),
+                                                  Text(
+                                                      ratingProvider
+                                                              .averageRating
+                                                              .toStringAsFixed(
+                                                                  1) +
+                                                          "  | ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+
+                                                  for (int i = 0;
+                                                      i <
+                                                          ratingProvider
+                                                              .averageRating
+                                                              .round();
+                                                      i++)
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: Colors.yellow,
+                                                      size: 16,
+                                                    ),
+                                                  // menampilkan yang 0 bintang
+                                                  for (int i = 0;
+                                                      i <
+                                                          5 -
+                                                              ratingProvider
+                                                                  .averageRating
+                                                                  .round();
+                                                      i++)
+                                                    Icon(
+                                                      Icons.star_border,
+                                                      color: Colors.yellow,
+                                                      size: 16,
+                                                    ),
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Text(
+                                                    '(' +
+                                                        ratingProvider
+                                                            .reviewCount
+                                                            .toString() +
+                                                        ')',
+                                                    style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
                                                   Spacer(),
-                                                  Text('Pilih'),
+                                                  Text(
+                                                    'Pilih',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff0165fc)),
+                                                  ),
                                                   SizedBox(width: 4.0),
-                                                  Icon(Icons.arrow_forward_ios, size: 16.0),
+                                                  Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 16.0,
+                                                    color: Color(0xff0165fc),
+                                                  ),
                                                 ],
                                               ),
                                             ],
