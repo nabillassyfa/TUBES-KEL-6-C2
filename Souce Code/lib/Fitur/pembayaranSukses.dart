@@ -36,7 +36,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
         child: Column(
           children: [
             SizedBox(
-              height: 30,
+              height: 16,
             ),
             Center(
               child: Text(
@@ -45,7 +45,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 16,
             ),
             Divider(
               color: Color.fromARGB(
@@ -58,7 +58,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
             Icon(
               Icons.check_circle_rounded,
               color: Color.fromARGB(255, 1, 101, 252),
-              size: 170,
+              size: 120,
             ),
             SizedBox(
               height: 15,
@@ -91,7 +91,7 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 24,
             ),
             Padding(
               padding: EdgeInsets.only(left: 50, right: 50),
@@ -232,30 +232,33 @@ class _PembayaranSuksesState extends State<PembayaranSukses> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            MaterialButton(
-              minWidth: 380,
-              height: 50,
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const BottomNavBar(
-                          idx:
-                              1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
-                  (Route<dynamic> route) => false,
-                );
-              },
-              color: Color.fromARGB(255, 1, 101, 252),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Text(
-                "Lihat Jadwal",
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                  color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: MaterialButton(
+                minWidth: 380,
+                height: 50,
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BottomNavBar(
+                            idx:
+                                1)), // Ganti ProfilePage dengan halaman profil yang ingin ditampilkan
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                color: Color.fromARGB(255, 1, 101, 252),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Text(
+                  "Lihat Jadwal",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

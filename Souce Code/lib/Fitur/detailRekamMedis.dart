@@ -61,16 +61,35 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        widget.data.dokter_nama,
-                        textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                    Row(
+                      children: [
+                        Text(
+                          'Pasien : ',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        Text(
+                          widget.data.user_nama,
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Text(
+                          widget.data.dokter_nama,
+                          textAlign: TextAlign.start,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       widget.data.spesialis,
@@ -78,8 +97,14 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                         fontSize: 16,
                       ),
                     ),
+                    SizedBox(height: 16),
                     Row(
                       children: [
+                        Text(
+                          'Tanggal: ',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                         Spacer(),
                         Text(
                           dateFormatter.format(widget.data.tanggal), //tanggal
@@ -91,6 +116,11 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                     ),
                     Row(
                       children: [
+                        Text(
+                          'Waktu: ',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                         Spacer(),
                         Text(
                           timeFormatter.format(widget.data.tanggal), //waktu
@@ -100,13 +130,14 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 16),
                     const Text(
                       'Keterangan : ',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Container(
                       width: double.infinity,
@@ -130,7 +161,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Container(
                       width: double.infinity,
@@ -153,7 +184,7 @@ class _DetailRekamMedisState extends State<DetailRekamMedis> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Container(
                       width: double.infinity,
