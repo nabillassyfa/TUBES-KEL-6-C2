@@ -31,59 +31,62 @@ class MyFruit extends StatelessWidget {
           centerTitle: true,
           elevation: 0, // Menghilangkan shadow
         ),
-        body: Column(
-          children: [
-            SizedBox(height: 20), // Jarak antara judul dan garis biru
-            Container(
-              height: 2, // Ketebalan garis
-              color: Colors.blue,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Cari Buah',
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color:
-                              Colors.blue, // Mengubah warna ikon menjadi biru
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20), // Jarak antara judul dan garis biru
+              Container(
+                height: 2, // Ketebalan garis
+                color: Colors.blue,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Cari Buah',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(
+                            Icons.search,
+                            color:
+                                Colors.blue, // Mengubah warna ikon menjadi biru
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20), // Jarak antara kolom cari dan kontainer buah
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  FruitContainer(
-                    imagePath: 'assets/images/fruit.jpg',
-                    fruitName: 'Jeruk',
-                    description: 'Jeruk Segar',
-                  ),
-                  SizedBox(height: 20),
-                  FruitContainer(
-                    imagePath: 'assets/images/fruit.jpg',
-                    fruitName: 'Apel',
-                    description: 'Apel Manis',
-                  ),
-                  SizedBox(height: 20),
-                  FruitContainer(
-                    imagePath: 'assets/images/fruit.jpg',
-                    fruitName: 'Pisang',
-                    description: 'Pisang Matang',
-                  ),
-                ],
+              SizedBox(
+                  height: 20), // Jarak antara kolom cari dan kontainer buah
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    FruitContainer(
+                      imagePath: 'assets/images/fruit.jpg',
+                      fruitName: 'Jeruk',
+                      description: 'Jeruk Segar',
+                    ),
+                    SizedBox(height: 20),
+                    FruitContainer(
+                      imagePath: 'assets/images/fruit.jpg',
+                      fruitName: 'Apel',
+                      description: 'Apel Manis',
+                    ),
+                    SizedBox(height: 20),
+                    FruitContainer(
+                      imagePath: 'assets/images/fruit.jpg',
+                      fruitName: 'Pisang',
+                      description: 'Pisang Matang',
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
