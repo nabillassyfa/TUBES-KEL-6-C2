@@ -18,6 +18,7 @@ class RekamMedis {
     required this.id_dokter,
     required this.id_user,
     required this.spesialis,
+    required this.tipe_layanan,
   });
 
   final int id;
@@ -30,6 +31,7 @@ class RekamMedis {
   final int id_dokter;
   final int id_user;
   final String spesialis;
+  final String tipe_layanan;
 
   factory RekamMedis.fromJson(Map<String, dynamic> json) => RekamMedis(
         id: json["id"],
@@ -42,6 +44,7 @@ class RekamMedis {
         id_dokter: json["id_dokter"],
         id_user: json["id_user"],
         spesialis: json["spesialis"],
+        tipe_layanan: json["tipe_layanan"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,6 +55,7 @@ class RekamMedis {
         "tanggal": tanggal.toIso8601String(),
         "id_dokter": id_dokter,
         "id_user": id_user,
+        "tipe_layanan": tipe_layanan,
       };
 }
 

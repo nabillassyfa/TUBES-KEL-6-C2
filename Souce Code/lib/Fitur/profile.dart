@@ -6,6 +6,7 @@ import 'package:tp2/Fitur/pengaturan.dart';
 import 'package:tp2/Fitur/pusat_bantuan.dart';
 import 'package:tp2/Fitur/login.dart';
 import 'package:tp2/models/infoUser.dart';
+import 'package:tp2/provider/p_user.dart';
 import '../provider/p_infoUser.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -122,11 +123,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   SizedBox(width: 4),
                                   if (user.alamat != '')
-                                    Text(
-                                      user.alamat,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
+                                    SizedBox(
+                                      width: 200,
+                                      child: Text(
+                                        user.alamat,
+                                        overflow: TextOverflow.visible,
+                                        maxLines: null,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                   if (user.alamat == '')
@@ -547,6 +553,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         TextButton(
                                           child: Text('Keluar'),
                                           onPressed: () {
+                                            Provider.of<UserProvider>(context, listen: false).logout();
                                             Navigator.of(context)
                                                 .pushAndRemoveUntil(
                                               MaterialPageRoute(

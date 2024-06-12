@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tp2/Fitur/bottomNavBar.dart';
 import 'package:tp2/provider/p_jadwalObat.dart';
 
 class JadwalObat extends StatefulWidget {
@@ -25,10 +26,43 @@ class _JadwalObatState extends State<JadwalObat> {
             .getdataJadwalObatByUser());
   }
 
-  void _deleteJadwalObat(int idJadwalObat) {
-  Provider.of<JadwalObatProvider>(context, listen: false)
-      .deleteJadwalObat(idJadwalObat);
-}
+  void _confirmDeleteJadwalObat(BuildContext context, int idJadwalObat) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Konfirmasi Penghapusan'),
+        content: Text('Pastikan Anda telah menghabiskan obat Anda.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Close the dialog
+              await _deleteJadwalObat(idJadwalObat);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomNavBar(idx: 1),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: Text('Hapus'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _deleteJadwalObat(int idJadwalObat) async {
+    await Provider.of<JadwalObatProvider>(context, listen: false)
+        .deleteJadwalObat(idJadwalObat);
+    setState(() {
+      print('Setelah penghapusan, update UI');
+    }); // Trigger a rebuild to update the UI
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,16 +163,15 @@ class _JadwalObatState extends State<JadwalObat> {
                                         ],
                                       ),
                                       Spacer(),
-                                     GestureDetector(
-                                      onTap: () {
-                                        _deleteJadwalObat(jadwal.id); // Assuming jadwal has an id property
-                                      },
-                                      child: Icon(
-                                        Icons.cancel_outlined,
-                                        color: Colors.white,
+                                      GestureDetector(
+                                        onTap: () {
+                                          _confirmDeleteJadwalObat(context, jadwal.id); // Menampilkan dialog konfirmasi sebelum menghapus
+                                        },
+                                        child: Icon(
+                                          Icons.cancel_outlined,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-
                                     ],
                                   ),
                                 ),

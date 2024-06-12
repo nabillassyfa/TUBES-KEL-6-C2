@@ -173,6 +173,7 @@ def get_rekam_medis(db: Session, user_id: int):
             "id_user": rekam_medis.id_user,
             "id_dokter": rekam_medis.id_dokter,
             "obat": rekam_medis.obat,
+            "tipe_layanan": rekam_medis.tipe_layanan,
             "dokter_nama": dokter_name,
             "user_nama": user_name,
             "spesialis": spesialis,
@@ -188,7 +189,9 @@ def create_rekam_medis(db: Session, rekam_medis: schemas.RekamMedisBase):
         tanggal = rekam_medis.tanggal, 
         id_user = rekam_medis.id_user, 
         id_dokter = rekam_medis.id_dokter, 
-        obat = rekam_medis.obat)
+        obat = rekam_medis.obat,
+        tipe_layanan = rekam_medis.tipe_layanan,
+        )
     db.add(db_rekam_medis)
     db.commit()
     db.refresh(db_rekam_medis)
@@ -694,6 +697,7 @@ def get_jadwal_janji_temu_by_idUser(db: Session, user_id: int):
 
 def delete_jadwal_janji_temu(db: Session, id: int):
     try:
+        jum_rec = db.query(models.StatusUser).filter(models.StatusUser.id_janjiTemu == id).delete()
         jum_rec = db.query(models.JadwalJanjiTemu).filter(models.JadwalJanjiTemu.id == id).delete()
         db.commit()
         return jum_rec
@@ -754,6 +758,15 @@ def get_jadwal_konsul_online_by_idUser(db: Session, user_id: int):
 
     return jadwal_konsul_online_list
 
+def delete_jadwal_video_call(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalKonsulOnline).filter(models.JadwalKonsulOnline.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+
 # Jadwal Panggil Dokter
 def create_jadwal_panggil_dokter(db: Session, jadwal: schemas.JadwalPanggilDokterBase):
     db_jadwal = models.JadwalPanggilDokter(
@@ -804,6 +817,15 @@ def get_jadwal_panggil_dokter_by_idUser(db: Session, user_id: int):
 
     return jadwal_panggil_dokter_list
 
+def delete_jadwal_panggil_dokter(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalPanggilDokter).filter(models.JadwalPanggilDokter.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+    
 ## Status Rawat Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     results = (
@@ -893,7 +915,8 @@ def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
 ## Obat
 def delete_obat_by_id(db: Session, id: int):
     try:
-        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id == id).delete()
+        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id_jadwal_obat == id).delete()
+        jum_rec = db.query(models.JadwalObat).filter(models.JadwalObat.id == id).delete()
         db.commit()
         return jum_rec
     except Exception as e:
@@ -1071,3 +1094,33 @@ def get_statusRawatJalanUser(db: Session, id_jadwal_janji_temu: int):
     }
 
     return status_user_dict
+
+
+### Jadwal Pelaksanaan Pemeriksaan Lab
+def get_jadwal_pelaksanaan_pemeriksaan_lab(db: Session, user: int):
+    results = (
+        db.query(models.JadwalPemeriksaanLab, models.Jadwal_Lab, models.Lab)
+        .join(models.Jadwal_Lab, models.JadwalPemeriksaanLab.id_jadwal_pemeriksaan_lab == models.Jadwal_Lab.id)
+        .join(models.Lab, models.Jadwal_Lab.id_lab == models.Lab.id)
+        .filter(models.JadwalPemeriksaanLab.id_user == user)
+        .all()
+    )
+
+    jadwal_list = []
+    for jadwal, detailJadwal, lab in results:
+        jadwal_lab_dict = {
+            "id": jadwal.id,
+            "tanggal": jadwal.tanggal,
+            "id_jadwal": detailJadwal.id,
+            "hari": detailJadwal.hari,
+            "waktu_mulai": detailJadwal.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": detailJadwal.waktu_berakhir.strftime("%H:%M"),
+            "id_lab": detailJadwal.id_lab,
+            "nama_lab": lab.nama,
+            "kategori": lab.kategori,
+            "deskripsi": lab.deskripsi,
+            "harga": lab.harga,
+        }
+        jadwal_list.append(jadwal_lab_dict)
+
+    return jadwal_list

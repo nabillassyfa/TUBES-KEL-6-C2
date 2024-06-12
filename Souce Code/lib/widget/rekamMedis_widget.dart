@@ -48,7 +48,7 @@ class RMWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rawat Jalan (tambahin tipe di db rekam)',
+                    data.tipe_layanan,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
