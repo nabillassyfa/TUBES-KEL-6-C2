@@ -368,6 +368,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
+
+@app.delete("/hapus_jadwal_panggil_dokter/{id}")
+def hapus_panggil_dokter(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_panggil_dokter(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
     
 # Status Rawat Jalan
 @app.get("/status_rawat_jalan/", response_model=List[schemas.StatusRawatJalan])

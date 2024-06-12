@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
+import 'package:tp2/Fitur/bottomNavBar.dart';
 import 'dart:async';
 
 import 'package:tp2/models/jadwalPanggilDokter.dart';
 import 'package:tp2/fitur/maps.dart';
+import 'package:tp2/provider/p_jadwalPanggilDokter.dart';
+import 'package:tp2/provider/p_obat.dart';
+import 'package:tp2/provider/p_rekamMedis.dart';
 
 class WidgetJadwalPanggilDokter extends StatefulWidget {
   final List<JadwalPanggilDokter> jadwalPanggilDokter;
@@ -44,7 +49,7 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
   void initState() {
     super.initState();
     // Timer untuk menambah nilai indeks setiap 10 detik
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         if (indeks < 4) {
           indeks++; // Tambah indeks jika belum mencapai 4
@@ -59,6 +64,65 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
   void dispose() {
     _timer.cancel(); // Hentikan timer saat widget di-dispose
     super.dispose();
+  }
+
+  
+  DateTime combineDateWithTime(DateTime date, TimeOfDay time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+  }
+
+  Future<void> _handleSelesaiButtonPress(JadwalPanggilDokter jadwal) async {
+
+    final obatProvider = Provider.of<ObatProvider>(context, listen: false);
+
+    // Convert list of obat names to a single string
+    final obatNames = obatProvider.dataObat.map((obat) => obat.nama).join(', ');
+
+      // Parse time string to TimeOfDay
+    final waktuMulai = parseTimeOfDay(jadwal.waktu_mulai);
+
+    // Combine date and time
+    final combinedDateTime = combineDateWithTime(jadwal.tanggal, waktuMulai);
+
+    // After the simulated video call, post the medical record
+    await Provider.of<RekamMedisProvider>(context, listen: false).postdataRekamMedis(
+      obatNames,
+      combinedDateTime,
+      jadwal.id_dokter,
+      'Panggil Dokter',
+    );
+
+    Provider.of<JadwalPanggilDokterProvider>(context, listen: false).deleteJadwalPanggilDokter(jadwal.id);
+
+    // Show confirmation popup
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Konsultasi Selesai'),
+        content: Text('Anda telah menyelesaikan konsultasi dengan panggil dokter.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomNavBar(idx: 2),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -247,11 +311,29 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
                                     : BorderRadius.circular(12))
                             // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
                             ),
-                        child: Text(
+                        child: indeks != _processes.length - 1 
+                        ? Text(
                           _processes[
                               indeks], // Mendapatkan teks untuk setiap poin
                           style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                          ) 
+                        : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _processes[
+                                  indeks], // Mendapatkan teks untuk setiap poin
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            ElevatedButton(
+                              onPressed: (){
+                                _handleSelesaiButtonPress(jadwal);
+                              }, 
+                              child: Text('selesai')
+                            )
+
+                          ],
+                        )
                       ),
                       SizedBox(
                         height: 20,
@@ -323,7 +405,7 @@ class _DoctorTimelineState extends State<DoctorTimeline> {
   void initState() {
     super.initState();
     // Timer untuk menambah nilai _processIndex dan _selectedProcess setiap 10 detik
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         if (_processIndex < 4) {
           _processIndex += 1; // Maksimal 5 nilai (_processIndex 0-4)

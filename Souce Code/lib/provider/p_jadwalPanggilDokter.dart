@@ -77,6 +77,25 @@ class JadwalPanggilDokterProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteJadwalPanggilDokter(int id) async {
+    _setLoading(true);
+    try {
+        final response = await http.delete(
+          Uri.parse('http://127.0.0.1:8000/hapus_jadwal_panggil_dokter/$id'),
+        );
+
+        if (response.statusCode == 200) {
+          print('Medication deleted successfully');
+        } else {
+          throw Exception('Failed to delete medication');
+        }
+    } catch (e) {
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   void _setLoading(bool value) {
     isLoading = value;
     notifyListeners();

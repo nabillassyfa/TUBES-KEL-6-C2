@@ -41,7 +41,7 @@ class _WidgetJadwalVideoCallState extends State<WidgetJadwalVideoCall> {
     return '$formattedHour:$formattedMinute'; // Menggabungkan jam dan menit dalam format 24 jam
   }
 
-    DateTime combineDateWithTime(DateTime date, TimeOfDay time) {
+  DateTime combineDateWithTime(DateTime date, TimeOfDay time) {
     return DateTime(
       date.year,
       date.month,
@@ -86,6 +86,7 @@ class _WidgetJadwalVideoCallState extends State<WidgetJadwalVideoCall> {
       });
 
     }
+    Provider.of<JadwalVideoCallProvider>(context, listen: false).deleteJadwalVideoCall(jadwal.id);
 
     // Show confirmation popup
     showDialog(
@@ -96,8 +97,6 @@ class _WidgetJadwalVideoCallState extends State<WidgetJadwalVideoCall> {
         actions: [
           TextButton(
             onPressed: () {
-              Provider.of<JadwalVideoCallProvider>(context, listen: false).deleteJadwalVideoCall(jadwal.id);
-
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
