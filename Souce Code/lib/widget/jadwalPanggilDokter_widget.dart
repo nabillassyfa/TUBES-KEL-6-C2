@@ -66,7 +66,6 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
     super.dispose();
   }
 
-  
   DateTime combineDateWithTime(DateTime date, TimeOfDay time) {
     return DateTime(
       date.year,
@@ -78,38 +77,39 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
   }
 
   Future<void> _handleSelesaiButtonPress(JadwalPanggilDokter jadwal) async {
-
     final obatProvider = Provider.of<ObatProvider>(context, listen: false);
 
     // Convert list of obat names to a single string
     final obatNames = obatProvider.dataObat.map((obat) => obat.nama).join(', ');
 
-      // Parse time string to TimeOfDay
+    // Parse time string to TimeOfDay
     final waktuMulai = parseTimeOfDay(jadwal.waktu_mulai);
 
     // Combine date and time
     final combinedDateTime = combineDateWithTime(jadwal.tanggal, waktuMulai);
 
     // After the simulated video call, post the medical record
-    await Provider.of<RekamMedisProvider>(context, listen: false).postdataRekamMedis(
+    await Provider.of<RekamMedisProvider>(context, listen: false)
+        .postdataRekamMedis(
       obatNames,
       combinedDateTime,
       jadwal.id_dokter,
       'Panggil Dokter',
     );
 
-    Provider.of<JadwalPanggilDokterProvider>(context, listen: false).deleteJadwalPanggilDokter(jadwal.id);
+    Provider.of<JadwalPanggilDokterProvider>(context, listen: false)
+        .deleteJadwalPanggilDokter(jadwal.id);
 
     // Show confirmation popup
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Konsultasi Selesai'),
-        content: Text('Anda telah menyelesaikan konsultasi dengan panggil dokter.'),
+        content:
+            Text('Anda telah menyelesaikan konsultasi dengan panggil dokter.'),
         actions: [
           TextButton(
             onPressed: () {
-
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -291,50 +291,61 @@ class _WidgetJadwalPanggilDokterState extends State<WidgetJadwalPanggilDokter> {
                       ),
                       DoctorTimeline(),
                       Container(
-                        width: 1000,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: indeks == 0
-                                ? BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomRight: Radius.circular(12))
-                                : (indeks == _processes.length - 1
-                                    ? BorderRadius.only(
-                                        bottomLeft: Radius.circular(12),
-                                        topLeft: Radius.circular(12),
-                                        bottomRight: Radius.circular(12))
-                                    : BorderRadius.circular(12))
-                            // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
-                            ),
-                        child: indeks != _processes.length - 1 
-                        ? Text(
-                          _processes[
-                              indeks], // Mendapatkan teks untuk setiap poin
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          ) 
-                        : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _processes[
-                                  indeks], // Mendapatkan teks untuk setiap poin
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            ElevatedButton(
-                              onPressed: (){
-                                _handleSelesaiButtonPress(jadwal);
-                              }, 
-                              child: Text('selesai')
-                            )
-
-                          ],
-                        )
-                      ),
+                          width: 1000,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.black,
+                              ),
+                              borderRadius: indeks == 0
+                                  ? BorderRadius.only(
+                                      bottomLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12))
+                                  : (indeks == _processes.length - 1
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(12),
+                                          topLeft: Radius.circular(12),
+                                          bottomRight: Radius.circular(12))
+                                      : BorderRadius.circular(12))
+                              // borderRadius: _selectedProcess == 0 ? BorderRadius.only(bottomLeft: Radius.circular(12), topRight: Radius.circular(12), bottomRight: Radius.circular(12)) : ( _selectedProcess == _processes.length-1 ? BorderRadius.only(bottomLeft: Radius.circular(12), topLeft: Radius.circular(12), bottomRight: Radius.circular(12)) : BorderRadius.circular(12))
+                              ),
+                          child: indeks != _processes.length - 1
+                              ? Text(
+                                  _processes[
+                                      indeks], // Mendapatkan teks untuk setiap poin
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        _processes[
+                                            indeks], // Mendapatkan teks untuk setiap poin
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow
+                                            .ellipsis, // Prevent text from overflowing
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        _handleSelesaiButtonPress(jadwal);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(40, 40),
+                                        backgroundColor: Color(0xff0165fc),
+                                        foregroundColor: Colors
+                                            .white, // Set the text color to white
+                                      ),
+                                      child: Text('Selesai'),
+                                    )
+                                  ],
+                                )),
                       SizedBox(
                         height: 20,
                       ),
