@@ -76,6 +76,25 @@ class JadwalVideoCallProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
+  
+  Future<void> deleteJadwalVideoCall(int id) async {
+    _setLoading(true);
+    try {
+        final response = await http.delete(
+          Uri.parse('http://127.0.0.1:8000/hapus_jadwal_video_call/$id'),
+        );
+
+        if (response.statusCode == 200) {
+          print('Medication deleted successfully');
+        } else {
+          throw Exception('Failed to delete medication');
+        }
+    } catch (e) {
+      print(e);
+    } finally {
+      _setLoading(false);
+    }
+  }
 
   void _setLoading(bool value) {
     isLoading = value;

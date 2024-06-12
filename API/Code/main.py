@@ -325,6 +325,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
 
+@app.delete("/hapus_jadwal_janji_temu/{id}")
+def hapus_janji_temu(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_janji_temu(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
+
 # Jadwal Konsultasi Online
 @app.post("/jadwal_konsul_online/", response_model=schemas.JadwalkonsulOnline)
 def create_jadwal(jadwal: schemas.JadwalkonsulOnlineBase, db: Session = Depends(get_db)):
@@ -336,6 +346,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
+
+@app.delete("/hapus_jadwal_video_call/{id}")
+def hapus_video_call(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_video_call(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
     
 # Jadwal Panggil Dokter
 @app.post("/jadwal_panggil_dokter/", response_model=schemas.JadwalPanggilDokter)
@@ -348,6 +368,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
+
+@app.delete("/hapus_jadwal_panggil_dokter/{id}")
+def hapus_panggil_dokter(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_panggil_dokter(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
     
 # Status Rawat Jalan
 @app.get("/status_rawat_jalan/", response_model=List[schemas.StatusRawatJalan])
@@ -412,6 +442,11 @@ def hapus_obat(id_obat: int, db: Session = Depends(get_db)):
     else:
         raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
 
+@app.post("/create_jadwal_obat/", response_model=schemas.JadwalObat)
+def jadwal_obat(jadwal_obat: schemas.JadwalObatBase, db: Session = Depends(get_db)):
+    return crud.create_jadwal_obat(db=db, jadwal_obat=jadwal_obat)
+
+
 # Metode Pembayaran
 @app.get("/metode_pembayaran/")
 def read_metode_pembayaran(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -443,3 +478,10 @@ def update_status(jadwal_janji_temu_id: int, status_data: dict, db: Session = De
         db.commit()
         db.refresh(status_user)
     return status_user
+
+@app.get("/jadwal_pelaksanaan_pemeriksaan_lab/{user_id}")
+def read_jadwal_lab_by_id(user_id: int, db: Session = Depends(get_db)):
+    db_jadwal = crud.get_jadwal_pelaksanaan_pemeriksaan_lab(db, user=user_id)
+    if db_jadwal is None:
+        raise HTTPException(status_code=404, detail="Jadwal not found")
+    return db_jadwal

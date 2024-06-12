@@ -38,6 +38,8 @@ class JadwalObat {
   Map<String, dynamic> toJson() => {
         "id": id,
         "id_obat": id_obat,
+        "kondisi_makan": kondisi_makan,
+        "takaran": takaran,
         "id_user": id_user,
       };
 }

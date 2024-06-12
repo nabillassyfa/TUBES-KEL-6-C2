@@ -46,4 +46,27 @@ class StatusUserRawatJalanProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+  
+  Future<void> deleteStatusUserRawatJalan(int id) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+        final response = await http.delete(
+          Uri.parse('http://127.0.0.1:8000/hapus_status_user_rawat_jalan/$id'),
+        );
+
+        if (response.statusCode == 200) {
+          print('Medication deleted successfully');
+        } else {
+          throw Exception('Failed to delete medication');
+        }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
 }

@@ -15,6 +15,7 @@ import 'package:tp2/Fitur/denah.dart';
 import 'package:tp2/Fitur/pembayaran.dart';
 import 'package:tp2/models/jadwalJanjiTemu.dart';
 import 'package:tp2/models/metodePembayaran.dart';
+import 'package:tp2/provider/p_jadwalObat.dart';
 import 'package:tp2/provider/p_metodePembayaran.dart';
 import 'package:tp2/provider/p_obat.dart';
 import 'package:tp2/provider/p_rekamMedis.dart';
@@ -35,6 +36,7 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
   int indeks = 0;
   MetodePembayaranProvider? metodePembayaranProvider;
   MetodePembayaran? selectedMetodePembayaran;
+  
 
   TimeOfDay parseTimeOfDay(String timeString) {
     final parts = timeString.split(':');
@@ -86,6 +88,7 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
     setState(() {
       if(indeks == 5){
          _postRekamMedis();
+         _postJadwalObat();
       }
       if (indeks < 6) {
         indeks++;
@@ -122,11 +125,13 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
 
     // Combine date and time
     final combinedDateTime = combineDateWithTime(widget.jadwalJanjiTemu.tanggal, waktuMulai);
+    final tipe_layanan = "Rawat Jalan";
 
     rekamMedisProvider.postdataRekamMedis(
       obatNames,
       combinedDateTime,
       widget.jadwalJanjiTemu.id_dokter,
+      tipe_layanan
     ).then((_) {
       // Show success message or handle post submission logic
       print('Rekam Medis posted successfully');
@@ -134,6 +139,26 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
       // Handle error
       print('Error posting Rekam Medis: $error');
     });
+  }
+
+  void _postJadwalObat() {
+    final obatProvider = Provider.of<ObatProvider>(context, listen: false);
+    final jadwalObatProvider = Provider.of<JadwalObatProvider>(context, listen: false);
+
+    // Convert list of obat names to a single string
+    final obatIds = obatProvider.dataObat.map((obat) => obat.id).toList();
+
+    for (int i = 0; i < obatIds.length; i++) {
+      jadwalObatProvider.postdataJadwalObat(
+        obatIds[i],
+      ).then((_) {
+        // Show success message or handle post submission logic
+        print('Rekam Medis posted successfully');
+      }).catchError((error) {
+        // Handle error
+        print('Error posting Rekam Medis: $error');
+    });
+    }
   }
 
   @override
@@ -242,8 +267,8 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                   border:
                                       Border.all(color: Colors.grey.shade800)),
                               child: ClipOval(
-                                child: Image.asset(
-                                  "assets/images/dokter2.png",
+                                child: Image.network(
+                                  widget.jadwalJanjiTemu.imageUrl,
                                   width: 40,
                                   height: 40,
                                   fit: BoxFit.cover,
@@ -901,9 +926,13 @@ class _TahapRawatJalanState extends State<TahapRawatJalan> {
                                 : SizedBox.shrink()),
                       ],
                     );
-                  }),
-                ))
-          ]),
-        ));
+                  }
+                ),
+              )
+            )
+          ]
+        ),
+      )
+    );
   }
 }

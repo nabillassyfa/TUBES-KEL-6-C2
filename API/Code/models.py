@@ -49,6 +49,7 @@ class RekamMedis(BaseDB):
     id_user = Column(Integer, ForeignKey('user.id'))
     id_dokter = Column(Integer, ForeignKey('dokter.id'))
     obat = Column(String, index=True)
+    tipe_layanan = Column(String, index=True)
 
     dokter = relationship("Dokter", back_populates="rekam_medis")
     user = relationship("User", back_populates="rekam_medis")
@@ -131,7 +132,8 @@ class User(BaseDB):
     jadwal_obat = relationship("JadwalObat", back_populates="user")
     jadwal_video_call = relationship("JadwalKonsulOnline", back_populates="user")
     jadwal_panggil_dokter = relationship("JadwalPanggilDokter", back_populates="user")
-
+    jadwal_pemeriksaan_lab = relationship("JadwalPemeriksaanLab", back_populates="user")
+    
 class JadwalJanjiTemu(BaseDB):
     __tablename__ = "jadwal_janji_temu"
     id = Column(Integer, primary_key=True)
@@ -291,3 +293,14 @@ class Jadwal_Lab(BaseDB):
     
     RS = relationship("RS", back_populates="pemeriksaan_lab")
     Lab = relationship("Lab", back_populates="Jadwal_Lab")
+    jadwal_pemeriksaan_lab = relationship("JadwalPemeriksaanLab", back_populates="jadwal_lab")
+
+class JadwalPemeriksaanLab(BaseDB):
+    __tablename__ = "jadwal_pelaksanan_pemeriksaan_lab"
+    id = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey('user.id'))
+    id_jadwal_pemeriksaan_lab = Column(Integer, ForeignKey('jadwal_pemeriksaan_lab.id'))
+    tanggal = Column(Date, index=True)
+    
+    user = relationship("User", back_populates="jadwal_pemeriksaan_lab")
+    jadwal_lab = relationship("Jadwal_Lab", back_populates="jadwal_pemeriksaan_lab")
