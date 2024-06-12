@@ -897,7 +897,8 @@ def create_pembayaran(db: Session, pembayaran: schemas.PembayaranBase):
 ## Obat
 def delete_obat_by_id(db: Session, id: int):
     try:
-        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id == id).delete()
+        jum_rec = db.query(models.JadwalObatKonsumsi).filter(models.JadwalObatKonsumsi.id_jadwal_obat == id).delete()
+        jum_rec = db.query(models.JadwalObat).filter(models.JadwalObat.id == id).delete()
         db.commit()
         return jum_rec
     except Exception as e:
