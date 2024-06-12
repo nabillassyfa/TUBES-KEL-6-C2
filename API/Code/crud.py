@@ -758,6 +758,15 @@ def get_jadwal_konsul_online_by_idUser(db: Session, user_id: int):
 
     return jadwal_konsul_online_list
 
+def delete_jadwal_video_call(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalKonsulOnline).filter(models.JadwalKonsulOnline.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+
 # Jadwal Panggil Dokter
 def create_jadwal_panggil_dokter(db: Session, jadwal: schemas.JadwalPanggilDokterBase):
     db_jadwal = models.JadwalPanggilDokter(

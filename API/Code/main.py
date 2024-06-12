@@ -346,6 +346,16 @@ def read_jadwal_by_id(user_id: int, db: Session = Depends(get_db)):
     if db_jadwal is None:
         raise HTTPException(status_code=404, detail="Jadwal not found")
     return db_jadwal
+
+@app.delete("/hapus_jadwal_video_call/{id}")
+def hapus_video_call(id: int, db: Session = Depends(get_db)):
+    deleted = crud.delete_jadwal_video_call(db, id=id)
+    print (deleted)
+    if deleted:
+        return {"message": "Obat berhasil dihapus"}
+    else:
+        raise HTTPException(status_code=404, detail="Obat tidak ditemukan")
+
     
 # Jadwal Panggil Dokter
 @app.post("/jadwal_panggil_dokter/", response_model=schemas.JadwalPanggilDokter)
