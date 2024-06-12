@@ -478,3 +478,10 @@ def update_status(jadwal_janji_temu_id: int, status_data: dict, db: Session = De
         db.commit()
         db.refresh(status_user)
     return status_user
+
+@app.get("/jadwal_pelaksanaan_pemeriksaan_lab/{user_id}")
+def read_jadwal_lab_by_id(user_id: int, db: Session = Depends(get_db)):
+    db_jadwal = crud.get_jadwal_pelaksanaan_pemeriksaan_lab(db, user=user_id)
+    if db_jadwal is None:
+        raise HTTPException(status_code=404, detail="Jadwal not found")
+    return db_jadwal

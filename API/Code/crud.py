@@ -1094,3 +1094,33 @@ def get_statusRawatJalanUser(db: Session, id_jadwal_janji_temu: int):
     }
 
     return status_user_dict
+
+
+### Jadwal Pelaksanaan Pemeriksaan Lab
+def get_jadwal_pelaksanaan_pemeriksaan_lab(db: Session, user: int):
+    results = (
+        db.query(models.JadwalPemeriksaanLab, models.Jadwal_Lab, models.Lab)
+        .join(models.Jadwal_Lab, models.JadwalPemeriksaanLab.id_jadwal_pemeriksaan_lab == models.Jadwal_Lab.id)
+        .join(models.Lab, models.Jadwal_Lab.id_lab == models.Lab.id)
+        .filter(models.JadwalPemeriksaanLab.id_user == user)
+        .all()
+    )
+
+    jadwal_list = []
+    for jadwal, detailJadwal, lab in results:
+        jadwal_lab_dict = {
+            "id": jadwal.id,
+            "tanggal": jadwal.tanggal,
+            "id_jadwal": detailJadwal.id,
+            "hari": detailJadwal.hari,
+            "waktu_mulai": detailJadwal.waktu_mulai.strftime("%H:%M"),
+            "waktu_berakhir": detailJadwal.waktu_berakhir.strftime("%H:%M"),
+            "id_lab": detailJadwal.id_lab,
+            "nama_lab": lab.nama,
+            "kategori": lab.kategori,
+            "deskripsi": lab.deskripsi,
+            "harga": lab.harga,
+        }
+        jadwal_list.append(jadwal_lab_dict)
+
+    return jadwal_list

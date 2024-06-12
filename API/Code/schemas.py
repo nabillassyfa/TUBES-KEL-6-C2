@@ -312,11 +312,23 @@ class JadwalLabBase(BaseModel):
     id_lab: int
     id_rs: int
         
-class JadwalLab(JadwalDokterBase):
+class JadwalLab(JadwalLabBase):
     id: int
     
     class Config:
         orm_mode = True
+        
+class JadwalPemeriksaanLabBase(BaseModel):
+    tanggal: date
+    id_jadwal_pemeriksaan_lab: int
+    id_user: int
+        
+class JadwalPemeriksaanLab(JadwalPemeriksaanLabBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
 
 # Status User
 class StatusUserBase(BaseModel):
