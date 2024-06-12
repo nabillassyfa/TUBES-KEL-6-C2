@@ -817,6 +817,15 @@ def get_jadwal_panggil_dokter_by_idUser(db: Session, user_id: int):
 
     return jadwal_panggil_dokter_list
 
+def delete_jadwal_panggil_dokter(db: Session, id: int):
+    try:
+        jum_rec = db.query(models.JadwalPanggilDokter).filter(models.JadwalPanggilDokter.id == id).delete()
+        db.commit()
+        return jum_rec
+    except Exception as e:
+        db.rollback()
+        raise e
+    
 ## Status Rawat Jalan
 def get_status_rawat_jalan(db: Session, skip: int = 0, limit: int = 100):
     results = (
