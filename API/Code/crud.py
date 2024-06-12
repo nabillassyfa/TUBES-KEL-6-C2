@@ -942,8 +942,9 @@ def get_Lab(db: Session, skip: int = 0, limit: int = 100):
 
 def get_jadwal_lab_by_idrs(db: Session, rs_id: int, id_lab: int):
     results = (
-        db.query(models.Jadwal_Lab, models.Lab)
+        db.query(models.Jadwal_Lab, models.Lab, models.RS.nama.label("namaRS"))
         .join(models.Lab, models.Jadwal_Lab.id_lab == models.Lab.id)
+        .join(models.RS, models.Jadwal_Lab.id_rs == models.RS.id)
         .filter(
             models.Jadwal_Lab.id_rs == rs_id,
             models.Jadwal_Lab.id_lab == id_lab,
@@ -952,13 +953,14 @@ def get_jadwal_lab_by_idrs(db: Session, rs_id: int, id_lab: int):
     )
 
     jadwal_lab_list = []
-    for jadwal_lab, lab in results:
+    for jadwal_lab, lab, namaRS in results:
         jadwal_lab_dict = {
             "id": jadwal_lab.id,
             "hari": jadwal_lab.hari,
             "waktu_mulai": jadwal_lab.waktu_mulai.strftime("%H:%M"),
             "waktu_berakhir": jadwal_lab.waktu_berakhir.strftime("%H:%M"),
             "id_RS": jadwal_lab.id_rs,
+            "nama_RS": namaRS,
             "nama_lab": lab.nama,
             "kategori": lab.kategori,
             "harga": lab.harga,
