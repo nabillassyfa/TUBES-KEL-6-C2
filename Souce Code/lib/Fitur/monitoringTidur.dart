@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'monitoringKesehatan.dart';
 
 void main() {
   runApp(MySleep());
@@ -100,9 +101,25 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MonitoringKesehatanScreen()),
+              );
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
         title: Text('Monitoring Waktu Tidur'),
         centerTitle: true,
-        elevation: 0, // 
+        elevation: 0, //
       ),
       body: Column(
         children: [
@@ -160,7 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ElevatedButton(
                     onPressed: () => _selectStartTime(context),
                     child: Text(
-                      _startTime == null ? 'Select' : _formatTimeOfDay(_startTime!),
+                      _startTime == null
+                          ? 'Select'
+                          : _formatTimeOfDay(_startTime!),
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'monitoringKesehatan.dart';
 
 void main() {
   runApp(MyWalk());
@@ -46,6 +47,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MonitoringKesehatanScreen()),
+              );
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
         title: Text('Perhitungan Langkah'),
         centerTitle: true,
         elevation: 0,
